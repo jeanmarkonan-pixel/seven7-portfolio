@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEVEN7 — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --bg:#030305; --bg-elevated:#0a0a10; --bg-card:rgba(255,255,255,0.02); --text:#f5f5fa; --text-secondary:#9a9aaa; --text-muted:#4a4a55; --accent:#ff6b00; --accent-secondary:#00d4ff; --accent-tertiary:#ff0055; --border:rgba(255,255,255,0.05); --border-hover:rgba(255,107,0,0.3); }
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+
+/* INTRO SPLASH */
+#intro-splash { position:fixed; inset:0; background:#000; z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity 1.2s cubic-bezier(0.4,0,0.2,1), visibility 1.2s; }
+#intro-splash.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.intro-logo { font-size:clamp(60px,15vw,140px); font-weight:900; letter-spacing:12px; color:#fff; position:relative; text-shadow: 0 0 20px rgba(255,107,0,0.5), 0 0 40px rgba(255,107,0,0.3), 0 0 80px rgba(255,107,0,0.2), 0 0 120px rgba(255,0,85,0.15); animation:introPulse 2s ease-in-out infinite; }
+.intro-logo span { color:var(--accent); text-shadow: 0 0 20px rgba(255,107,0,0.8), 0 0 40px rgba(255,107,0,0.5), 0 0 80px rgba(255,107,0,0.3); }
+@keyframes introPulse { 0%,100%{transform:scale(1);filter:brightness(1);} 50%{transform:scale(1.02);filter:brightness(1.2);} }
+.intro-glitch { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:clamp(60px,15vw,140px); font-weight:900; letter-spacing:12px; color:var(--accent-secondary); opacity:0; animation:glitchAnim 0.3s ease 0.8s forwards; text-shadow:0 0 30px rgba(0,212,255,0.6); }
+.intro-glitch::before { content:'SEVEN7'; position:absolute; left:-3px; color:var(--accent-tertiary); clip-path:inset(0 0 50% 0); animation:glitchTop 0.4s ease 1s forwards; opacity:0; }
+.intro-glitch::after { content:'SEVEN7'; position:absolute; left:3px; color:var(--accent); clip-path:inset(50% 0 0 0); animation:glitchBot 0.4s ease 1.1s forwards; opacity:0; }
+@keyframes glitchAnim { 0%{opacity:0;transform:translateX(-20px);} 20%{opacity:1;transform:translateX(10px);} 40%{opacity:0;transform:translateX(-5px);} 60%{opacity:1;transform:translateX(5px);} 80%{opacity:0;transform:translateX(-2px);} 100%{opacity:0;transform:translateX(0);} }
+@keyframes glitchTop { 0%{opacity:0;} 50%{opacity:0.8;} 100%{opacity:0;} }
+@keyframes glitchBot { 0%{opacity:0;} 50%{opacity:0.8;} 100%{opacity:0;} }
+.intro-sub { margin-top:24px; font-size:14px; color:var(--text-muted); letter-spacing:8px; text-transform:uppercase; font-weight:600; opacity:0; animation:fadeInUp 1s ease 1.5s forwards; }
+.intro-bar { width:120px; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent-secondary)); margin-top:32px; border-radius:2px; transform:scaleX(0); animation:barGrow 1.5s ease 1.8s forwards; }
+@keyframes barGrow { to{transform:scaleX(1);} }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+/* BACKGROUND */
+.bg-grid { position:fixed; inset:0; background-image: linear-gradient(rgba(255,107,0,0.03) 1px,transparent 1px), linear-gradient(90deg,rgba(255,107,0,0.03) 1px,transparent 1px); background-size:80px 80px; pointer-events:none; z-index:0; mask-image:radial-gradient(ellipse at center,black 20%,transparent 70%); }
+.bg-orb { position:fixed; border-radius:50%; filter:blur(120px); pointer-events:none; z-index:0; opacity:0.3; }
+.orb-1 { width:600px; height:600px; background:var(--accent); top:-15%; left:-10%; animation:float 15s ease-in-out infinite; }
+.orb-2 { width:500px; height:500px; background:var(--accent-secondary); bottom:5%; right:-15%; animation:float 18s ease-in-out infinite reverse; }
+.orb-3 { width:350px; height:350px; background:var(--accent-tertiary); top:50%; left:40%; animation:float 20s ease-in-out infinite 3s; opacity:0.15; }
+@keyframes float { 0%,100%{transform:translate(0,0);} 33%{transform:translate(40px,-50px);} 66%{transform:translate(-30px,30px);} }
+
+/* NAV */
+nav { display:flex; justify-content:space-between; align-items:center; padding:18px 48px; position:fixed; top:0; left:0; right:0; background:rgba(3,3,5,0.85); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); z-index:1000; border-bottom:1px solid var(--border); opacity:0; transform:translateY(-20px); animation:navReveal 0.8s ease 3s forwards; }
+@keyframes navReveal { to{opacity:1;transform:translateY(0);} }
+.logo { font-size:22px; font-weight:900; letter-spacing:5px; color:#fff; display:flex; align-items:center; gap:10px; }
+.logo-icon { width:38px; height:38px; background:linear-gradient(135deg,var(--accent),var(--accent-tertiary)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:900; color:#fff; box-shadow:0 0 20px rgba(255,107,0,0.3); }
+.nav-right { display:flex; align-items:center; gap:32px; }
+.nav-links { display:flex; gap:28px; }
+.nav-links a { color:var(--text-secondary); text-decoration:none; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:1px; transition:all 0.3s; position:relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-6px; left:0; width:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent-tertiary)); transition:width 0.3s; border-radius:2px; }
+.nav-links a:hover, .nav-links a.active { color:#fff; }
+.nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+.lang-toggle { display:flex; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:8px; overflow:hidden; font-size:11px; font-weight:800; letter-spacing:1px; }
+.lang-toggle button { background:none; border:none; color:var(--text-muted); padding:8px 14px; cursor:pointer; transition:all 0.3s; font-family:inherit; font-weight:800; }
+.lang-toggle button.active { background:linear-gradient(135deg,var(--accent),var(--accent-tertiary)); color:#fff; }
+
+/* HERO */
+.hero { padding:160px 24px 100px; max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; position:relative; z-index:1; opacity:0; animation:fadeInUp 1s ease 3.2s forwards; }
+.hero-left { max-width:540px; }
+.badge { display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:50px; background:rgba(255,107,0,0.1); border:1px solid rgba(255,107,0,0.2); color:var(--accent); font-size:11px; font-weight:800; letter-spacing:2px; margin-bottom:28px; text-transform:uppercase; }
+.badge-dot { width:8px; height:8px; background:var(--accent); border-radius:50%; animation:pulse-dot 2s ease-in-out infinite; box-shadow:0 0 10px var(--accent); }
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(0.7);} }
+.hero h1 { font-size:clamp(40px,5.5vw,64px); font-weight:900; line-height:1.05; margin:0 0 20px; letter-spacing:-2px; }
+.hero h1 .gradient { background:linear-gradient(135deg,#fff 0%,var(--accent) 40%,var(--accent-tertiary) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero-desc { font-size:17px; color:var(--text-secondary); line-height:1.8; margin-bottom:32px; }
+.hero-cta { display:flex; gap:16px; flex-wrap:wrap; }
+.btn-primary { padding:14px 32px; background:linear-gradient(135deg,var(--accent),var(--accent-tertiary)); color:#fff; border:none; border-radius:12px; font-size:13px; font-weight:800; cursor:pointer; transition:all 0.3s; text-decoration:none; display:inline-flex; align-items:center; gap:8px; box-shadow:0 8px 32px rgba(255,107,0,0.3); text-transform:uppercase; letter-spacing:1px; }
+.btn-primary:hover { transform:translateY(-3px); box-shadow:0 15px 45px rgba(255,107,0,0.4); }
+.btn-secondary { padding:14px 32px; background:transparent; color:var(--text); border:1px solid var(--border); border-radius:12px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.3s; text-decoration:none; display:inline-flex; align-items:center; gap:8px; text-transform:uppercase; letter-spacing:1px; }
+.btn-secondary:hover { border-color:var(--accent); background:rgba(255,107,0,0.05); box-shadow:0 0 20px rgba(255,107,0,0.1); }
+
+/* SCREEN MOCKUP */
+.hero-right { display:flex; justify-content:center; align-items:center; }
+.screen-mockup { position:relative; width:100%; max-width:500px; transform:perspective(1000px) rotateY(-8deg) rotateX(4deg); transition:transform 0.6s; }
+.screen-mockup:hover { transform:perspective(1000px) rotateY(-4deg) rotateX(2deg); }
+.laptop-frame { background:linear-gradient(145deg,#15151c,#0a0a12); border-radius:16px 16px 4px 4px; padding:12px 12px 0; border:1px solid rgba(255,255,255,0.06); box-shadow: 0 0 0 1px rgba(255,107,0,0.08), 0 30px 100px rgba(0,0,0,0.7), 0 0 80px rgba(255,107,0,0.06); position:relative; }
+.laptop-notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:80px; height:18px; background:#0a0a12; border-radius:0 0 12px 12px; border:1px solid rgba(255,255,255,0.05); border-top:none; }
+.laptop-screen { background:#050508; border-radius:8px 8px 0 0; overflow:hidden; aspect-ratio:16/10; position:relative; }
+.screen-content { padding:18px; font-family:'JetBrains Mono',monospace; font-size:10px; line-height:1.6; color:var(--text-secondary); }
+.screen-line { display:flex; gap:10px; margin-bottom:5px; opacity:0; animation:typeLine 0.4s ease forwards; }
+.screen-line:nth-child(1){animation-delay:3.5s;} .screen-line:nth-child(2){animation-delay:3.9s;} .screen-line:nth-child(3){animation-delay:4.3s;} .screen-line:nth-child(4){animation-delay:4.7s;} .screen-line:nth-child(5){animation-delay:5.1s;} .screen-line:nth-child(6){animation-delay:5.5s;} .screen-line:nth-child(7){animation-delay:5.9s;} .screen-line:nth-child(8){animation-delay:6.3s;} .screen-line:nth-child(9){animation-delay:6.7s;} .screen-line:nth-child(10){animation-delay:7.1s;} .screen-line:nth-child(11){animation-delay:7.5s;} .screen-line:nth-child(12){animation-delay:7.9s;}
+@keyframes typeLine { from{opacity:0;transform:translateX(-8px);} to{opacity:1;transform:translateX(0);} }
+.line-num { color:var(--text-muted); min-width:20px; text-align:right; font-size:9px; }
+.line-code { color:var(--accent); }
+.line-code .kw { color:var(--accent-secondary); }
+.line-code .str { color:#fbbf24; }
+.line-code .fn { color:#22d3ee; }
+.line-code .comment { color:#374151; }
+.laptop-base { height:14px; background:linear-gradient(180deg,#15151c,#08080c); border-radius:0 0 16px 16px; border:1px solid rgba(255,255,255,0.04); border-top:none; position:relative; }
+.laptop-groove { position:absolute; top:2px; left:50%; transform:translateX(-50%); width:60px; height:4px; background:rgba(255,255,255,0.04); border-radius:4px; }
+.screen-glow { position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,107,0,0.02) 0%,transparent 60%); pointer-events:none; animation:screenFlicker 4s ease-in-out infinite; }
+@keyframes screenFlicker { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
+
+/* SECTIONS */
+section { position:relative; z-index:1; }
+.section-header { max-width:1200px; margin:0 auto; padding:0 24px; }
+.section-label { display:inline-flex; align-items:center; gap:10px; font-size:11px; color:var(--accent); letter-spacing:4px; font-weight:800; text-transform:uppercase; margin-bottom:16px; }
+.section-label::before { content:''; width:40px; height:2px; background:linear-gradient(90deg,var(--accent),transparent); border-radius:2px; }
+.section-title { font-size:clamp(28px,4vw,40px); font-weight:900; color:#fff; margin-bottom:48px; letter-spacing:-1px; }
+
+/* SERVICES */
+.services { padding:100px 24px; max-width:1200px; margin:0 auto; }
+.services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; }
+.service-card { background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:36px 28px; transition:all 0.4s cubic-bezier(0.4,0,0.2,1); position:relative; overflow:hidden; }
+.service-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent-tertiary)); opacity:0; transition:opacity 0.4s; }
+.service-card:hover { border-color:var(--border-hover); transform:translateY(-6px); box-shadow:0 25px 70px rgba(255,107,0,0.08); }
+.service-card:hover::before { opacity:1; }
+.service-icon { width:56px; height:56px; background:linear-gradient(135deg,rgba(255,107,0,0.15),rgba(255,0,85,0.1)); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:28px; margin-bottom:20px; border:1px solid rgba(255,107,0,0.15); }
+.service-card h3 { font-size:20px; font-weight:800; color:#fff; margin-bottom:10px; }
+.service-card p { font-size:14px; color:var(--text-secondary); line-height:1.7; margin-bottom:20px; }
+.service-price { display:inline-block; padding:8px 16px; background:rgba(255,107,0,0.1); border:1px solid rgba(255,107,0,0.2); border-radius:8px; font-size:13px; color:var(--accent); font-weight:700; font-family:'JetBrains Mono',monospace; }
+.service-features { margin-top:16px; display:flex; flex-direction:column; gap:8px; }
+.service-feature { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-muted); }
+.service-feature::before { content:'✓'; color:var(--accent); font-weight:800; font-size:12px; }
+
+/* SKILLS */
+.skills { padding:100px 24px; max-width:1200px; margin:0 auto; }
+.skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+.skill-card { background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:28px; transition:all 0.4s; }
+.skill-card:hover { border-color:var(--border-hover); transform:translateY(-4px); box-shadow:0 20px 60px rgba(255,107,0,0.06); }
+.skill-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.skill-name { font-size:15px; font-weight:700; color:#fff; }
+.skill-level { font-size:13px; color:var(--accent); font-weight:700; font-family:'JetBrains Mono',monospace; }
+.skill-bar-bg { height:5px; background:rgba(255,255,255,0.04); border-radius:3px; overflow:hidden; }
+.skill-bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--accent),var(--accent-tertiary)); transition:width 1.2s cubic-bezier(0.4,0,0.2,1); width:0; box-shadow:0 0 10px rgba(255,107,0,0.3); }
+.skill-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.skill-tag { padding:6px 12px; background:rgba(255,107,0,0.06); border:1px solid rgba(255,107,0,0.12); border-radius:6px; font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.5px; }
+
+/* EXPERIENCE */
+.experience { padding:100px 24px; max-width:1200px; margin:0 auto; }
+.timeline { position:relative; padding-left:40px; }
+.timeline::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:2px; background:linear-gradient(180deg,var(--accent),var(--accent-tertiary),transparent); border-radius:2px; }
+.timeline-item { position:relative; padding-bottom:48px; }
+.timeline-item:last-child { padding-bottom:0; }
+.timeline-dot { position:absolute; left:-44px; top:6px; width:10px; height:10px; background:var(--bg); border:2px solid var(--accent); border-radius:50%; box-shadow:0 0 0 4px rgba(255,107,0,0.1), 0 0 15px rgba(255,107,0,0.2); }
+.timeline-card { background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:28px; transition:all 0.3s; }
+.timeline-card:hover { border-color:var(--border-hover); }
+.timeline-date { font-size:12px; color:var(--accent); font-weight:700; letter-spacing:1px; margin-bottom:8px; font-family:'JetBrains Mono',monospace; }
+.timeline-role { font-size:20px; font-weight:800; color:#fff; margin-bottom:6px; }
+.timeline-company { font-size:15px; color:var(--text-secondary); margin-bottom:12px; font-weight:500; }
+.timeline-desc { font-size:14px; color:var(--text-muted); line-height:1.7; }
+
+/* PROJECTS */
+.projects { padding:100px 24px; max-width:1200px; margin:0 auto; }
+.projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:28px; }
+.project-card { background:var(--bg-card); border:1px solid var(--border); border-radius:20px; overflow:hidden; transition:all 0.4s cubic-bezier(0.4,0,0.2,1); cursor:pointer; position:relative; display:flex; flex-direction:column; }
+.project-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--accent),var(--accent-tertiary),transparent); opacity:0; transition:opacity 0.4s; }
+.project-card:hover { transform:translateY(-6px); box-shadow:0 30px 80px rgba(255,107,0,0.08), 0 0 0 1px rgba(255,107,0,0.1); }
+.project-card:hover::before { opacity:1; }
+.project-thumb { height:200px; background:linear-gradient(135deg,#0a0a10 0%,#11111a 50%,#050508 100%); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.project-thumb::after { content:''; position:absolute; width:250px; height:250px; background:radial-gradient(circle,rgba(255,107,0,0.1) 0%,transparent 60%); animation:pulse-glow 5s ease-in-out infinite; }
+@keyframes pulse-glow { 0%,100%{transform:scale(1);opacity:0.3;} 50%{transform:scale(1.4);opacity:0.6;} }
+.project-icon { font-size:52px; z-index:1; filter:drop-shadow(0 0 24px rgba(255,107,0,0.3)); transition:transform 0.4s; }
+.project-card:hover .project-icon { transform:scale(1.1) rotate(-5deg); }
+.project-info { padding:28px; flex:1; display:flex; flex-direction:column; }
+.project-meta { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+.project-tag { padding:4px 10px; background:rgba(255,107,0,0.08); border:1px solid rgba(255,107,0,0.15); border-radius:6px; font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.5px; }
+.project-info h3 { font-size:20px; font-weight:800; margin:0 0 10px; color:#fff; }
+.project-info p { color:var(--text-secondary); font-size:14px; line-height:1.7; margin:0 0 20px; flex:1; }
+.project-footer { display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
+.project-link { color:var(--accent); text-decoration:none; font-weight:700; font-size:14px; display:inline-flex; align-items:center; gap:6px; transition:all 0.3s; }
+.project-link:hover { gap:12px; color:#fff; }
+.project-status { display:flex; align-items:center; gap:6px; font-size:12px; color:#22c55e; font-weight:700; }
+.status-dot { width:6px; height:6px; background:#22c55e; border-radius:50%; animation:pulse-dot 2s ease-in-out infinite; }
+.project-status.dev { color:var(--accent-warm); }
+.project-status.dev .status-dot { background:var(--accent-warm); animation:none; }
+.project-card.empty { border-style:dashed; border-color:rgba(255,255,255,0.08); min-height:380px; justify-content:center; align-items:center; }
+.empty-content { text-align:center; color:var(--text-muted); padding:40px; }
+.empty-content .plus { font-size:48px; font-weight:200; margin-bottom:8px; opacity:0.5; }
+
+/* ABOUT */
+.about { padding:100px 24px; max-width:800px; margin:0 auto; text-align:center; }
+.about-text { font-size:18px; color:var(--text-secondary); line-height:1.9; font-weight:400; }
+.about-text strong { color:var(--accent); font-weight:700; }
+.about-stats { display:flex; justify-content:center; gap:56px; margin-top:56px; flex-wrap:wrap; }
+.stat { text-align:center; }
+.stat-num { font-size:40px; font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent-tertiary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.stat-label { font-size:12px; color:var(--text-muted); margin-top:6px; font-weight:700; text-transform:uppercase; letter-spacing:2px; }
+
+/* CONTACT */
+.contact { padding:100px 24px 120px; max-width:700px; margin:0 auto; text-align:center; }
+.contact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+.contact-card { display:flex; align-items:center; gap:16px; padding:20px 28px; background:var(--bg-card); border:1px solid var(--border); border-radius:16px; color:var(--text); text-decoration:none; font-weight:600; font-size:15px; transition:all 0.3s; text-align:left; }
+.contact-card:hover { border-color:var(--border-hover); transform:translateY(-3px); box-shadow:0 15px 50px rgba(255,107,0,0.08); }
+.contact-icon { width:48px; height:48px; background:linear-gradient(135deg,rgba(255,107,0,0.12),rgba(255,0,85,0.08)); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; border:1px solid rgba(255,107,0,0.1); }
+.contact-info { flex:1; }
+.contact-label { font-size:11px; color:var(--text-muted); font-weight:600; margin-bottom:3px; text-transform:uppercase; letter-spacing:1px; }
+.contact-value { font-size:15px; color:#fff; font-weight:700; }
+.contact-arrow { color:var(--text-muted); transition:all 0.3s; font-size:18px; }
+.contact-card:hover .contact-arrow { color:var(--accent); transform:translateX(4px); }
+
+/* FOOTER */
+footer { text-align:center; padding:40px 24px; color:var(--text-muted); font-size:13px; border-top:1px solid rgba(255,255,255,0.02); position:relative; z-index:1; }
+
+/* REVEAL */
+.reveal { opacity:0; transform:translateY(40px); transition:all 0.9s cubic-bezier(0.4,0,0.2,1); }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay-1 { transition-delay:0.1s; }
+.reveal-delay-2 { transition-delay:0.2s; }
+.reveal-delay-3 { transition-delay:0.3s; }
+
+
+/* ===== DARK/LIGHT TOGGLE ===== */
+.theme-toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--text-secondary);
+    font-size: 20px;
+    flex-shrink: 0;
+}
+.theme-toggle:hover {
+    border-color: var(--accent);
+    background: rgba(255,107,0,0.08);
+    color: var(--accent);
+    transform: rotate(15deg);
+}
+
+/* ===== LIGHT MODE VARIABLES ===== */
+body.light-mode {
+    --bg: #f8f7f5;
+    --bg-elevated: #ffffff;
+    --bg-card: rgba(0,0,0,0.03);
+    --text: #1a1a2e;
+    --text-secondary: #4a4a5a;
+    --text-muted: #8a8a9a;
+    --border: rgba(0,0,0,0.08);
+    --border-hover: rgba(255,107,0,0.4);
+}
+body.light-mode .bg-grid {
+    background-image: 
+        linear-gradient(rgba(255,107,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,107,0,0.04) 1px, transparent 1px);
+}
+body.light-mode nav {
+    background: rgba(248,247,245,0.9);
+    border-bottom-color: rgba(0,0,0,0.06);
+}
+body.light-mode .laptop-frame {
+    background: linear-gradient(145deg, #e8e8f0, #d8d8e0);
+    border-color: rgba(0,0,0,0.1);
+    box-shadow: 0 30px 100px rgba(0,0,0,0.15), 0 0 80px rgba(255,107,0,0.04);
+}
+body.light-mode .laptop-notch { background: #d8d8e0; border-color: rgba(0,0,0,0.08); }
+body.light-mode .laptop-screen { background: #f0f0f5; }
+body.light-mode .laptop-base { background: linear-gradient(180deg, #e8e8f0, #d0d0d8); border-color: rgba(0,0,0,0.06); }
+body.light-mode .project-thumb { background: linear-gradient(135deg, #f0f0f5 0%, #e8e8f0 50%, #f5f5fa 100%); }
+body.light-mode .empty-content { color: #b0b0c0; }
+body.light-mode .intro-logo { text-shadow: 0 0 20px rgba(255,107,0,0.3), 0 0 40px rgba(255,107,0,0.2), 0 0 80px rgba(255,107,0,0.1); }
+body.light-mode footer { border-top-color: rgba(0,0,0,0.04); }
+
+
+/* ===== TRANSITIONS FLUIDES DARK/LIGHT ===== */
+body, body * {
+    transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* On exclut les éléments qui ont leurs propres animations pour éviter les conflits */
+.badge-dot, .status-dot, .intro-logo, .bg-orb, .screen-line, .skill-bar-fill, .project-icon, .form-success-icon {
+    transition: none !important;
+}
+
+
+/* ===== COMPTEUR DE VISITEURS ===== */
+.visitor-counter {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    transition: all 0.4s;
+}
+.visitor-counter:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(255,107,0,0.15);
+}
+.visitor-counter .pulse-ring {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    position: relative;
+}
+.visitor-counter .pulse-ring::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid #22c55e;
+    animation: visitorPulse 2s ease-out infinite;
+}
+@keyframes visitorPulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+.visitor-counter .count {
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+}
+
+/* ===== WIDGET CHAT ===== */
+.chat-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 999;
+    font-family: 'Inter', sans-serif;
+}
+.chat-toggle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-tertiary));
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(255,107,0,0.4);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.chat-toggle:hover {
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 12px 40px rgba(255,107,0,0.5);
+}
+.chat-toggle .chat-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 18px;
+    height: 18px;
+    background: #ff0055;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg);
+    animation: chatBadgePulse 2s ease-in-out infinite;
+}
+@keyframes chatBadgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+.chat-window {
+    position: absolute;
+    bottom: 72px;
+    right: 0;
+    width: 360px;
+    max-width: calc(100vw - 48px);
+    height: 480px;
+    max-height: calc(100vh - 120px);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.chat-window.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+.chat-header {
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(255,107,0,0.1), rgba(255,0,85,0.05));
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.chat-avatar {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-tertiary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+}
+.chat-header-info { flex: 1; }
+.chat-header-name { font-size: 15px; font-weight: 800; color: #fff; }
+.chat-header-status { font-size: 12px; color: #22c55e; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.chat-header-status::before { content: ''; width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: pulse-dot 2s ease-in-out infinite; }
+.chat-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.3s;
+}
+.chat-close:hover { color: #fff; }
+.chat-body {
+    flex: 1;
+    padding: 20px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.chat-body::-webkit-scrollbar { width: 4px; }
+.chat-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.chat-message {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    animation: messageIn 0.3s ease;
+}
+@keyframes messageIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.chat-message.bot {
+    align-self: flex-start;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+}
+.chat-message.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--accent), var(--accent-tertiary));
+    color: #fff;
+    border-bottom-right-radius: 4px;
+}
+.chat-message-time {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-weight: 500;
+}
+.chat-message.user .chat-message-time { color: rgba(255,255,255,0.6); }
+.chat-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.chat-input {
+    flex: 1;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s;
+}
+.chat-input:focus {
+    border-color: var(--accent);
+    background: rgba(255,107,0,0.04);
+}
+.chat-input::placeholder { color: var(--text-muted); }
+.chat-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-tertiary));
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.chat-send:hover { transform: scale(1.1); box-shadow: 0 4px 16px rgba(255,107,0,0.3); }
+
+@media (max-width: 600px) {
+    .chat-window { width: calc(100vw - 48px); right: -12px; }
+    .visitor-counter { bottom: 16px; left: 16px; font-size: 12px; padding: 8px 14px; }
+    .chat-widget { bottom: 16px; right: 16px; }
+}
+
+
+/* ===== PLAYER AUDIO/VIDEO ===== */
+.media-section {
+    padding: 100px 24px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.player-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.4s;
+}
+.player-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 30px 80px rgba(255,107,0,0.08);
+}
+.player-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-tertiary));
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+.player-card:hover::before { opacity: 1; }
+.player-screen {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #0a0a10, #15151c, #08080c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+body.light-mode .player-screen {
+    background: linear-gradient(135deg, #e8e8f0, #f0f0f5, #e0e0e8);
+}
+.player-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+.player-video.active { display: block; }
+.player-visualizer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+.player-visualizer.active { opacity: 1; }
+.viz-bar {
+    width: 6px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-tertiary));
+    border-radius: 3px;
+    animation: vizDance 0.8s ease-in-out infinite alternate;
+}
+.viz-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+.viz-bar:nth-child(2) { height: 40px; animation-delay: 0.1s; }
+.viz-bar:nth-child(3) { height: 60px; animation-delay: 0.2s; }
+.viz-bar:nth-child(4) { height: 35px; animation-delay: 0.15s; }
+.viz-bar:nth-child(5) { height: 50px; animation-delay: 0.05s; }
+.viz-bar:nth-child(6) { height: 30px; animation-delay: 0.25s; }
+.viz-bar:nth-child(7) { height: 45px; animation-delay: 0.1s; }
+@keyframes vizDance {
+    0% { transform: scaleY(0.4); opacity: 0.6; }
+    100% { transform: scaleY(1); opacity: 1; }
+}
+.player-placeholder {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px;
+}
+.player-placeholder-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+}
+.player-placeholder-text {
+    font-size: 14px;
+    font-weight: 600;
+}
+.player-controls {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.player-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.player-time {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    min-width: 42px;
+    text-align: center;
+}
+.player-progress-bg {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+body.light-mode .player-progress-bg {
+    background: rgba(0,0,0,0.08);
+}
+.player-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-tertiary));
+    border-radius: 3px;
+    transition: width 0.1s linear;
+    position: relative;
+}
+.player-progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255,107,0,0.5);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.player-progress-bg:hover .player-progress-fill::after { opacity: 1; }
+.player-buttons-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+.player-main-btns {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.player-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 10px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+.player-btn:hover {
+    color: var(--accent);
+    background: rgba(255,107,0,0.08);
+}
+.player-btn.play {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-tertiary));
+    color: #fff;
+    font-size: 24px;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(255,107,0,0.3);
+}
+.player-btn.play:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(255,107,0,0.4);
+    color: #fff;
+}
+.player-volume-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.player-volume-slider {
+    width: 80px;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+body.light-mode .player-volume-slider {
+    background: rgba(0,0,0,0.1);
+}
+.player-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(255,107,0,0.4);
+}
+.player-volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 8px rgba(255,107,0,0.4);
+}
+.player-source-row {
+    display: flex;
+    gap: 10px;
+    padding: 0 28px 24px;
+}
+.player-source-btn {
+    flex: 1;
+    padding: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+}
+.player-source-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(255,107,0,0.05);
+}
+.player-source-btn input[type="file"] {
+    display: none;
+}
+.player-source-input {
+    flex: 1;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: all 0.3s;
+}
+.player-source-input:focus {
+    border-color: var(--accent);
+    background: rgba(255,107,0,0.04);
+}
+.player-source-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* RESPONSIVE */
+@media (max-width:900px) { .hero { grid-template-columns:1fr; text-align:center; padding-top:120px; } .hero-left { max-width:100%; } .hero-cta { justify-content:center; } .hero-right { display:none; } nav { padding:16px 24px; } .nav-links { display:none; } .nav-right { gap:12px; } .about-stats { gap:40px; } .contact-grid { grid-template-columns:1fr; } }
+@media (max-width:600px) { .projects-grid, .services-grid, .skills-grid { grid-template-columns:1fr; } .timeline { padding-left:28px; } .timeline-dot { left:-32px; } .intro-logo { letter-spacing:6px; } }
+
+/* ===== FORMULAIRE DE CONTACT ===== */
+.contact-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px;
+    align-items: start;
+}
+.contact-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.contact-form-col {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+}
+.contact-form-col::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-tertiary));
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+.contact-form-col:hover::before { opacity: 1; }
+.form-group { margin-bottom: 20px; }
+.form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.form-input, .form-textarea, .form-select {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s;
+    outline: none;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+    border-color: var(--accent);
+    background: rgba(255,107,0,0.04);
+    box-shadow: 0 0 0 3px rgba(255,107,0,0.1);
+}
+.form-input::placeholder, .form-textarea::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+.form-textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.6;
+}
+.form-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b7b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+.form-select option {
+    background: var(--bg-elevated);
+    color: #fff;
+    font-size: 15px;
+}
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.form-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-tertiary));
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 8px 32px rgba(255,107,0,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(255,107,0,0.35);
+}
+.form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+.form-success {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+}
+.form-success-icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+    animation: successPop 0.5s ease;
+}
+@keyframes successPop {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+.form-success h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+}
+.form-success p {
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+@media (max-width: 900px) {
+    .contact-wrapper { grid-template-columns: 1fr; }
+    .contact-form-col { padding: 28px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO SPLASH -->
+<div id="intro-splash" onclick="closeSplash()" style="cursor:pointer;">
+    <div style="position:relative;">
+        <div class="intro-logo">SEVEN<span>7</span></div>
+        <div class="intro-glitch">SEVEN7</div>
+    </div>
+    <div class="intro-sub" data-i18n="intro_sub">Portfolio Vibecoder</div>
+    <div class="intro-bar"></div>
+    <div class="intro-enter" id="introEnter" data-i18n="intro_enter" style="margin-top:32px;padding:12px 32px;background:linear-gradient(135deg,var(--accent),var(--accent-tertiary));color:#fff;border-radius:50px;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;opacity:0;animation:fadeInUp 1s ease 2s forwards;box-shadow:0 8px32px rgba(255,107,0,0.3);border:none;cursor:pointer;">Cliquez pour entrer</div>
+</div>
+
+<div class="bg-grid"></div>
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
+<div class="bg-orb orb-3"></div>
+
+<nav>
+    <div class="logo"><div class="logo-icon">7</div>SEVEN7</div>
+    <div class="nav-right">
+        <div class="nav-links">
+            <a href="#services" data-i18n="nav_services">Services</a>
+            <a href="#skills" data-i18n="nav_skills">Compétences</a>
+            <a href="#experience" data-i18n="nav_exp">Expérience</a>
+            <a href="#projects" data-i18n="nav_projects">Projets</a>
+            <a href="#media" data-i18n="nav_media">Média</a>
+            <a href="#about" data-i18n="nav_about">À propos</a>
+            <a href="#contact" data-i18n="nav_contact">Contact</a>
+        </div>
+        <div class="lang-toggle">
+            <button class="active" onclick="setLang('fr')" id="btn-fr">FR</button>
+            <button onclick="setLang('en')" id="btn-en">EN</button>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-left">
+        <div class="badge"><div class="badge-dot"></div><span data-i18n="hero_badge">Vibecoder & Développeur Web</span></div>
+        <h1><span data-i18n="hero_title_1">Je construis des</span><br><span class="gradient" data-i18n="hero_title_2">expériences digitales</span></h1>
+        <p class="hero-desc" data-i18n="hero_desc">Portfolio minimaliste & audacieux. Je combine créativité humaine et intelligence artificielle pour donner vie à des applications web modernes, performantes et mémorables.</p>
+        <div class="hero-cta">
+            <a href="#services" class="btn-primary" data-i18n="btn_services">Mes services</a>
+            <a href="#contact" class="btn-secondary" data-i18n="btn_contact">Me contacter</a>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="screen-mockup">
+            <div class="laptop-frame">
+                <div class="laptop-notch"></div>
+                <div class="laptop-screen">
+                    <div class="screen-glow"></div>
+                    <div class="screen-content">
+                        <div class="screen-line"><span class="line-num">1</span><span class="line-code"><span class="kw">const</span> <span class="fn">SEVEN7</span> = {</span></div>
+                        <div class="screen-line"><span class="line-num">2</span><span class="line-code">  name: <span class="str">"Portfolio"</span>,</span></div>
+                        <div class="screen-line"><span class="line-num">3</span><span class="line-code">  stack: [<span class="str">"HTML"</span>, <span class="str">"CSS"</span>, <span class="str">"JS"</span>],</span></div>
+                        <div class="screen-line"><span class="line-num">4</span><span class="line-code">  aiTools: [<span class="str">"Claude"</span>, <span class="str">"Kimi"</span>],</span></div>
+                        <div class="screen-line"><span class="line-num">5</span><span class="line-code">  status: <span class="str">"online"</span>,</span></div>
+                        <div class="screen-line"><span class="line-num">6</span><span class="line-code">  <span class="fn">build</span>: () => <span class="str">"🚀"</span></span></div>
+                        <div class="screen-line"><span class="line-num">7</span><span class="line-code">};</span></div>
+                        <div class="screen-line"><span class="line-num">8</span><span class="line-code"><span class="comment">// Powered by AI & passion</span></span></div>
+                        <div class="screen-line"><span class="line-num">9</span><span class="line-code"><span class="kw">export default</span> SEVEN7;</span></div>
+                        <div class="screen-line"><span class="line-num">10</span><span class="line-code"> </span></div>
+                        <div class="screen-line"><span class="line-num">11</span><span class="line-code"><span class="kw">$</span> <span class="fn">npm</span> run deploy</span></div>
+                        <div class="screen-line"><span class="line-num">12</span><span class="line-code"><span class="str">✓</span> Build successful <span class="comment">(1.2s)</span></span></div>
+                    </div>
+                </div>
+                <div class="laptop-base"><div class="laptop-groove"></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="services_label">Services</div>
+        <h2 class="section-title" data-i18n="services_title">Ce que je propose</h2>
+    </div>
+    <div class="services-grid">
+        <div class="service-card reveal">
+            <div class="service-icon">🌐</div>
+            <h3 data-i18n="svc_1_title">Site Web / Portfolio</h3>
+            <p data-i18n="svc_1_desc">Création de sites vitrines, portfolios et landing pages modernes, responsive et optimisés pour le référencement. Design sur-mesure avec animations fluides.</p>
+            <div class="service-price" data-i18n="svc_1_price">À partir de 50 000 FCFA</div>
+            <div class="service-features">
+                <div class="service-feature" data-i18n="svc_1_f1">Design unique & personnalisé</div>
+                <div class="service-feature" data-i18n="svc_1_f2">Responsive mobile & desktop</div>
+                <div class="service-feature" data-i18n="svc_1_f3">Hébergement & mise en ligne</div>
+                <div class="service-feature" data-i18n="svc_1_f4">Livraison en 3-5 jours</div>
+            </div>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+            <div class="service-icon">🔍</div>
+            <h3 data-i18n="svc_2_title">Outil d'Audit Digital</h3>
+            <p data-i18n="svc_2_desc">Développement d'outils d'audit automatisés, tableaux de suivi et dashboards de conformité. Parfait pour les cabinets d'audit et les entreprises.</p>
+            <div class="service-price" data-i18n="svc_2_price">Sur devis</div>
+            <div class="service-features">
+                <div class="service-feature" data-i18n="svc_2_f1">Interface professionnelle</div>
+                <div class="service-feature" data-i18n="svc_2_f2">Suivi en temps réel</div>
+                <div class="service-feature" data-i18n="svc_2_f3">Export rapports PDF/Excel</div>
+                <div class="service-feature" data-i18n="svc_2_f4">Sécurisé & scalable</div>
+            </div>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+            <div class="service-icon">⚡</div>
+            <h3 data-i18n="svc_3_title">Application Web</h3>
+            <p data-i18n="svc_3_desc">Conception d'applications web interactives : dashboards, outils de gestion, plateformes SaaS. Stack moderne avec Firebase, React ou vanilla JS.</p>
+            <div class="service-price" data-i18n="svc_3_price">Sur devis</div>
+            <div class="service-features">
+                <div class="service-feature" data-i18n="svc_3_f1">Architecture robuste</div>
+                <div class="service-feature" data-i18n="svc_3_f2">Base de données Firebase</div>
+                <div class="service-feature" data-i18n="svc_3_f3">Authentification utilisateurs</div>
+                <div class="service-feature" data-i18n="svc_3_f4">Support & maintenance</div>
+            </div>
+        </div>
+        <div class="service-card reveal">
+            <div class="service-icon">🎨</div>
+            <h3 data-i18n="svc_4_title">UI/UX & Prototypage</h3>
+            <p data-i18n="svc_4_desc">Design d'interfaces utilisateur modernes, wireframes et prototypes interactifs. Focus sur l'expérience utilisateur et l'accessibilité.</p>
+            <div class="service-price" data-i18n="svc_4_price">À partir de 25 000 FCFA</div>
+            <div class="service-features">
+                <div class="service-feature" data-i18n="svc_4_f1">Maquettes Figma</div>
+                <div class="service-feature" data-i18n="svc_4_f2">Prototypes cliquables</div>
+                <div class="service-feature" data-i18n="svc_4_f3">Design system complet</div>
+                <div class="service-feature" data-i18n="svc_4_f4">Revisions illimitées</div>
+            </div>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+            <div class="service-icon">🤖</div>
+            <h3 data-i18n="svc_5_title">Vibecoding / IA</h3>
+            <p data-i18n="svc_5_desc">Accompagnement dans l'utilisation de l'IA pour accélérer vos projets. Prompt engineering, automatisation de tâches et intégration d'outils IA.</p>
+            <div class="service-price" data-i18n="svc_5_price">À partir de 15 000 FCFA</div>
+            <div class="service-features">
+                <div class="service-feature" data-i18n="svc_5_f1">Audit de votre workflow</div>
+                <div class="service-feature" data-i18n="svc_5_f2">Formation outils IA</div>
+                <div class="service-feature" data-i18n="svc_5_f3">Automatisation tâches</div>
+                <div class="service-feature" data-i18n="svc_5_f4">Support continu</div>
+            </div>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+            <div class="service-icon">🔧</div>
+            <h3 data-i18n="svc_6_title">Maintenance & Support</h3>
+            <p data-i18n="svc_6_desc">Mise à jour, correction de bugs, optimisation des performances et évolution de votre site ou application existante.</p>
+            <div class="service-price" data-i18n="svc_6_price">À partir de 10 000 FCFA/mois</div>
+            <div class="service-features">
+                <div class="service-feature" data-i18n="svc_6_f1">Corrections prioritaires</div>
+                <div class="service-feature" data-i18n="svc_6_f2">Mises à jour régulières</div>
+                <div class="service-feature" data-i18n="svc_6_f3">Sauvegardes automatiques</div>
+                <div class="service-feature" data-i18n="svc_6_f4">Rapport mensuel</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="skills_label">Compétences</div>
+        <h2 class="section-title" data-i18n="skills_title">Ce que je maîtrise</h2>
+    </div>
+    <div class="skills-grid">
+        <div class="skill-card reveal">
+            <div class="skill-header"><span class="skill-name" data-i18n="skill_frontend">Développement Frontend</span><span class="skill-level">95%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="95"></div></div>
+            <div class="skill-tags"><span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span class="skill-tag">JavaScript</span><span class="skill-tag">React</span><span class="skill-tag">Tailwind</span></div>
+        </div>
+        <div class="skill-card reveal reveal-delay-1">
+            <div class="skill-header"><span class="skill-name" data-i18n="skill_backend">Développement Backend</span><span class="skill-level">80%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80"></div></div>
+            <div class="skill-tags"><span class="skill-tag">Node.js</span><span class="skill-tag">Firebase</span><span class="skill-tag">API REST</span><span class="skill-tag">SQL</span></div>
+        </div>
+        <div class="skill-card reveal reveal-delay-2">
+            <div class="skill-header"><span class="skill-name" data-i18n="skill_ai">IA & Vibecoding</span><span class="skill-level">92%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="92"></div></div>
+            <div class="skill-tags"><span class="skill-tag">Claude</span><span class="skill-tag">Kimi</span><span class="skill-tag">Gemini</span><span class="skill-tag">Slack</span><span class="skill-tag">Prompt Engineering</span></div>
+        </div>
+        <div class="skill-card reveal">
+            <div class="skill-header"><span class="skill-name" data-i18n="skill_design">UI/UX Design</span><span class="skill-level">75%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="75"></div></div>
+            <div class="skill-tags"><span class="skill-tag">Figma</span><span class="skill-tag">Design System</span><span class="skill-tag">Prototypage</span><span class="skill-tag">Animation</span></div>
+        </div>
+        <div class="skill-card reveal reveal-delay-1">
+            <div class="skill-header"><span class="skill-name" data-i18n="skill_tools">Outils & Workflow</span><span class="skill-level">88%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="88"></div></div>
+            <div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span class="skill-tag">VS Code</span><span class="skill-tag">Vercel</span><span class="skill-tag">Firebase</span></div>
+        </div>
+        <div class="skill-card reveal reveal-delay-2">
+            <div class="skill-header"><span class="skill-name" data-i18n="skill_audit">Audit & Conformité</span><span class="skill-level">85%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div>
+            <div class="skill-tags"><span class="skill-tag">Audit Externe</span><span class="skill-tag">Normes Comptables</span><span class="skill-tag">Reporting</span><span class="skill-tag">Automatisation</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="exp_label">Expérience</div>
+        <h2 class="section-title" data-i18n="exp_title">Mon parcours</h2>
+    </div>
+    <div class="timeline">
+        <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <div class="timeline-date" data-i18n="exp_1_date">2025 — Présent</div>
+                <div class="timeline-role" data-i18n="exp_1_role">Développeur Web & Vibecoder</div>
+                <div class="timeline-company" data-i18n="exp_1_company">SEVEN7 — Freelance</div>
+                <div class="timeline-desc" data-i18n="exp_1_desc">Création de solutions web complètes en utilisant l'IA comme copilote de développement. Conception d'outils d'audit automatisés, applications interactives et portfolios performants. Collaboration avec des clients pour transformer leurs idées en produits digitaux.</div>
+            </div>
+        </div>
+        <div class="timeline-item reveal reveal-delay-1">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <div class="timeline-date" data-i18n="exp_2_date">2024 — 2025</div>
+                <div class="timeline-role" data-i18n="exp_2_role">Consultant Audit & Digital</div>
+                <div class="timeline-company" data-i18n="exp_2_company">Cabinet d'Audit</div>
+                <div class="timeline-desc" data-i18n="exp_2_desc">Conduite de missions d'audit externe avec une approche digitale. Développement d'outils internes pour automatiser les processus de vérification comptable, réduisant le temps de traitement de 40%. Maîtrise des normes comptables et fiscales.</div>
+            </div>
+        </div>
+        <div class="timeline-item reveal reveal-delay-2">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <div class="timeline-date" data-i18n="exp_3_date">2023 — 2024</div>
+                <div class="timeline-role" data-i18n="exp_3_role">Développeur Junior</div>
+                <div class="timeline-company" data-i18n="exp_3_company">Agence Web</div>
+                <div class="timeline-desc" data-i18n="exp_3_desc">Développement de sites vitrines et applications web pour divers clients. Apprentissage des bonnes pratiques du développement moderne, du responsive design et de l'optimisation des performances. Premiers pas dans l'intégration d'outils d'IA au workflow.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="projects_label">Projets</div>
+        <h2 class="section-title" data-i18n="projects_title">Ce que j'ai construit</h2>
+    </div>
+    <div class="projects-grid">
+        <div class="project-card reveal" onclick="window.open('https://seven7-audit.web.app/','_blank')">
+            <div class="project-thumb"><div class="project-icon">🔍</div></div>
+            <div class="project-info">
+                <div class="project-meta"><span class="project-tag">Firebase</span><span class="project-tag">JavaScript</span><span class="project-tag">Audit</span></div>
+                <h3>SEVEN7 Audit</h3>
+                <p data-i18n="proj_1_desc">Outil d'audit externe automatisé. Programme détaillé conforme au référentiel de mission : suivi des cycles d'audit, procédures, documents requis et statuts en temps réel. Interface professionnelle pour cabinets d'audit.</p>
+                <div class="project-footer">
+                    <a href="https://seven7-audit.web.app/" target="_blank" class="project-link" data-i18n="proj_link">Voir le site →</a>
+                    <div class="project-status"><div class="status-dot"></div><span data-i18n="proj_live">En ligne</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="project-card reveal reveal-delay-1" onclick="window.open('https://github.com/jeanmarkonan-pixel/seven7-backend','_blank')">
+            <div class="project-thumb"><div class="project-icon">⚙️</div></div>
+            <div class="project-info">
+                <div class="project-meta"><span class="project-tag">Node.js</span><span class="project-tag">API</span><span class="project-tag">Backend</span></div>
+                <h3>SEVEN7 Backend</h3>
+                <p data-i18n="proj_2_desc">Architecture backend modulaire pour les applications SEVEN7. API REST, gestion d'authentification, base de données Firebase et structure scalable pour les futurs projets.</p>
+                <div class="project-footer">
+                    <a href="https://github.com/jeanmarkonan-pixel/seven7-backend" target="_blank" class="project-link" data-i18n="proj_github">Voir sur GitHub →</a>
+                    <div class="project-status dev"><div class="status-dot"></div><span data-i18n="proj_dev">En développement</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="project-card reveal reveal-delay-2">
+            <div class="project-thumb"><div class="project-icon">🚀</div></div>
+            <div class="project-info">
+                <div class="project-meta"><span class="project-tag">Portfolio</span><span class="project-tag">HTML/CSS/JS</span><span class="project-tag">Vibecoding</span></div>
+                <h3>SEVEN7 Portfolio</h3>
+                <p data-i18n="proj_3_desc">Ce portfolio que vous consultez actuellement. Design audacieux, animations fluides, traduction FR/EN, mockup d'écran animé et système de contact intégré. 100% codé avec l'aide de l'IA.</p>
+                <div class="project-footer">
+                    <span class="project-link" style="color:var(--text-muted);cursor:default;" data-i18n="proj_here">Vous êtes ici</span>
+                    <div class="project-status"><div class="status-dot"></div><span data-i18n="proj_live">En ligne</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="project-card empty reveal reveal-delay-3">
+            <div class="empty-content"><div class="plus">+</div><p data-i18n="proj_empty">Prochain projet bientôt...</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- MEDIA PLAYER -->
+<section class="media-section" id="media">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="media_label">Média</div>
+        <h2 class="section-title" data-i18n="media_title">Lecteur Audio & Vidéo</h2>
+    </div>
+    <div class="player-card reveal">
+        <div class="player-screen" id="playerScreen">
+            <video class="player-video" id="playerVideo" playsinline></video>
+            <div class="player-visualizer" id="playerVisualizer">
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+            </div>
+            <div class="player-placeholder" id="playerPlaceholder">
+                <div class="player-placeholder-icon">🎵</div>
+                <div class="player-placeholder-text" data-i18n="player_placeholder">Chargez un fichier audio ou vidéo</div>
+            </div>
+        </div>
+        <div class="player-controls">
+            <div class="player-progress-row">
+                <span class="player-time" id="playerCurrentTime">0:00</span>
+                <div class="player-progress-bg" id="playerProgressBg" onclick="seekPlayer(event)">
+                    <div class="player-progress-fill" id="playerProgressFill"></div>
+                </div>
+                <span class="player-time" id="playerTotalTime">0:00</span>
+            </div>
+            <div class="player-buttons-row">
+                <div class="player-main-btns">
+                    <button class="player-btn" onclick="skipPlayer(-10)" title="-10s">⏮</button>
+                    <button class="player-btn play" id="playerPlayBtn" onclick="togglePlay()">▶</button>
+                    <button class="player-btn" onclick="skipPlayer(10)" title="+10s">⏭</button>
+                </div>
+                <div class="player-volume-row">
+                    <button class="player-btn" id="playerMuteBtn" onclick="toggleMute()">🔊</button>
+                    <input type="range" class="player-volume-slider" id="playerVolume" min="0" max="100" value="80" oninput="setVolume(this.value)">
+                </div>
+            </div>
+        </div>
+        <div class="player-source-row">
+            <label class="player-source-btn">
+                <span>📁</span> <span data-i18n="player_file">Fichier</span>
+                <input type="file" id="playerFileInput" accept="audio/*,video/*" onchange="loadFile(event)">
+            </label>
+            <input type="text" class="player-source-input" id="playerUrlInput" placeholder="URL YouTube, MP3, MP4..." data-i18n-placeholder="player_url_ph" onkeydown="if(event.key==='Enter')loadUrl()">
+            <button class="player-source-btn" onclick="loadUrl()" data-i18n="player_load">Charger</button>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="about_label">À propos</div>
+        <h2 class="section-title" data-i18n="about_title">Qui suis-je ?</h2>
+    </div>
+    <p class="about-text reveal" data-i18n="about_text"><strong>Vibecoder</strong> passionné, je combine créativité humaine et puissance de l'IA pour donner vie à des expériences web uniques. Chaque ligne de code est une opportunité de créer quelque chose de mémorable. Je travaille avec les meilleurs outils — Claude, Kimi, Gemini et Slack — pour repousser les limites du possible.</p>
+    <div class="about-stats reveal">
+        <div class="stat"><div class="stat-num">3+</div><div class="stat-label" data-i18n="stat_years">Années d'exp.</div></div>
+        <div class="stat"><div class="stat-num">5+</div><div class="stat-label" data-i18n="stat_projects">Projets</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label" data-i18n="stat_passion">Passion</div></div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="contact_label">Contact</div>
+        <h2 class="section-title" data-i18n="contact_title">Travaillons ensemble</h2>
+    </div>
+    <div class="contact-wrapper reveal">
+        <div class="contact-info-col">
+            <a href="tel:+2250789746930" class="contact-card">
+                <div class="contact-icon">📱</div>
+                <div class="contact-info">
+                    <div class="contact-label" data-i18n="contact_phone_label">Téléphone</div>
+                    <div class="contact-value">+225 07 89 74 69 30</div>
+                </div>
+                <div class="contact-arrow">→</div>
+            </a>
+            <a href="mailto:jeanmarkonan@gmail.com" class="contact-card">
+                <div class="contact-icon">✉️</div>
+                <div class="contact-info">
+                    <div class="contact-label" data-i18n="contact_email_label">Email</div>
+                    <div class="contact-value">jeanmarkonan@gmail.com</div>
+                </div>
+                <div class="contact-arrow">→</div>
+            </a>
+            <a href="https://github.com/jeanmarkonan-pixel/seven7-backend" target="_blank" class="contact-card">
+                <div class="contact-icon">⚡</div>
+                <div class="contact-info">
+                    <div class="contact-label">GitHub</div>
+                    <div class="contact-value">seven7-backend</div>
+                </div>
+                <div class="contact-arrow">→</div>
+            </a>
+        </div>
+        <div class="contact-form-col">
+            <form id="contactForm" onsubmit="handleSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="form_name">Nom</label>
+                        <input type="text" class="form-input" name="name" placeholder="Jean Mark" required data-i18n-placeholder="form_name_ph">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="form_email">Email</label>
+                        <input type="email" class="form-input" name="email" placeholder="exemple@email.com" required data-i18n-placeholder="form_email_ph">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="form_phone">Téléphone</label>
+                        <input type="tel" class="form-input" name="phone" placeholder="+225 07 XX XX XX XX" data-i18n-placeholder="form_phone_ph">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="form_subject">Sujet</label>
+                        <select class="form-select" name="subject" required>
+                            <option value="" disabled selected data-i18n="form_subject_default">Choisir un sujet</option>
+                            <option value="site" data-i18n="form_opt_site">Site Web / Portfolio</option>
+                            <option value="audit" data-i18n="form_opt_audit">Outil d'Audit Digital</option>
+                            <option value="app" data-i18n="form_opt_app">Application Web</option>
+                            <option value="design" data-i18n="form_opt_design">UI/UX & Prototypage</option>
+                            <option value="vibecoding" data-i18n="form_opt_vibe">Vibecoding / IA</option>
+                            <option value="maintenance" data-i18n="form_opt_maint">Maintenance & Support</option>
+                            <option value="other" data-i18n="form_opt_other">Autre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="form_message">Message</label>
+                    <textarea class="form-textarea" name="message" placeholder="Décrivez votre projet..." required data-i18n-placeholder="form_message_ph"></textarea>
+                </div>
+                <button type="submit" class="form-submit" data-i18n="form_send">
+                    <span>📤</span> Envoyer le message
+                </button>
+            </form>
+            <div class="form-success" id="formSuccess">
+                <div class="form-success-icon">🎉</div>
+                <h3 data-i18n="form_success_title">Message envoyé !</h3>
+                <p data-i18n="form_success_desc">Je vous recontacte très vite. Merci !</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer><span data-i18n="footer">© 2026 SEVEN7 — Construit avec passion & IA</span></footer>
+
+<script>
+
+
+// ===== DARK / LIGHT / AUTO MODE TOGGLE =====
+// Comment ca marche :
+// 1. 3 modes : DARK (🌙) / LIGHT (☀️) / AUTO (🔄)
+// 2. Mode AUTO : detecte l'heure locale — LIGHT de 6h a 18h, DARK de 18h a 6h
+// 3. Les variables CSS sont ecrasees par la classe .light-mode
+// 4. Toutes les transitions durent 0.8s pour un effet ultra fluide
+// 5. Le choix est sauvegarde dans localStorage
+
+const THEMES = ['dark', 'light', 'auto'];
+const ICONS = { dark: '🌙', light: '☀️', auto: '🔄' };
+let currentThemeIndex = 0;
+
+function getAutoTheme() {
+    const hour = new Date().getHours();
+    return (hour >= 6 && hour < 18) ? 'light' : 'dark';
+}
+
+function applyTheme(mode) {
+    const body = document.body;
+    const btn = document.getElementById('themeToggle');
+    const actualMode = mode === 'auto' ? getAutoTheme() : mode;
+
+    if (actualMode === 'light') {
+        body.classList.add('light-mode');
+    } else {
+        body.classList.remove('light-mode');
+    }
+
+    // Bouton optionnel : certaines pages n'ont pas de bouton de theme visible
+    if (btn) {
+        // Animation de l'icone
+        btn.style.transform = 'rotate(180deg) scale(0.7)';
+        setTimeout(() => {
+            btn.textContent = ICONS[mode];
+            btn.style.transform = 'rotate(0deg) scale(1)';
+        }, 200);
+
+        // Tooltip indiquant le mode
+        const labels = { dark: 'Mode sombre', light: 'Mode clair', auto: 'Mode auto (heure)' };
+        btn.title = labels[mode];
+    }
+}
+
+function initTheme() {
+    const saved = localStorage.getItem('seven7-theme');
+
+    if (saved && THEMES.includes(saved)) {
+        currentThemeIndex = THEMES.indexOf(saved);
+    } else {
+        // Par defaut : auto
+        currentThemeIndex = 2;
+    }
+
+    applyTheme(THEMES[currentThemeIndex]);
+}
+
+function toggleTheme() {
+    currentThemeIndex = (currentThemeIndex + 1) % THEMES.length;
+    const mode = THEMES[currentThemeIndex];
+
+    localStorage.setItem('seven7-theme', mode);
+    applyTheme(mode);
+}
+
+// Verifie toutes les minutes si on est en mode auto (changement 6h/18h)
+setInterval(() => {
+    if (THEMES[currentThemeIndex] === 'auto') {
+        applyTheme('auto');
+    }
+}, 60000);
+
+// ===== SPLASH SCREEN =====
+function closeSplash() {
+    const splash = document.getElementById('intro-splash');
+    if (splash) {
+        splash.classList.add('hidden');
+    }
+}
+
+// Auto-close apres 3s + clic possible a tout moment
+setTimeout(closeSplash, 3000);
+
+// Appliquer le theme immediatement (avant le splash screen)
+initTheme();
+
+
+// ===== COMPTEUR DE VISITEURS =====
+// Utilise CountAPI (gratuit, pas de backend necessaire)
+// Chaque visite incremente le compteur en temps reel
+function initVisitorCounter() {
+    const countEl = document.getElementById('visitorCount');
+
+    // Essaye de recuperer le compteur existant
+    fetch('https://api.countapi.xyz/hit/seven7-portfolio/visits')
+        .then(res => res.json())
+        .then(data => {
+            if (data.value) {
+                animateCounter(countEl, data.value);
+            }
+        })
+        .catch(() => {
+            // Fallback : compteur local
+            let localCount = parseInt(localStorage.getItem('seven7-visits') || '0') + 1;
+            localStorage.setItem('seven7-visits', localCount);
+            animateCounter(countEl, localCount + 1247); // +1247 pour avoir un beau chiffre
+        });
+}
+
+function animateCounter(el, target) {
+    let current = 0;
+    const duration = 1500;
+    const step = target / (duration / 16);
+
+    function update() {
+        current += step;
+        if (current >= target) {
+            el.textContent = target.toLocaleString();
+            return;
+        }
+        el.textContent = Math.floor(current).toLocaleString();
+        requestAnimationFrame(update);
+    }
+    update();
+}
+
+// ===== WIDGET CHAT =====
+// Chat simule avec reponses automatiques
+// Pour un vrai chat en direct, remplace ce code par Tawk.to, Crisp, ou WhatsApp Business
+let chatOpen = false;
+let chatMessages = [];
+
+function toggleChat() {
+    chatOpen = !chatOpen;
+    const window_ = document.getElementById('chatWindow');
+    const badge = document.getElementById('chatBadge');
+
+    window_.classList.toggle('open', chatOpen);
+
+    if (chatOpen) {
+        badge.style.display = 'none';
+        document.getElementById('chatInput').focus();
+        // Marquer l'heure du premier message
+        document.getElementById('chatTime1').textContent = getChatTime();
+    }
+}
+
+function getChatTime() {
+    const now = new Date();
+    return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+}
+
+function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const body = document.getElementById('chatBody');
+    const time = getChatTime();
+
+    // Message utilisateur
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat-message user';
+    userMsg.innerHTML = '<div>' + escapeHtml(text) + '</div><div class="chat-message-time">' + time + '</div>';
+    userMsg.style.animation = 'messageIn 0.3s ease';
+    body.appendChild(userMsg);
+    body.scrollTop = body.scrollHeight;
+
+    input.value = '';
+
+    // Reponse automatique simulee
+    setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chat-message bot';
+        botMsg.innerHTML = '<div>' + escapeHtml(getBotReply(text)) + '</div><div class="chat-message-time">' + getChatTime() + '</div>';
+        botMsg.style.animation = 'messageIn 0.3s ease';
+        body.appendChild(botMsg);
+        body.scrollTop = body.scrollHeight;
+    }, 800 + Math.random() * 1000);
+}
+
+function getBotReply(text) {
+    const lower = text.toLowerCase();
+    const fr = currentLang === 'fr';
+
+    if (lower.includes('prix') || lower.includes('tarif') || lower.includes('cout') || lower.includes('price') || lower.includes('cost')) {
+        return fr ? "Mes tarifs commencent a 15 000 FCFA. Consulte la section Services pour plus de details ! 💰" : "My rates start at 15,000 FCFA. Check the Services section for more details! 💰";
+    }
+    if (lower.includes('contact') || lower.includes('email') || lower.includes('tel') || lower.includes('phone')) {
+        return fr ? "Tu peux m'ecrire a jeanmarkonan@gmail.com ou m'appeler au +225 07 89 74 69 30 📱" : "You can email me at jeanmarkonan@gmail.com or call +225 07 89 74 69 30 📱";
+    }
+    if (lower.includes('bonjour') || lower.includes('salut') || lower.includes('hello') || lower.includes('hi')) {
+        return fr ? "Salut ! 👋 Je suis la pour t'aider. Tu as un projet en tete ?" : "Hi there! 👋 I'm here to help. Do you have a project in mind?";
+    }
+    if (lower.includes('projet') || lower.includes('site') || lower.includes('web') || lower.includes('app') || lower.includes('project')) {
+        return fr ? "Super ! Raconte-moi ton projet : type de site, fonctionnalites, deadline... Je te prepare un devis personnalise ! 🚀" : "Great! Tell me about your project: type of site, features, deadline... I'll prepare a custom quote! 🚀";
+    }
+    if (lower.includes('audit') || lower.includes('comptable')) {
+        return fr ? "J'ai developpe SEVEN7 Audit, un outil d'audit externe automatisé. Parfait pour les cabinets ! 🔍" : "I developed SEVEN7 Audit, an automated external audit tool. Perfect for firms! 🔍";
+    }
+    if (lower.includes('ia') || lower.includes('ai') || lower.includes('vibecod')) {
+        return fr ? "Je suis vibecoder ! J'utilise Claude, Kimi, Gemini et Slack pour coder plus vite et mieux. Tu veux en savoir plus ? 🤖" : "I'm a vibecoder! I use Claude, Kimi, Gemini and Slack to code faster and better. Want to know more? 🤖";
+    }
+    if (lower.includes('merci') || lower.includes('thanks') || lower.includes('thank you')) {
+        return fr ? "Avec plaisir ! 😊 N'hesite pas si tu as d'autres questions." : "You're welcome! 😊 Feel free to ask if you have more questions.";
+    }
+    if (lower.includes('temps') || lower.includes('delai') || lower.includes('time') || lower.includes('deadline')) {
+        return fr ? "Un site vitrine = 3-5 jours. Une app complexe = 2-4 semaines. Ca depend du projet ! ⏱️" : "A showcase site = 3-5 days. A complex app = 2-4 weeks. It depends on the project! ⏱️";
+    }
+
+    return fr 
+        ? "Merci pour ton message ! 🙏 Je te recontacte bientot. En attendant, explore mes services ou envoie-moi un email directement."
+        : "Thanks for your message! 🙏 I'll get back to you soon. In the meantime, check out my services or send me an email directly.";
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Initialiser
+window.addEventListener('DOMContentLoaded', initVisitorCounter);
+
+
+// ===== PLAYER AUDIO/VIDEO =====
+let playerMedia = null;
+let playerIsPlaying = false;
+let playerIsVideo = false;
+let playerUpdateInterval = null;
+
+function initPlayer() {
+    playerMedia = document.getElementById('playerVideo');
+    playerMedia.addEventListener('ended', () => {
+        playerIsPlaying = false;
+        updatePlayBtn();
+        document.getElementById('playerVisualizer').classList.remove('active');
+    });
+    playerMedia.addEventListener('timeupdate', updateProgress);
+    playerMedia.addEventListener('loadedmetadata', () => {
+        document.getElementById('playerTotalTime').textContent = formatTime(playerMedia.duration);
+    });
+}
+
+function loadFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    loadMedia(url, file.type.startsWith('video'));
+}
+
+function loadUrl() {
+    const input = document.getElementById('playerUrlInput');
+    const url = input.value.trim();
+    if (!url) return;
+    // Detecte si c'est une video par l'extension
+    const isVideo = /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url);
+    loadMedia(url, isVideo);
+}
+
+function loadMedia(url, isVideo) {
+    playerIsVideo = isVideo;
+    playerMedia.src = url;
+    playerMedia.load();
+
+    document.getElementById('playerPlaceholder').style.display = 'none';
+
+    if (isVideo) {
+        playerMedia.style.display = 'block';
+        document.getElementById('playerVisualizer').classList.remove('active');
+    } else {
+        playerMedia.style.display = 'none';
+        document.getElementById('playerVisualizer').classList.add('active');
+    }
+
+    togglePlay();
+}
+
+function togglePlay() {
+    if (!playerMedia.src) {
+        alert(currentLang === 'fr' ? "Chargez d'abord un fichier audio ou vidéo !" : "Load an audio or video file first!");
+        return;
+    }
+
+    if (playerIsPlaying) {
+        playerMedia.pause();
+        playerIsPlaying = false;
+        document.getElementById('playerVisualizer').classList.remove('active');
+    } else {
+        playerMedia.play().catch(() => {});
+        playerIsPlaying = true;
+        if (!playerIsVideo) {
+            document.getElementById('playerVisualizer').classList.add('active');
+        }
+    }
+    updatePlayBtn();
+}
+
+function updatePlayBtn() {
+    document.getElementById('playerPlayBtn').textContent = playerIsPlaying ? '⏸' : '▶';
+}
+
+function updateProgress() {
+    if (!playerMedia.duration) return;
+    const pct = (playerMedia.currentTime / playerMedia.duration) * 100;
+    document.getElementById('playerProgressFill').style.width = pct + '%';
+    document.getElementById('playerCurrentTime').textContent = formatTime(playerMedia.currentTime);
+}
+
+function seekPlayer(event) {
+    if (!playerMedia.duration) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const pct = (event.clientX - rect.left) / rect.width;
+    playerMedia.currentTime = pct * playerMedia.duration;
+}
+
+function skipPlayer(seconds) {
+    if (!playerMedia.src) return;
+    playerMedia.currentTime = Math.max(0, Math.min(playerMedia.duration || Infinity, playerMedia.currentTime + seconds));
+}
+
+function setVolume(val) {
+    if (playerMedia) {
+        playerMedia.volume = val / 100;
+        playerMedia.muted = false;
+        document.getElementById('playerMuteBtn').textContent = val == 0 ? '🔇' : '🔊';
+    }
+}
+
+function toggleMute() {
+    if (!playerMedia) return;
+    playerMedia.muted = !playerMedia.muted;
+    document.getElementById('playerMuteBtn').textContent = playerMedia.muted ? '🔇' : '🔊';
+    if (playerMedia.muted) {
+        document.getElementById('playerVolume').value = 0;
+    } else {
+        document.getElementById('playerVolume').value = (playerMedia.volume * 100) || 80;
+    }
+}
+
+function formatTime(sec) {
+    if (!sec || isNaN(sec)) return '0:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return m + ':' + s.toString().padStart(2, '0');
+}
+
+initPlayer();
+
+// ===== TRANSLATIONS =====
+const translations = {
+    fr: {
+        intro_sub: "Portfolio Vibecoder",
+        intro_enter: "Cliquez pour entrer",
+        nav_services: "Services",
+        nav_skills: "Compétences",
+        nav_exp: "Expérience",
+        nav_projects: "Projets",
+        nav_media: "Média",
+        nav_about: "À propos",
+        nav_contact: "Contact",
+        media_label: "Média",
+        media_title: "Lecteur Audio & Vidéo",
+        player_placeholder: "Chargez un fichier audio ou vidéo",
+        player_file: "Fichier",
+        player_url_ph: "URL YouTube, MP3, MP4...",
+        player_load: "Charger",
+        hero_badge: "Vibecoder & Développeur Web",
+        hero_title_1: "Je construis des",
+        hero_title_2: "expériences digitales",
+        hero_desc: "Portfolio minimaliste & audacieux. Je combine créativité humaine et intelligence artificielle pour donner vie à des applications web modernes, performantes et mémorables.",
+        btn_services: "Mes services",
+        btn_contact: "Me contacter",
+        services_label: "Services",
+        services_title: "Ce que je propose",
+        svc_1_title: "Site Web / Portfolio",
+        svc_1_desc: "Création de sites vitrines, portfolios et landing pages modernes, responsive et optimisés pour le référencement. Design sur-mesure avec animations fluides.",
+        svc_1_price: "À partir de 50 000 FCFA",
+        svc_1_f1: "Design unique & personnalisé",
+        svc_1_f2: "Responsive mobile & desktop",
+        svc_1_f3: "Hébergement & mise en ligne",
+        svc_1_f4: "Livraison en 3-5 jours",
+        svc_2_title: "Outil d'Audit Digital",
+        svc_2_desc: "Développement d'outils d'audit automatisés, tableaux de suivi et dashboards de conformité. Parfait pour les cabinets d'audit et les entreprises.",
+        svc_2_price: "Sur devis",
+        svc_2_f1: "Interface professionnelle",
+        svc_2_f2: "Suivi en temps réel",
+        svc_2_f3: "Export rapports PDF/Excel",
+        svc_2_f4: "Sécurisé & scalable",
+        svc_3_title: "Application Web",
+        svc_3_desc: "Conception d'applications web interactives : dashboards, outils de gestion, plateformes SaaS. Stack moderne avec Firebase, React ou vanilla JS.",
+        svc_3_price: "Sur devis",
+        svc_3_f1: "Architecture robuste",
+        svc_3_f2: "Base de données Firebase",
+        svc_3_f3: "Authentification utilisateurs",
+        svc_3_f4: "Support & maintenance",
+        svc_4_title: "UI/UX & Prototypage",
+        svc_4_desc: "Design d'interfaces utilisateur modernes, wireframes et prototypes interactifs. Focus sur l'expérience utilisateur et l'accessibilité.",
+        svc_4_price: "À partir de 25 000 FCFA",
+        svc_4_f1: "Maquettes Figma",
+        svc_4_f2: "Prototypes cliquables",
+        svc_4_f3: "Design system complet",
+        svc_4_f4: "Revisions illimitées",
+        svc_5_title: "Vibecoding / IA",
+        svc_5_desc: "Accompagnement dans l'utilisation de l'IA pour accélérer vos projets. Prompt engineering, automatisation de tâches et intégration d'outils IA.",
+        svc_5_price: "À partir de 15 000 FCFA",
+        svc_5_f1: "Audit de votre workflow",
+        svc_5_f2: "Formation outils IA",
+        svc_5_f3: "Automatisation tâches",
+        svc_5_f4: "Support continu",
+        svc_6_title: "Maintenance & Support",
+        svc_6_desc: "Mise à jour, correction de bugs, optimisation des performances et évolution de votre site ou application existante.",
+        svc_6_price: "À partir de 10 000 FCFA/mois",
+        svc_6_f1: "Corrections prioritaires",
+        svc_6_f2: "Mises à jour régulières",
+        svc_6_f3: "Sauvegardes automatiques",
+        svc_6_f4: "Rapport mensuel",
+        skills_label: "Compétences",
+        skills_title: "Ce que je maîtrise",
+        skill_frontend: "Développement Frontend",
+        skill_backend: "Développement Backend",
+        skill_ai: "IA & Vibecoding",
+        skill_design: "UI/UX Design",
+        skill_tools: "Outils & Workflow",
+        skill_audit: "Audit & Conformité",
+        exp_label: "Expérience",
+        exp_title: "Mon parcours",
+        exp_1_date: "2025 — Présent",
+        exp_1_role: "Développeur Web & Vibecoder",
+        exp_1_company: "SEVEN7 — Freelance",
+        exp_1_desc: "Création de solutions web complètes en utilisant l'IA comme copilote de développement. Conception d'outils d'audit automatisés, applications interactives et portfolios performants. Collaboration avec des clients pour transformer leurs idées en produits digitaux.",
+        exp_2_date: "2024 — 2025",
+        exp_2_role: "Consultant Audit & Digital",
+        exp_2_company: "Cabinet d'Audit",
+        exp_2_desc: "Conduite de missions d'audit externe avec une approche digitale. Développement d'outils internes pour automatiser les processus de vérification comptable, réduisant le temps de traitement de 40%. Maîtrise des normes comptables et fiscales.",
+        exp_3_date: "2023 — 2024",
+        exp_3_role: "Développeur Junior",
+        exp_3_company: "Agence Web",
+        exp_3_desc: "Développement de sites vitrines et applications web pour divers clients. Apprentissage des bonnes pratiques du développement moderne, du responsive design et de l'optimisation des performances. Premiers pas dans l'intégration d'outils d'IA au workflow.",
+        projects_label: "Projets",
+        projects_title: "Ce que j'ai construit",
+        proj_1_desc: "Outil d'audit externe automatisé. Programme détaillé conforme au référentiel de mission : suivi des cycles d'audit, procédures, documents requis et statuts en temps réel. Interface professionnelle pour cabinets d'audit.",
+        proj_2_desc: "Architecture backend modulaire pour les applications SEVEN7. API REST, gestion d'authentification, base de données Firebase et structure scalable pour les futurs projets.",
+        proj_3_desc: "Ce portfolio que vous consultez actuellement. Design audacieux, animations fluides, traduction FR/EN, mockup d'écran animé et système de contact intégré. 100% codé avec l'aide de l'IA.",
+        proj_link: "Voir le site →",
+        proj_github: "Voir sur GitHub →",
+        proj_live: "En ligne",
+        proj_dev: "En développement",
+        proj_here: "Vous êtes ici",
+        proj_coming: "Bientôt disponible",
+        proj_empty: "Prochain projet bientôt...",
+        about_label: "À propos",
+        about_title: "Qui suis-je ?",
+        about_text: "Vibecoder passionné, je combine créativité humaine et puissance de l'IA pour donner vie à des expériences web uniques. Chaque ligne de code est une opportunité de créer quelque chose de mémorable. Je travaille avec les meilleurs outils — Claude, Kimi, Gemini et Slack — pour repousser les limites du possible.",
+        stat_years: "Années d'exp.",
+        stat_projects: "Projets",
+        stat_passion: "Passion",
+        contact_label: "Contact",
+        contact_title: "Travaillons ensemble",
+        contact_phone_label: "Téléphone",
+        contact_email_label: "Email",
+        footer: "© 2026 SEVEN7 — Construit avec passion & IA",
+        visitors_label: "Visites :",
+        chat_status: "En ligne",
+        chat_welcome: "Bonjour ! 👋 Je suis Jean Mark, le créateur de SEVEN7. Comment puis-je vous aider aujourd'hui ?",
+        chat_placeholder: "Écrivez un message...",
+        form_name: "Nom",
+        form_name_ph: "Jean Mark",
+        form_email: "Email",
+        form_email_ph: "exemple@email.com",
+        form_phone: "Téléphone",
+        form_phone_ph: "+225 07 XX XX XX XX",
+        form_subject: "Sujet",
+        form_subject_default: "Choisir un sujet",
+        form_opt_site: "Site Web / Portfolio",
+        form_opt_audit: "Outil d'Audit Digital",
+        form_opt_app: "Application Web",
+        form_opt_design: "UI/UX & Prototypage",
+        form_opt_vibe: "Vibecoding / IA",
+        form_opt_maint: "Maintenance & Support",
+        form_opt_other: "Autre",
+        form_message: "Message",
+        form_message_ph: "Décrivez votre projet...",
+        form_send: "📤 Envoyer le message",
+        form_success_title: "Message envoyé !",
+        form_success_desc: "Je vous recontacte très vite. Merci !"
+    },
+    en: {
+        intro_sub: "Vibecoder Portfolio",
+        intro_enter: "Click to enter",
+        nav_services: "Services",
+        nav_skills: "Skills",
+        nav_exp: "Experience",
+        nav_projects: "Projects",
+        nav_media: "Media",
+        nav_about: "About",
+        nav_contact: "Contact",
+        media_label: "Media",
+        media_title: "Audio & Video Player",
+        player_placeholder: "Load an audio or video file",
+        player_file: "File",
+        player_url_ph: "YouTube, MP3, MP4 URL...",
+        player_load: "Load",
+        hero_badge: "Vibecoder & Web Developer",
+        hero_title_1: "I build",
+        hero_title_2: "digital experiences",
+        hero_desc: "Minimalist & bold portfolio. I combine human creativity and artificial intelligence to bring modern, high-performance and memorable web applications to life.",
+        btn_services: "My services",
+        btn_contact: "Contact me",
+        services_label: "Services",
+        services_title: "What I offer",
+        svc_1_title: "Website / Portfolio",
+        svc_1_desc: "Creation of modern, responsive and SEO-optimized showcase sites, portfolios and landing pages. Custom design with smooth animations.",
+        svc_1_price: "From 50,000 FCFA",
+        svc_1_f1: "Unique & personalized design",
+        svc_1_f2: "Responsive mobile & desktop",
+        svc_1_f3: "Hosting & deployment",
+        svc_1_f4: "Delivery in 3-5 days",
+        svc_2_title: "Digital Audit Tool",
+        svc_2_desc: "Development of automated audit tools, tracking tables and compliance dashboards. Perfect for audit firms and companies.",
+        svc_2_price: "Quote on request",
+        svc_2_f1: "Professional interface",
+        svc_2_f2: "Real-time tracking",
+        svc_2_f3: "PDF/Excel report export",
+        svc_2_f4: "Secure & scalable",
+        svc_3_title: "Web Application",
+        svc_3_desc: "Design of interactive web applications: dashboards, management tools, SaaS platforms. Modern stack with Firebase, React or vanilla JS.",
+        svc_3_price: "Quote on request",
+        svc_3_f1: "Robust architecture",
+        svc_3_f2: "Firebase database",
+        svc_3_f3: "User authentication",
+        svc_3_f4: "Support & maintenance",
+        svc_4_title: "UI/UX & Prototyping",
+        svc_4_desc: "Design of modern user interfaces, wireframes and interactive prototypes. Focus on user experience and accessibility.",
+        svc_4_price: "From 25,000 FCFA",
+        svc_4_f1: "Figma mockups",
+        svc_4_f2: "Clickable prototypes",
+        svc_4_f3: "Complete design system",
+        svc_4_f4: "Unlimited revisions",
+        svc_5_title: "Vibecoding / AI",
+        svc_5_desc: "Support in using AI to accelerate your projects. Prompt engineering, task automation and AI tool integration.",
+        svc_5_price: "From 15,000 FCFA",
+        svc_5_f1: "Workflow audit",
+        svc_5_f2: "AI tools training",
+        svc_5_f3: "Task automation",
+        svc_5_f4: "Continuous support",
+        svc_6_title: "Maintenance & Support",
+        svc_6_desc: "Updates, bug fixes, performance optimization and evolution of your existing site or application.",
+        svc_6_price: "From 10,000 FCFA/month",
+        svc_6_f1: "Priority fixes",
+        svc_6_f2: "Regular updates",
+        svc_6_f3: "Automatic backups",
+        svc_6_f4: "Monthly report",
+        skills_label: "Skills",
+        skills_title: "What I master",
+        skill_frontend: "Frontend Development",
+        skill_backend: "Backend Development",
+        skill_ai: "AI & Vibecoding",
+        skill_design: "UI/UX Design",
+        skill_tools: "Tools & Workflow",
+        skill_audit: "Audit & Compliance",
+        exp_label: "Experience",
+        exp_title: "My journey",
+        exp_1_date: "2025 — Present",
+        exp_1_role: "Web Developer & Vibecoder",
+        exp_1_company: "SEVEN7 — Freelance",
+        exp_1_desc: "Creating complete web solutions using AI as a development copilot. Designing automated audit tools, interactive applications and high-performance portfolios. Collaborating with clients to transform their ideas into digital products.",
+        exp_2_date: "2024 — 2025",
+        exp_2_role: "Audit & Digital Consultant",
+        exp_2_company: "Audit Firm",
+        exp_2_desc: "Conducting external audit missions with a digital approach. Developing internal tools to automate accounting verification processes, reducing processing time by 40%. Mastery of accounting and tax standards.",
+        exp_3_date: "2023 — 2024",
+        exp_3_role: "Junior Developer",
+        exp_3_company: "Web Agency",
+        exp_3_desc: "Development of showcase websites and web applications for various clients. Learning modern development best practices, responsive design and performance optimization. First steps in integrating AI tools into the workflow.",
+        projects_label: "Projects",
+        projects_title: "What I've built",
+        proj_1_desc: "Automated external audit tool. Detailed program compliant with the mission framework: audit cycle tracking, procedures, required documents and real-time status. Professional interface for audit firms.",
+        proj_2_desc: "Modular backend architecture for SEVEN7 applications. REST API, authentication management, Firebase database and scalable structure for future projects.",
+        proj_3_desc: "This portfolio you are currently viewing. Bold design, smooth animations, FR/EN translation, animated screen mockup and integrated contact system. 100% coded with the help of AI.",
+        proj_link: "View site →",
+        proj_github: "View on GitHub →",
+        proj_live: "Live",
+        proj_dev: "In development",
+        proj_here: "You are here",
+        proj_coming: "Coming soon",
+        proj_empty: "Next project coming soon...",
+        about_label: "About",
+        about_title: "Who am I?",
+        about_text: "Passionate vibecoder, I combine human creativity and the power of AI to bring unique web experiences to life. Every line of code is an opportunity to create something memorable. I work with the best tools — Claude, Kimi, Gemini and Slack — to push the boundaries of what's possible.",
+        stat_years: "Years exp.",
+        stat_projects: "Projects",
+        stat_passion: "Passion",
+        contact_label: "Contact",
+        contact_title: "Let's work together",
+        contact_phone_label: "Phone",
+        contact_email_label: "Email",
+        footer: "© 2026 SEVEN7 — Built with passion & AI",
+        visitors_label: "Visits:",
+        chat_status: "Online",
+        chat_welcome: "Hello! 👋 I'm Jean Mark, the creator of SEVEN7. How can I help you today?",
+        chat_placeholder: "Type a message...",
+        form_name: "Name",
+        form_name_ph: "John Doe",
+        form_email: "Email",
+        form_email_ph: "example@email.com",
+        form_phone: "Phone",
+        form_phone_ph: "+225 07 XX XX XX XX",
+        form_subject: "Subject",
+        form_subject_default: "Choose a subject",
+        form_opt_site: "Website / Portfolio",
+        form_opt_audit: "Digital Audit Tool",
+        form_opt_app: "Web Application",
+        form_opt_design: "UI/UX & Prototyping",
+        form_opt_vibe: "Vibecoding / AI",
+        form_opt_maint: "Maintenance & Support",
+        form_opt_other: "Other",
+        form_message: "Message",
+        form_message_ph: "Describe your project...",
+        form_send: "📤 Send message",
+        form_success_title: "Message sent!",
+        form_success_desc: "I'll get back to you very soon. Thanks!"
+    }
+};
+
+let currentLang = 'fr';
+
+function setLang(lang) {
+    currentLang = lang;
+    document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) el.textContent = translations[lang][key];
+    });
+}
+
+// ===== HIDE SPLASH =====
+setTimeout(() => {
+    document.getElementById('intro-splash').classList.add('hidden');
+}, 3500);
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+                bar.style.width = bar.getAttribute('data-width') + '%';
+            });
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+});
+
+// ===== ACTIVE NAV LINK =====
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 200) current = section.getAttribute('id');
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+});
+
+// ===== FORMULAIRE DE CONTACT =====
+// REMPLACE "YOUR_FORMSPREE_ID" par ton ID Formspree
+// 1. Va sur https://formspree.io/register
+// 2. Crée un formulaire, copie l'ID (ex: xnqevqdb)
+// 3. Remplace ci-dessous
+const FORMSPREE_ID = "YOUR_FORMSPREE_ID";
+
+function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('contactForm');
+    const btn = form.querySelector('.form-submit');
+    const success = document.getElementById('formSuccess');
+
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span>⏳</span> ' + (currentLang === 'fr' ? 'Envoi...' : 'Sending...');
+    btn.disabled = true;
+
+    // Si l'ID n'est pas configuré, afficher une alerte
+    if (FORMSPREE_ID === "YOUR_FORMSPREE_ID") {
+        setTimeout(() => {
+            alert(currentLang === 'fr' 
+                ? "⚠️ Configure ton ID Formspree dans le code JS (ligne avec YOUR_FORMSPREE_ID)" 
+                : "⚠️ Configure your Formspree ID in the JS code (line with YOUR_FORMSPREE_ID)");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }, 500);
+        return;
+    }
+
+    // Envoi réel vers Formspree
+    const data = new FormData(form);
+    fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+        if (response.ok) {
+            form.style.display = 'none';
+            success.style.display = 'block';
+            setTimeout(() => {
+                form.reset();
+                form.style.display = 'block';
+                success.style.display = 'none';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 5000);
+        } else {
+            throw new Error('Erreur');
+        }
+    })
+    .catch(() => {
+        btn.innerHTML = '<span>❌</span> ' + (currentLang === 'fr' ? 'Erreur, réessaie' : 'Error, try again');
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }, 3000);
+    });
+}
+
+// Mettre à jour setLang pour gérer les placeholders
+const originalSetLang = setLang;
+setLang = function(lang) {
+    currentLang = lang;
+    document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang;
+
+    // Textes normaux
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) el.textContent = translations[lang][key];
+    });
+
+    // Placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[lang][key]) el.placeholder = translations[lang][key];
+    });
+
+    // Options du select
+    document.querySelectorAll('.form-select option[data-i18n]').forEach(opt => {
+        const key = opt.getAttribute('data-i18n');
+        if (translations[lang][key]) opt.textContent = translations[lang][key];
+    });
+};
+</script>
+
+<!-- COMPTEUR DE VISITEURS -->
+<div class="visitor-counter" id="visitorCounter">
+    <div class="pulse-ring"></div>
+    <span data-i18n="visitors_label">Visites :</span>
+    <span class="count" id="visitorCount">...</span>
+</div>
+
+<!-- WIDGET CHAT -->
+<div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">
+        💬
+        <span class="chat-badge" id="chatBadge">1</span>
+    </button>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <div class="chat-avatar">7</div>
+            <div class="chat-header-info">
+                <div class="chat-header-name">SEVEN7</div>
+                <div class="chat-header-status" data-i18n="chat_status">En ligne</div>
+            </div>
+            <button class="chat-close" onclick="toggleChat()">✕</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-message bot">
+                <div data-i18n="chat_welcome">Bonjour ! 👋 Je suis Jean Mark, le créateur de SEVEN7. Comment puis-je vous aider aujourd'hui ?</div>
+                <div class="chat-message-time" id="chatTime1"></div>
+            </div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Écrivez un message..." onkeypress="if(event.key==='Enter')sendChatMessage()" data-i18n-placeholder="chat_placeholder">
+            <button class="chat-send" onclick="sendChatMessage()">➤</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
