@@ -944,13 +944,14 @@ body.light-mode .player-volume-slider {
 <body>
 
 <!-- INTRO SPLASH -->
-<div id="intro-splash">
+<div id="intro-splash" onclick="closeSplash()" style="cursor:pointer;">
     <div style="position:relative;">
         <div class="intro-logo">SEVEN<span>7</span></div>
         <div class="intro-glitch">SEVEN7</div>
     </div>
     <div class="intro-sub" data-i18n="intro_sub">Portfolio Vibecoder</div>
     <div class="intro-bar"></div>
+    <div class="intro-enter" id="introEnter" data-i18n="intro_enter" style="margin-top:32px;padding:12px 32px;background:linear-gradient(135deg,var(--accent),var(--accent-tertiary));color:#fff;border-radius:50px;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;opacity:0;animation:fadeInUp 1s ease 2s forwards;box-shadow:0 8px32px rgba(255,107,0,0.3);border:none;cursor:pointer;">Cliquez pour entrer</div>
 </div>
 
 <div class="bg-grid"></div>
@@ -1405,16 +1406,19 @@ function applyTheme(mode) {
         body.classList.remove('light-mode');
     }
 
-    // Animation de l'icone
-    btn.style.transform = 'rotate(180deg) scale(0.7)';
-    setTimeout(() => {
-        btn.textContent = ICONS[mode];
-        btn.style.transform = 'rotate(0deg) scale(1)';
-    }, 200);
+    // Bouton optionnel : certaines pages n'ont pas de bouton de theme visible
+    if (btn) {
+        // Animation de l'icone
+        btn.style.transform = 'rotate(180deg) scale(0.7)';
+        setTimeout(() => {
+            btn.textContent = ICONS[mode];
+            btn.style.transform = 'rotate(0deg) scale(1)';
+        }, 200);
 
-    // Tooltip indiquant le mode
-    const labels = { dark: 'Mode sombre', light: 'Mode clair', auto: 'Mode auto (heure)' };
-    btn.title = labels[mode];
+        // Tooltip indiquant le mode
+        const labels = { dark: 'Mode sombre', light: 'Mode clair', auto: 'Mode auto (heure)' };
+        btn.title = labels[mode];
+    }
 }
 
 function initTheme() {
@@ -1444,6 +1448,17 @@ setInterval(() => {
         applyTheme('auto');
     }
 }, 60000);
+
+// ===== SPLASH SCREEN =====
+function closeSplash() {
+    const splash = document.getElementById('intro-splash');
+    if (splash) {
+        splash.classList.add('hidden');
+    }
+}
+
+// Auto-close apres 3s + clic possible a tout moment
+setTimeout(closeSplash, 3000);
 
 // Appliquer le theme immediatement (avant le splash screen)
 initTheme();
@@ -1584,7 +1599,7 @@ function escapeHtml(text) {
 }
 
 // Initialiser
-initVisitorCounter();
+window.addEventListener('DOMContentLoaded', initVisitorCounter);
 
 
 // ===== PLAYER AUDIO/VIDEO =====
@@ -1715,6 +1730,7 @@ initPlayer();
 const translations = {
     fr: {
         intro_sub: "Portfolio Vibecoder",
+        intro_enter: "Cliquez pour entrer",
         nav_services: "Services",
         nav_skills: "Compétences",
         nav_exp: "Expérience",
@@ -1850,6 +1866,7 @@ const translations = {
     },
     en: {
         intro_sub: "Vibecoder Portfolio",
+        intro_enter: "Click to enter",
         nav_services: "Services",
         nav_skills: "Skills",
         nav_exp: "Experience",
@@ -1998,168 +2015,3 @@ function setLang(lang) {
     });
 }
 
-// ===== HIDE SPLASH =====
-setTimeout(() => {
-    document.getElementById('intro-splash').classList.add('hidden');
-}, 3500);
-
-// ===== SCROLL REVEAL =====
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-                bar.style.width = bar.getAttribute('data-width') + '%';
-            });
-        }
-    });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// ===== SMOOTH SCROLL =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-    });
-});
-
-// ===== ACTIVE NAV LINK =====
-const sections = document.querySelectorAll('section[id]');
-window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (scrollY >= sectionTop - 200) current = section.getAttribute('id');
-    });
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
-    });
-});
-
-// ===== FORMULAIRE DE CONTACT =====
-// REMPLACE "YOUR_FORMSPREE_ID" par ton ID Formspree
-// 1. Va sur https://formspree.io/register
-// 2. Crée un formulaire, copie l'ID (ex: xnqevqdb)
-// 3. Remplace ci-dessous
-const FORMSPREE_ID = "YOUR_FORMSPREE_ID";
-
-function handleSubmit(e) {
-    e.preventDefault();
-    const form = document.getElementById('contactForm');
-    const btn = form.querySelector('.form-submit');
-    const success = document.getElementById('formSuccess');
-
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<span>⏳</span> ' + (currentLang === 'fr' ? 'Envoi...' : 'Sending...');
-    btn.disabled = true;
-
-    // Si l'ID n'est pas configuré, afficher une alerte
-    if (FORMSPREE_ID === "YOUR_FORMSPREE_ID") {
-        setTimeout(() => {
-            alert(currentLang === 'fr' 
-                ? "⚠️ Configure ton ID Formspree dans le code JS (ligne avec YOUR_FORMSPREE_ID)" 
-                : "⚠️ Configure your Formspree ID in the JS code (line with YOUR_FORMSPREE_ID)");
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }, 500);
-        return;
-    }
-
-    // Envoi réel vers Formspree
-    const data = new FormData(form);
-    fetch('https://formspree.io/f/' + FORMSPREE_ID, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-    })
-    .then(response => {
-        if (response.ok) {
-            form.style.display = 'none';
-            success.style.display = 'block';
-            setTimeout(() => {
-                form.reset();
-                form.style.display = 'block';
-                success.style.display = 'none';
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }, 5000);
-        } else {
-            throw new Error('Erreur');
-        }
-    })
-    .catch(() => {
-        btn.innerHTML = '<span>❌</span> ' + (currentLang === 'fr' ? 'Erreur, réessaie' : 'Error, try again');
-        setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }, 3000);
-    });
-}
-
-// Mettre à jour setLang pour gérer les placeholders
-const originalSetLang = setLang;
-setLang = function(lang) {
-    currentLang = lang;
-    document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    document.documentElement.lang = lang;
-
-    // Textes normaux
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) el.textContent = translations[lang][key];
-    });
-
-    // Placeholders
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (translations[lang][key]) el.placeholder = translations[lang][key];
-    });
-
-    // Options du select
-    document.querySelectorAll('.form-select option[data-i18n]').forEach(opt => {
-        const key = opt.getAttribute('data-i18n');
-        if (translations[lang][key]) opt.textContent = translations[lang][key];
-    });
-};
-</script>
-
-<!-- COMPTEUR DE VISITEURS -->
-<div class="visitor-counter" id="visitorCounter">
-    <div class="pulse-ring"></div>
-    <span data-i18n="visitors_label">Visites :</span>
-    <span class="count" id="visitorCount">...</span>
-</div>
-
-<!-- WIDGET CHAT -->
-<div class="chat-widget" id="chatWidget">
-    <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">
-        💬
-        <span class="chat-badge" id="chatBadge">1</span>
-    </button>
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <div class="chat-avatar">7</div>
-            <div class="chat-header-info">
-                <div class="chat-header-name">SEVEN7</div>
-                <div class="chat-header-status" data-i18n="chat_status">En ligne</div>
-            </div>
-            <button class="chat-close" onclick="toggleChat()">✕</button>
-        </div>
-        <div class="chat-body" id="chatBody">
-            <div class="chat-message bot">
-                <div data-i18n="chat_welcome">Bonjour ! 👋 Je suis Jean Mark, le créateur de SEVEN7. Comment puis-je vous aider aujourd'hui ?</div>
-                <div class="chat-message-time" id="chatTime1"></div>
-            </div>
-        </div>
-        <div class="chat-footer">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Écrivez un message..." onkeypress="if(event.key==='Enter')sendChatMessage()" data-i18n-placeholder="chat_placeholder">
-            <button class="chat-send" onclick="sendChatMessage()">➤</button>
-        </div>
-    </div>
-</div>
-</body>
-</html>
