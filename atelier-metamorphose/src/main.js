@@ -153,15 +153,12 @@ const clothGeometry = new THREE.PlaneGeometry(
   CLOTH_SEGMENTS_Y
 );
 
-// On conserve la position de repos de chaque sommet : la déformation du vent
-// s'applique comme un offset autour de cette forme, pas de façon cumulative.
-const clothRestPositions = clothGeometry.attributes.position.array.slice();
-
 const clothMaterial = new THREE.MeshStandardMaterial({
-  color: 0xe4e0d8,
-  roughness: 0.65,
-  metalness: 0.0,
+  color: 0xe0e0e0,
   side: THREE.DoubleSide,
+  roughness: 0.7,
+  metalness: 0.0,
+  flatShading: false,
 });
 
 const cloth = new THREE.Mesh(clothGeometry, clothMaterial);
@@ -170,41 +167,60 @@ cloth.castShadow = true;
 cloth.receiveShadow = true;
 scene.add(cloth);
 
+// Bruit pseudo-aléatoire (hash trigonométrique) : source de micro-turbulences
+// naturelles pour le vent, sans dépendance externe.
+function noise2D(x, y) {
+  return (Math.sin(x * 12.9898 + y * 78.233) * 43758.5453123) % 1;
+}
+
+// Bruit adouci par interpolation bilinéaire + lissage (smoothstep) entre les
+// 4 sommets de la grille de bruit, pour éviter les saccades du hash brut.
+function smoothNoise(x, y) {
+  const x0 = Math.floor(x);
+  const x1 = x0 + 1;
+  const y0 = Math.floor(y);
+  const y1 = y0 + 1;
+
+  const fractX = x - x0;
+  const fractY = y - y0;
+  const tX = fractX * fractX * (3.0 - 2.0 * fractX);
+  const tY = fractY * fractY * (3.0 - 2.0 * fractY);
+
+  const v0 = noise2D(x0, y0);
+  const v1 = noise2D(x1, y0);
+  const v2 = noise2D(x0, y1);
+  const v3 = noise2D(x1, y1);
+
+  const i1 = v0 + tX * (v1 - v0);
+  const i2 = v2 + tX * (v3 - v2);
+  return i1 + tY * (i2 - i1);
+}
+
 /**
- * Anime la grille de tissu : ondulation type "drapé au vent".
- * L'amplitude et la vitesse sont directement proportionnelles à `windForce`
- * (valeur du slider HTML), pour un contrôle immédiat et lisible.
+ * Anime la grille de tissu : rafale principale (sinus) combinée à des
+ * micro-turbulences (bruit adouci) pour un mouvement de vent naturel et
+ * chaotique. Amplitude et vitesse dépendent de `windForce` (slider HTML).
+ * Seul l'axe Z (profondeur) est animé ; X/Y restent ceux de la grille.
  */
 function updateCloth(elapsedTime) {
-  const positions = clothGeometry.attributes.position.array;
-  const rest = clothRestPositions;
+  const positionAttribute = clothGeometry.attributes.position;
 
-  // Le tissu est ancré en haut (bord suspendu) : l'amplitude de l'ondulation
-  // croît avec la distance au point d'accroche pour un effet de drapé.
-  for (let i = 0; i < positions.length; i += 3) {
-    const x = rest[i];
-    const y = rest[i + 1];
+  for (let i = 0; i < positionAttribute.count; i++) {
+    const x = positionAttribute.getX(i);
+    const y = positionAttribute.getY(i);
 
-    // 0 en haut du tissu, 1 en bas -> plus de mouvement vers le bas.
-    const hangFactor = (CLOTH_HEIGHT / 2 - y) / CLOTH_HEIGHT;
+    // Le tissu est ancré en haut (bord suspendu) : plus on descend, plus il
+    // flotte librement.
+    const freedomFactor = (CLOTH_HEIGHT / 2 - y) * 0.4;
 
-    const speed = 1.2 + windForce * 1.4;
-    const amplitude = 0.06 + windForce * 0.11;
+    const mainWave = Math.sin(x * 1.5 + elapsedTime * (2.0 * windForce)) * 0.15;
+    const turbulence = smoothNoise(x * 3.0 + elapsedTime, y * 3.0) * 0.08;
 
-    const waveX =
-      Math.sin(x * 2.5 + elapsedTime * speed) * amplitude * hangFactor;
-    const waveZ =
-      Math.cos(x * 1.7 + y * 1.3 + elapsedTime * speed * 0.8) *
-      amplitude *
-      0.6 *
-      hangFactor;
-
-    positions[i] = x + waveX * 0.3;
-    positions[i + 1] = y;
-    positions[i + 2] = rest[i + 2] + waveZ + waveX * 0.5;
+    const zAnim = (mainWave + turbulence) * windForce * freedomFactor;
+    positionAttribute.setZ(i, zAnim);
   }
 
-  clothGeometry.attributes.position.needsUpdate = true;
+  positionAttribute.needsUpdate = true;
   clothGeometry.computeVertexNormals();
 }
 
