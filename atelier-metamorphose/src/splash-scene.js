@@ -1,19 +1,17 @@
 // ============================================================================
 // Scène 3D de l'intro : arche dans les nuages (rendu Three.js volumétrique,
-// palette rose/magenta). Entièrement indépendante de la scène principale
-// (src/main.js) — son propre renderer, sa propre boucle, qu'on arrête et
-// libère une fois l'intro terminée.
+// palette bleu indigo nocturne + arche bordeaux). Entièrement indépendante
+// de la scène principale (src/main.js) — son propre renderer, sa propre
+// boucle, qu'on arrête et libère une fois l'intro terminée.
 // ============================================================================
 
 import * as THREE from 'three';
 
-const SKY_TOP = 0xffb3d1;
-const SKY_HORIZON = 0xff8fb8;
-const CLOUD_COLOR = 0xffd0e3;
-const CLOUD_HIGHLIGHT = 0xfff2f8;
-const ARCH_COLOR = 0x9c3b5e;
-const ARCH_COLOR_DARK = 0x7a1f3d;
-const DOOR_COLOR = 0x1c0e14;
+const CLOUD_COLOR = 0x2e4a8a;
+const CLOUD_HIGHLIGHT = 0x9fb8e8;
+const ARCH_COLOR = 0x7a1527;
+const ARCH_COLOR_DARK = 0x58101c;
+const DOOR_COLOR = 0x120a0e;
 const GOLD = 0xe8c170;
 
 /**
@@ -25,9 +23,9 @@ function createSkyTexture() {
   canvas.height = 256;
   const ctx = canvas.getContext('2d');
   const gradient = ctx.createLinearGradient(0, 0, 0, 256);
-  gradient.addColorStop(0, '#ffd4e6');
-  gradient.addColorStop(0.45, '#ff9fc2');
-  gradient.addColorStop(1, '#ffc9de');
+  gradient.addColorStop(0, '#0a1436');
+  gradient.addColorStop(0.45, '#1c2f66');
+  gradient.addColorStop(1, '#2d4a8f');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, 2, 256);
   const texture = new THREE.CanvasTexture(canvas);
@@ -190,14 +188,18 @@ export function createSplashScene(canvas) {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
 
-  // Éclairage doux et chaud, cohérent avec l'ambiance "paradisiaque".
-  scene.add(new THREE.AmbientLight(0xffd9ec, 0.6));
-  const keyLight = new THREE.DirectionalLight(0xffe6c2, 1.4);
-  keyLight.position.set(2, 6, 4);
-  scene.add(keyLight);
-  const rimLight = new THREE.DirectionalLight(0xff7fb0, 0.8);
-  rimLight.position.set(-4, 3, -3);
+  // Ambiance nocturne : lumière de lune froide sur les nuages, contre-jour
+  // bleuté, et une lueur chaude qui semble jaillir de la porte entrouverte.
+  scene.add(new THREE.AmbientLight(0x4a5fa8, 0.55));
+  const moonLight = new THREE.DirectionalLight(0xaebfff, 1.1);
+  moonLight.position.set(-3, 6, 4);
+  scene.add(moonLight);
+  const rimLight = new THREE.DirectionalLight(0x6f8fd9, 0.7);
+  rimLight.position.set(4, 3, -3);
   scene.add(rimLight);
+  const doorGlow = new THREE.PointLight(0xffb066, 2.2, 6, 2);
+  doorGlow.position.set(0, 1.6, 0.5);
+  scene.add(doorGlow);
 
   const { archGroup, doorLeaf } = buildArch(scene);
 
