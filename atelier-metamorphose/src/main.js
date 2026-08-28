@@ -76,6 +76,11 @@ controls.maxDistance = 15;
 controls.maxPolarAngle = Math.PI / 2 - 0.02;
 controls.update();
 
+// Pendant le scrollytelling (sections 0 à 2), la caméra est pilotée par le
+// scroll : on désactive le drag manuel des OrbitControls. Ils ne sont
+// réactivés qu'à l'arrivée sur la section finale (voir SECTION 10).
+controls.enabled = false;
+
 // ----------------------------------------------------------------------------
 // 4. LUMIÈRES DRAMATIQUES — ambiance froide, pluvieuse
 // ----------------------------------------------------------------------------
@@ -235,7 +240,78 @@ window.addEventListener('resize', () => {
 });
 
 // ----------------------------------------------------------------------------
-// 9. BOUCLE D'ANIMATION
+// 9. SCROLLYTELLING — la caméra traverse la scène au fil du scroll
+// ----------------------------------------------------------------------------
+
+// Un point de passage par section HTML (#scroll-content .story-section).
+// La caméra interpole entre ces points selon la progression du scroll.
+const CAMERA_WAYPOINTS = [
+  { position: new THREE.Vector3(4, 2.5, 7), target: new THREE.Vector3(0, 1.2, 0) }, // ATELIER — plan large
+  { position: new THREE.Vector3(-1.3, 2.1, 1.8), target: new THREE.Vector3(-2.4, 1.6, -1.5) }, // MÉTAMORPHOSE — monolithe
+  { position: new THREE.Vector3(1.6, 2.4, 1.6), target: new THREE.Vector3(0.6, 2.2, 0.3) }, // LE TISSU — gros plan
+  { position: new THREE.Vector3(3.5, 2.0, 5.5), target: new THREE.Vector3(0, 1.4, 0) }, // EXPLOREZ — départ orbite libre
+];
+
+const scrollContent = document.querySelector('#scroll-content');
+const easeInOutCubic = (t) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
+
+let rawScrollProgress = 0; // position brute du scroll, 0 à 1
+let smoothScrollProgress = 0; // suivi avec lissage pour un mouvement cinématique
+let freeOrbitActive = false;
+
+function updateScrollProgress() {
+  const scrollable = scrollContent.offsetHeight - window.innerHeight;
+  rawScrollProgress = scrollable > 0 ? Math.min(Math.max(window.scrollY / scrollable, 0), 1) : 0;
+}
+window.addEventListener('scroll', updateScrollProgress, { passive: true });
+window.addEventListener('resize', updateScrollProgress);
+updateScrollProgress();
+
+/**
+ * Interpole la caméra entre deux points de passage consécutifs selon la
+ * progression du scroll lissée. Passe la main aux OrbitControls dès que la
+ * section finale ("EXPLOREZ") est atteinte, pour une rotation libre.
+ */
+function updateCameraFromScroll() {
+  smoothScrollProgress += (rawScrollProgress - smoothScrollProgress) * 0.08;
+
+  const lastSegmentStart = (CAMERA_WAYPOINTS.length - 2) / (CAMERA_WAYPOINTS.length - 1);
+
+  if (smoothScrollProgress >= lastSegmentStart - 0.01) {
+    // Section finale : on fige la caméra sur le dernier point de passage et
+    // on laisse l'utilisateur orbiter librement autour de la pièce.
+    if (!freeOrbitActive) {
+      freeOrbitActive = true;
+      controls.enabled = true;
+      const last = CAMERA_WAYPOINTS[CAMERA_WAYPOINTS.length - 1];
+      camera.position.copy(last.position);
+      controls.target.copy(last.target);
+      controls.update();
+    }
+    return;
+  }
+
+  if (freeOrbitActive) {
+    freeOrbitActive = false;
+    controls.enabled = false;
+  }
+
+  const segments = CAMERA_WAYPOINTS.length - 1;
+  const scaled = smoothScrollProgress * segments;
+  const segmentIndex = Math.min(Math.floor(scaled), segments - 1);
+  const segmentT = easeInOutCubic(scaled - segmentIndex);
+
+  const from = CAMERA_WAYPOINTS[segmentIndex];
+  const to = CAMERA_WAYPOINTS[segmentIndex + 1];
+
+  camera.position.lerpVectors(from.position, to.position, segmentT);
+  const target = from.target.clone().lerp(to.target, segmentT);
+  camera.lookAt(target);
+  controls.target.copy(target);
+}
+
+// ----------------------------------------------------------------------------
+// 10. BOUCLE D'ANIMATION
 // ----------------------------------------------------------------------------
 
 const clock = new THREE.Clock();
@@ -244,7 +320,10 @@ renderer.setAnimationLoop(() => {
   const elapsedTime = clock.getElapsedTime();
 
   updateCloth(elapsedTime);
-  controls.update();
+  updateCameraFromScroll();
+  if (freeOrbitActive) {
+    controls.update();
+  }
 
   renderer.render(scene, camera);
 });

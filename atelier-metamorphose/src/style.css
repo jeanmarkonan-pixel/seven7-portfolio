@@ -2,15 +2,14 @@ body, html {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
-    overflow: hidden;
+    overflow-x: hidden; /* le scroll vertical pilote le scrollytelling */
     background-color: #1a1a1a;
     font-family: monospace; /* Style brutaliste/code */
     color: #ffffff;
 }
 
 #canvas-metamorphose {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -52,4 +51,51 @@ input[type="range"] {
     width: 100%;
     background: #444;
     accent-color: #fff;
+}
+
+/* ----------------------------------------------------------------------
+   Scrollytelling : sections narratives défilant au-dessus de la scène 3D
+   fixe. Chaque section fait un écran de haut ; le scroll pilote la caméra
+   (voir src/main.js). Le texte n'intercepte pas les clics/drags destinés
+   aux OrbitControls (activés uniquement sur la section finale).
+---------------------------------------------------------------------- */
+
+#scroll-content {
+    position: relative;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.story-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 8vw;
+    box-sizing: border-box;
+}
+
+.story-section h2 {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    margin: 0 0 12px 0;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
+}
+
+.story-section p {
+    max-width: 32ch;
+    font-size: 1rem;
+    color: #ccc;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+.story-section--final {
+    align-items: center;
+    text-align: center;
+}
+
+.story-section--final p {
+    max-width: none;
 }
