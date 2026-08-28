@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'intelligence artificielle dans votre métier — Inscription</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-top:#fdfbf6;
+    --navy-bot:#f6f1e6;
+    --panel:#ffffff;
+    --panel-border:#e2d9c3;
+    --gold:#a9791e;
+    --gold-soft:#c79a3f;
+    --white:#1c2436;
+    --body:#4a4a4a;
+    --muted:#7a7a7a;
+    --line:#e6ddc9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(180deg,var(--navy-top),var(--navy-bot) 60%, #060b16);
+    color:var(--body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    letter-spacing:0.16em;
+    color:var(--gold);
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  h1,h2{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    text-transform:uppercase;
+    line-height:0.98;
+    letter-spacing:0.005em;
+    color:var(--white);
+  }
+  a{color:inherit;}
+
+  /* ---------- top bar ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    padding:22px 0;
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;}
+  .mark{display:flex;align-items:center;gap:10px;}
+  .mark-dot{width:9px;height:9px;border-radius:50%;background:var(--gold);}
+  .mark span{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;}
+  header a.cta-small{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;letter-spacing:.06em;
+    color:var(--gold);border:1.5px solid var(--gold-soft);
+    padding:9px 18px;border-radius:999px;text-decoration:none;
+    transition:background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  header a.cta-small:hover{
+    background:var(--gold);color:#101c33;
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px -8px rgba(169,121,30,.5);
+  }
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:96px 0 70px;overflow:hidden;}
+  #net{position:absolute;inset:0;width:100%;height:100%;opacity:.55;pointer-events:none;}
+  .hero-inner{position:relative;z-index:2;}
+  .hero .eyebrow{margin-bottom:26px;display:block;}
+  h1{font-size:clamp(44px,7.2vw,84px);}
+  h1 .accent{color:var(--gold);}
+  .hero-sub{
+    font-family:'Inter',sans-serif;
+    font-size:20px;color:var(--white);
+    margin-top:22px;font-weight:500;
+  }
+  .hero-lede{
+    max-width:560px;margin-top:22px;font-size:17px;color:var(--body);
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px;}
+  .btn{
+    font-family:'Inter',sans-serif;font-weight:600;font-size:15px;
+    padding:15px 28px;border-radius:999px;text-decoration:none;
+    display:inline-flex;align-items:center;gap:10px;
+    transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease, background .2s ease, border-color .2s ease, filter .2s ease;
+    position:relative;
+  }
+  .btn:active{transform:translateY(0) scale(.97);}
+  .btn-primary{
+    background:linear-gradient(135deg, #e0b653, var(--gold) 55%, #b98a2c);
+    color:#101a2e;
+    box-shadow:0 6px 16px -6px rgba(169,121,30,.55), inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 14px 28px -10px rgba(169,121,30,.6), inset 0 1px 0 rgba(255,255,255,.4);
+    filter:brightness(1.04);
+  }
+  .btn-ghost{
+    border:1.5px solid var(--panel-border);color:var(--white);
+    background:rgba(255,255,255,.4);
+  }
+  .btn-ghost:hover{
+    border-color:var(--gold-soft);color:var(--gold);
+    transform:translateY(-3px);
+    box-shadow:0 10px 22px -12px rgba(0,0,0,.18);
+    background:#fff;
+  }
+
+  /* ---------- sections ---------- */
+  section{padding:64px 0;border-top:1px solid var(--line);}
+  .section-label{display:flex;align-items:baseline;gap:14px;margin-bottom:38px;}
+  .section-num{font-family:'JetBrains Mono',monospace;color:var(--gold-soft);font-size:14px;}
+  h2{font-size:clamp(28px,4vw,38px);}
+
+  /* checklist */
+  .checklist{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0;}
+  .checklist li{
+    display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--line);
+    font-size:16.5px;color:var(--white);
+  }
+  .checklist li:nth-child(odd){padding-right:28px;}
+  .checklist li:nth-child(even){padding-left:28px;border-left:1px solid var(--line);}
+  .check{color:var(--gold);font-weight:700;flex:none;}
+
+  /* logistics */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .stat{background:var(--panel);padding:26px 20px;}
+  .stat .k{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:var(--gold);text-transform:none;}
+  .stat .v{font-size:13.5px;color:var(--muted);margin-top:6px;}
+
+  /* pricing */
+  .pricing{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+  .price-card{background:var(--panel);padding:34px 32px;}
+  .price-card .p-label{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;}
+  .price-card .p-amount{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:52px;color:var(--white);margin-top:10px;text-transform:none;}
+  .price-card .p-note{font-size:14px;color:var(--muted);margin-top:10px;}
+
+  /* register */
+  .register-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;}
+  form{display:grid;gap:16px;}
+  label{font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:8px;}
+  input,select,textarea{
+    width:100%;background:var(--panel);border:1px solid var(--panel-border);
+    color:var(--white);padding:13px 14px;font-family:'Inter',sans-serif;font-size:15px;border-radius:2px;
+  }
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-soft);outline-offset:1px;border-color:var(--gold-soft);}
+  textarea{resize:vertical;min-height:90px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .field{margin:0;}
+  .form-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .btn-whatsapp{
+    background:linear-gradient(135deg, #34e07a, #25D366 55%, #1aa851);
+    color:#0b1c12;border:none;
+    box-shadow:0 6px 16px -6px rgba(37,211,102,.55), inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .btn-whatsapp:hover{
+    transform:translateY(-3px);
+    box-shadow:0 14px 28px -10px rgba(37,211,102,.6), inset 0 1px 0 rgba(255,255,255,.4);
+    filter:brightness(1.04);
+  }
+  .submit-note{font-size:13px;color:var(--muted);margin-top:4px;}
+  .info-box{
+    background:var(--panel);border:1px solid var(--panel-border);
+    border-left:3px solid var(--gold-soft);padding:16px 18px;border-radius:2px;
+  }
+  .info-box p{font-size:14.5px;color:var(--white);}
+
+  .contact-card{
+    background:var(--panel);border:1px solid var(--panel-border);padding:30px;border-radius:3px;
+    display:flex;flex-direction:column;gap:22px;height:fit-content;
+  }
+  .contact-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;color:var(--white);font-size:20px;}
+  .contact-line{display:flex;flex-direction:column;gap:4px;}
+  .contact-line .l{font-size:12.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;}
+  .contact-line .d{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:700;color:var(--gold);}
+  .contact-line .d.small{font-family:'Inter',sans-serif;font-size:16px;color:var(--white);font-weight:500;}
+  .tagline{font-style:italic;color:var(--muted);font-size:14.5px;border-top:1px solid var(--panel-border);padding-top:18px;}
+
+  .urgency-band{
+    border-top:1px solid var(--line);
+    padding:56px 0;
+    background:linear-gradient(180deg, rgba(206,164,62,.06), transparent);
+  }
+  .urgency-band p{
+    font-family:'Barlow Condensed',sans-serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(22px,3vw,30px);
+    color:var(--gold);
+    line-height:1.35;
+    max-width:760px;
+  }
+
+  /* confirmation overlay */
+  .confirm-overlay{
+    position:fixed;inset:0;background:rgba(6,11,22,.82);
+    display:none;align-items:center;justify-content:center;
+    z-index:999;padding:24px;
+  }
+  .confirm-overlay.show{display:flex;}
+  .confirm-card{
+    max-width:520px;width:100%;background:#faf7ef;
+    border:1px solid var(--gold-soft);border-radius:3px;
+    padding:36px 32px;text-align:left;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.5);
+  }
+  .confirm-card .eyebrow{display:block;margin-bottom:16px;color:var(--gold-soft);}
+  .confirm-card p.quote{
+    font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:600;
+    font-size:22px;color:#8a6a1f;line-height:1.35;margin-bottom:18px;
+  }
+  .confirm-card p.reply-note{
+    font-size:15.5px;color:#1c2436;margin-bottom:26px;
+  }
+  .confirm-card .btn{width:100%;justify-content:center;border:none;cursor:pointer;}
+
+  footer{padding:40px 0 60px;text-align:center;}
+  footer .eyebrow{display:block;margin-bottom:10px;}
+  footer p{font-size:13.5px;color:var(--muted);}
+
+  @media (max-width:760px){
+    .checklist{grid-template-columns:1fr;}
+    .checklist li:nth-child(even){padding-left:0;border-left:none;}
+    .stats{grid-template-columns:1fr 1fr;}
+    .register-grid{grid-template-columns:1fr;}
+    .row2{grid-template-columns:1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #net *{animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap topbar">
+    <div class="mark"><span class="mark-dot"></span><span>Formation IA · Abidjan</span></div>
+    <a class="cta-small" href="#inscription">S'inscrire</a>
+  </div>
+</header>
+
+<section class="hero">
+  <svg id="net" viewBox="0 0 920 520" preserveAspectRatio="xMidYMid slice"></svg>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Formation professionnelle · Abidjan</span>
+    <h1>L'intelligence<br>artificielle<br><span class="accent">dans votre métier</span></h1>
+    <p class="hero-sub">Comptabilité · Audit · Finance</p>
+    <p class="hero-lede">Il ne s'agit pas d'apprendre l'intelligence artificielle, mais de s'en servir dans votre travail : rédiger, corriger vos formules, exploiter vos documents et vérifier ce que l'outil vous donne — sans exposer les données de vos clients.</p>
+    <p class="hero-lede" style="margin-top:14px;">Formation individuelle en ligne : chaque participant réserve sa propre session, à son rythme. Une session en présentiel reste possible, sur devis, à la demande du client.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#inscription">Réserver ma place</a>
+      <a class="btn btn-ghost" href="#tarifs">Voir les tarifs</a>
+    </div>
+  </div>
+</section>
+
+<section id="programme">
+  <div class="wrap">
+    <div class="section-label"><span class="section-num">01</span><h2>Ce que vous saurez faire</h2></div>
+    <ul class="checklist">
+      <li><span class="check">✓</span>Rédiger vos notes de synthèse et vos courriers</li>
+      <li><span class="check">✓</span>Écrire et corriger vos formules Excel sans blocage</li>
+      <li><span class="check">✓</span>Exploiter vos documents : balances, factures, relevés</li>
+      <li><span class="check">✓</span>Mener une recherche en sachant quoi vérifier</li>
+      <li><span class="check">✓</span>Travailler sans exposer les données de vos clients</li>
+    </ul>
+  </div>
+</section>
+
+<section id="deroule">
+  <div class="wrap">
+    <div class="section-label"><span class="section-num">02</span><h2>Déroulé</h2></div>
+    <div class="stats">
+      <div class="stat"><div class="k">3 h 30</div><div class="v">Durée totale</div></div>
+      <div class="stat"><div class="k">2</div><div class="v">Séances</div></div>
+      <div class="stat"><div class="k">Individuelle</div><div class="v">Formation 1-to-1, en ligne</div></div>
+      <div class="stat"><div class="k">Compétence</div><div class="v">Enregistrée sur votre poste ou votre assistant IA</div></div>
+    </div>
+    <p style="margin-top:22px;font-size:15px;color:var(--muted);">Supports écrits remis à chaque participant · suivi inclus après la formation. Chaque participant réserve sa propre session — aucun effectif minimum n'est requis pour démarrer.</p>
+  </div>
+</section>
+
+<section id="tarifs">
+  <div class="wrap">
+    <div class="section-label"><span class="section-num">03</span><h2>Tarifs</h2></div>
+    <div class="pricing">
+      <div class="price-card">
+        <div class="p-label">En ligne</div>
+        <div class="p-amount">100 000 FCFA</div>
+        <div class="p-note">Session individuelle, 3h30 en deux séances, en visioconférence.</div>
+      </div>
+      <div class="price-card">
+        <div class="p-label">Présentiel</div>
+        <div class="p-amount">Sur devis</div>
+        <div class="p-note">À la demande du client — chez vous ou au cabinet, sur devis personnalisé.</div>
+        <div class="p-note" style="color:var(--gold);font-weight:600;margin-top:10px;">+ Plugin &amp; compétence inclus : une routine guidée avec l'assistant.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="urgency-band">
+  <div class="wrap">
+    <p>Ceux qui maîtrisent l'IA dans leur métier ne seront pas remplacés par elle. Cette décision se prend maintenant.</p>
+  </div>
+</section>
+
+<section id="inscription">
+  <div class="wrap">
+    <div class="section-label"><span class="section-num">04</span><h2>S'inscrire</h2></div>
+    <div class="register-grid">
+      <form id="regForm">
+        <div class="row2">
+          <div class="field">
+            <label for="nom">Nom et prénom</label>
+            <input type="text" id="nom" name="nom" required>
+          </div>
+          <div class="field">
+            <label for="tel">Téléphone</label>
+            <input type="tel" id="tel" name="tel" required>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="secteur">Secteur</label>
+            <select id="secteur" name="secteur">
+              <option>Comptabilité</option>
+              <option>Audit</option>
+              <option>Finance</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="format">Format</label>
+            <select id="format" name="format">
+              <option>En ligne</option>
+              <option>Présentiel (sur devis — nous consulter)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field" id="lieuField" style="display:none;">
+          <label for="lieu">Lieu de la session présentielle</label>
+          <select id="lieu" name="lieu">
+            <option value="">— Choisir —</option>
+            <option value="Chez vous">Chez vous (à votre adresse)</option>
+            <option value="Au cabinet">Au cabinet (chez nous)</option>
+          </select>
+        </div>
+
+        <div class="field" id="lieuChezVousNote" style="display:none;">
+          <div class="info-box">
+            <p>Merci de partager votre position Yango pour que je puisse vous localiser facilement.</p>
+            <label for="yangoLink" style="margin-top:12px;">Lien de position Yango</label>
+            <input type="url" id="yangoLink" name="yangoLink" placeholder="Collez ici le lien de votre position Yango">
+          </div>
+        </div>
+
+        <div class="field" id="lieuCabinetNote" style="display:none;">
+          <div class="info-box">
+            <p>Cette session se tiendrait à notre cabinet. Je vérifie la disponibilité du créneau et vous fais un retour. Ma réponse sera suivie du devis.</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Proposez 3 disponibilités — nous confirmons le créneau qui convient</label>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="dispo1">Disponibilité 1</label>
+            <input type="datetime-local" id="dispo1" name="dispo1" required>
+          </div>
+          <div class="field">
+            <label for="dispo2">Disponibilité 2</label>
+            <input type="datetime-local" id="dispo2" name="dispo2" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="dispo3">Disponibilité 3</label>
+          <input type="datetime-local" id="dispo3" name="dispo3" required>
+        </div>
+        <div class="field">
+          <label for="message">Message (optionnel)</label>
+          <textarea id="message" name="message" placeholder="Ex. : Je suis expert-comptable dans un cabinet de 5 personnes à Cocody. On utilise beaucoup Excel et on reçoit pas mal de documents scannés. J'aimerais surtout gagner du temps sur la rédaction de mes notes de synthèse."></textarea>
+        </div>
+
+        <div class="field">
+          <div class="info-box">
+            <p>Avant la formation, pensez à activer votre abonnement Claude Pro (une carte Djamo ou équivalente suffit pour le paiement en ligne si vous n'en avez pas encore).</p>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" style="border:none;cursor:pointer;">Envoyer par e-mail</button>
+          <button type="button" id="waBtn" class="btn btn-whatsapp" style="cursor:pointer;">Envoyer sur WhatsApp</button>
+        </div>
+        <p class="submit-note">Les deux boutons envoient les mêmes informations. Votre session individuelle est confirmée sur l'un des 3 créneaux proposés.</p>
+      </form>
+
+      <div class="contact-card">
+        <h3>Inscriptions et renseignements</h3>
+        <div class="contact-line">
+          <span class="l">E-mail</span>
+          <a class="d small" href="mailto:jeanmarkonan@gmail.com">jeanmarkonan@gmail.com</a>
+        </div>
+        <div class="contact-line">
+          <span class="l">Lieu</span>
+          <span class="d small">Abidjan · en ligne (présentiel sur devis)</span>
+        </div>
+        <p class="tagline">« L'outil rédige. Le professionnel valide. »</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-card">
+    <span class="eyebrow">Inscription reçue</span>
+    <p class="quote">Ceux qui maîtrisent l'IA dans leur métier ne seront pas remplacés par elle. Cette décision se prend maintenant.</p>
+    <p class="reply-note">Merci pour votre inscription. Vous aurez une réponse dans les plus brefs délais afin de confirmer votre créneau.</p>
+    <button type="button" class="btn btn-primary" id="confirmCloseBtn">Fermer</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span class="eyebrow">Formation professionnelle · Abidjan</span>
+    <p>Comptabilité · Audit · Finance — formation individuelle, sur rendez-vous.</p>
+  </div>
+</footer>
+
+<script>
+  // Build the registration message from the form fields
+  function collectRegistration(){
+    return {
+      nom: document.getElementById('nom').value,
+      tel: document.getElementById('tel').value,
+      secteur: document.getElementById('secteur').value,
+      format: document.getElementById('format').value,
+      lieu: document.getElementById('lieu').value,
+      yangoLink: document.getElementById('yangoLink').value,
+      dispo1: document.getElementById('dispo1').value,
+      dispo2: document.getElementById('dispo2').value,
+      dispo3: document.getElementById('dispo3').value,
+      message: document.getElementById('message').value
+    };
+  }
+
+  function buildMessageText(d){
+    let txt = "Inscription formation IA\n" +
+      "Nom et prénom : " + d.nom + "\n" +
+      "Téléphone : " + d.tel + "\n" +
+      "Secteur : " + d.secteur + "\n" +
+      "Format : " + d.format + "\n";
+    if (d.lieu){
+      txt += "Lieu : " + d.lieu + "\n";
+    }
+    if (d.lieu === 'Chez vous' && d.yangoLink){
+      txt += "Position Yango : " + d.yangoLink + "\n";
+    }
+    txt += "Disponibilité 1 : " + d.dispo1 + "\n" +
+      "Disponibilité 2 : " + d.dispo2 + "\n" +
+      "Disponibilité 3 : " + d.dispo3 + "\n" +
+      "Message : " + (d.message || "-");
+    return txt;
+  }
+
+  const regForm = document.getElementById('regForm');
+  const confirmOverlay = document.getElementById('confirmOverlay');
+  const formatSelect = document.getElementById('format');
+  const lieuField = document.getElementById('lieuField');
+  const lieuSelect = document.getElementById('lieu');
+  const lieuChezVousNote = document.getElementById('lieuChezVousNote');
+  const lieuCabinetNote = document.getElementById('lieuCabinetNote');
+
+  function isPresentiel(){
+    return formatSelect.value.indexOf('Présentiel') === 0;
+  }
+
+  function updateLieuVisibility(){
+    if (isPresentiel()){
+      lieuField.style.display = '';
+    } else {
+      lieuField.style.display = 'none';
+      lieuSelect.value = '';
+    }
+    updateLieuNotes();
+  }
+
+  function updateLieuNotes(){
+    const showChezVous = (isPresentiel() && lieuSelect.value === 'Chez vous');
+    lieuChezVousNote.style.display = showChezVous ? '' : 'none';
+    lieuCabinetNote.style.display = (isPresentiel() && lieuSelect.value === 'Au cabinet') ? '' : 'none';
+    const yangoInput = document.getElementById('yangoLink');
+    if (showChezVous){
+      yangoInput.setAttribute('required', 'required');
+    } else {
+      yangoInput.removeAttribute('required');
+    }
+  }
+
+  formatSelect.addEventListener('change', updateLieuVisibility);
+  lieuSelect.addEventListener('change', updateLieuNotes);
+  updateLieuVisibility();
+
+  function showConfirmation(){
+    confirmOverlay.classList.add('show');
+  }
+  document.getElementById('confirmCloseBtn').addEventListener('click', function(){
+    confirmOverlay.classList.remove('show');
+  });
+
+  // Envoyer par e-mail
+  regForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const d = collectRegistration();
+    const subject = encodeURIComponent("Inscription formation IA - " + d.nom);
+    const body = encodeURIComponent(buildMessageText(d));
+    showConfirmation();
+    window.location.href = "mailto:jeanmarkonan@gmail.com?subject=" + subject + "&body=" + body;
+  });
+
+  // Envoyer sur WhatsApp (numéro utilisé uniquement dans le lien, jamais affiché à l'écran)
+  document.getElementById('waBtn').addEventListener('click', function(){
+    if (!regForm.checkValidity()){
+      regForm.reportValidity();
+      return;
+    }
+    const d = collectRegistration();
+    const text = encodeURIComponent(buildMessageText(d));
+    const WA_NUMBER = "2250789746930";
+    showConfirmation();
+    window.open("https://wa.me/" + WA_NUMBER + "?text=" + text, "_blank");
+  });
+</script>
+
+<script>
+  // Subtle animated neural-network motif in hero, echoing the poster's signature graphic
+  (function(){
+    const svg = document.getElementById('net');
+    const NS = "http://www.w3.org/2000/svg";
+    const layers = [3,5,4,2];
+    const W = 920, H = 520;
+    const xs = layers.map((_,i)=> 40 + i*((W-80)/(layers.length-1)));
+    const nodes = layers.map((n,li)=>{
+      const col = [];
+      for(let i=0;i<n;i++){
+        col.push([xs[li], (i+1)*(H/(n+1))]);
+      }
+      return col;
+    });
+    for(let li=0; li<nodes.length-1; li++){
+      nodes[li].forEach(p1=>{
+        nodes[li+1].forEach(p2=>{
+          const line = document.createElementNS(NS,'line');
+          line.setAttribute('x1',p1[0]); line.setAttribute('y1',p1[1]);
+          line.setAttribute('x2',p2[0]); line.setAttribute('y2',p2[1]);
+          line.setAttribute('stroke','#d8cfb8');
+          line.setAttribute('stroke-width','1');
+          svg.appendChild(line);
+        });
+      });
+    }
+    nodes.forEach((col,li)=>{
+      col.forEach((p,i)=>{
+        const c = document.createElementNS(NS,'circle');
+        c.setAttribute('cx',p[0]); c.setAttribute('cy',p[1]); c.setAttribute('r', li===0||li===nodes.length-1?5:4);
+        c.setAttribute('fill', li===nodes.length-1 ? '#a9791e' : (li===0 ? '#c79a3f' : '#b8ac8e'));
+        c.style.opacity='0.85';
+        const anim = document.createElementNS(NS,'animate');
+        anim.setAttribute('attributeName','opacity');
+        anim.setAttribute('values','0.35;0.9;0.35');
+        anim.setAttribute('dur', (3+Math.random()*2.5).toFixed(1)+'s');
+        anim.setAttribute('repeatCount','indefinite');
+        anim.setAttribute('begin', (Math.random()*2).toFixed(1)+'s');
+        c.appendChild(anim);
+        svg.appendChild(c);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
