@@ -129,7 +129,7 @@ input[type="range"] {
     inset: 0;
     cursor: pointer;
     transform-origin: 50% 46%; /* point de fuite : la porte */
-    transform: translateZ(0) scale(0.6); /* la porte reste petite, loin au fond */
+    transform: translateZ(0) scale(0.82); /* recule légèrement la scène pour voir toute la composition */
     transition: transform 2.4s cubic-bezier(0.45, 0, 0.4, 1);
     will-change: transform;
     backface-visibility: hidden;
@@ -141,7 +141,7 @@ input[type="range"] {
 
 .splash-portal {
     position: absolute;
-    inset: -12%; /* marge large pour que le zoom ne découvre jamais de bord, même à scale(0.6) */
+    inset: -12%; /* couvre tout le viewport même à scale(0.82), pas de cadre noir visible */
     background-image: url('/door-intro.png');
     background-size: cover;
     background-position: center 42%; /* recentre sur la porte */
@@ -149,9 +149,9 @@ input[type="range"] {
 
 .neon-overlay {
     position: absolute;
-    top: 14%;
+    top: 20%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.6); /* assortie à l'échelle de repos de la scène */
+    transform: translate(-50%, -50%);
     z-index: 10;
     text-align: center;
     pointer-events: none;
