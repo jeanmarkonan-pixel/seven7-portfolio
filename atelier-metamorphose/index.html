@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./src/style.css">
 </head>
-<body>
+<body id="top">
     <!-- Arche Céleste : image d'accueil plein écran (public/door-intro.png),
          zoom immersif à travers la porte au bout de 1,5s ou au clic, masque
          le site tant qu'elle n'est pas terminée. -->
@@ -25,11 +25,22 @@
 
     <canvas id="canvas-metamorphose"></canvas>
 
-    <!-- Interface minimale Brutaliste -->
-    <div id="ui-container">
-        <h1>ATELIER // MÉTAMORPHOSE</h1>
-        <p class="subtitle">Phase 1 : Rendu WebGPU & Contrôle du Vent</p>
+    <!-- Navigation principale : logo, lien vers la collection, panier -->
+    <header id="site-nav">
+        <div class="nav-inner">
+            <a href="#top" class="nav-brand">Atelier <span>//</span> Métamorphose</a>
+            <nav class="nav-links" aria-label="Navigation principale">
+                <a href="#catalogue">La Collection</a>
+                <button type="button" id="nav-cart-btn" class="nav-cart-btn" aria-label="Ouvrir le panier">
+                    Panier
+                    <span id="nav-cart-badge" class="nav-cart-badge" hidden>0</span>
+                </button>
+            </nav>
+        </div>
+    </header>
 
+    <!-- Panneau de contrôle de la scène 3D -->
+    <div id="ui-container">
         <div class="control-group">
             <label for="wind-slider">Force du Vent</label>
             <input type="range" id="wind-slider" min="0" max="5" step="0.1" value="1">
@@ -61,8 +72,11 @@
 
     <!-- Catalogue : recherche, fiches produits, panier -->
     <section id="catalogue">
-        <div class="catalogue__header">
+        <div class="catalogue__intro">
             <h2>LA COLLECTION</h2>
+            <p>Des pièces façonnées comme le tissu de notre scène : brutes, vivantes, sur mesure.</p>
+        </div>
+        <div class="catalogue__header">
             <input
                 type="search"
                 id="product-search"

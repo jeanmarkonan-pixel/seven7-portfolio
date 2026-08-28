@@ -69,6 +69,7 @@ function getCartTotal() {
 // ----------------------------------------------------------------------------
 
 const cartBadge = document.querySelector('#cart-badge');
+const navCartBadge = document.querySelector('#nav-cart-badge');
 const cartItemsContainer = document.querySelector('#cart-items');
 const cartTotalEl = document.querySelector('#cart-total');
 const cartEmptyMessage = document.querySelector('#cart-empty');
@@ -77,6 +78,8 @@ const whatsappCheckoutBtn = document.querySelector('#whatsapp-checkout');
 function renderCart() {
   cartBadge.textContent = String(getCartCount());
   cartBadge.hidden = getCartCount() === 0;
+  navCartBadge.textContent = String(getCartCount());
+  navCartBadge.hidden = getCartCount() === 0;
 
   cartItemsContainer.innerHTML = '';
   cartEmptyMessage.hidden = cart.length > 0;
@@ -133,6 +136,7 @@ function closeCartDrawer() {
 }
 
 document.querySelector('#cart-toggle').addEventListener('click', openCartDrawer);
+document.querySelector('#nav-cart-btn').addEventListener('click', openCartDrawer);
 document.querySelector('#cart-close').addEventListener('click', closeCartDrawer);
 cartOverlay.addEventListener('click', closeCartDrawer);
 
