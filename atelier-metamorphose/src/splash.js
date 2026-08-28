@@ -9,10 +9,10 @@ const SESSION_KEY = 'atelier-splash-seen';
 
 const splash = document.querySelector('#paradise-splash');
 const skipButton = document.querySelector('#skip-intro');
-const portal = document.querySelector('#splash-portal');
+const stage = document.querySelector('#splash-stage');
 
-const AUTO_OPEN_DELAY_MS = 1500; // avant que le zoom ne se déclenche seul
-const ZOOM_DURATION_MS = 1600; // doit correspondre à la transition CSS .splash-portal
+const AUTO_OPEN_DELAY_MS = 1800; // avant que le zoom ne se déclenche seul (laisse le temps de voir la scène)
+const ZOOM_DURATION_MS = 2400; // doit correspondre à la transition CSS .splash-stage
 const FADE_OUT_DURATION_MS = 600;
 
 let timers = [];
@@ -57,7 +57,7 @@ function playIntro() {
   sessionStorage.setItem(SESSION_KEY, 'true');
   lockBodyScroll();
 
-  portal.addEventListener('click', openPortal);
+  stage.addEventListener('click', openPortal);
   timers.push(setTimeout(openPortal, AUTO_OPEN_DELAY_MS));
 }
 

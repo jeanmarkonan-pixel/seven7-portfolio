@@ -124,20 +124,25 @@ input[type="range"] {
     cursor: pointer;
 }
 
+.splash-stage {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    transform-origin: 50% 46%; /* point de fuite : la porte */
+    transform: scale(0.82); /* recule la scène pour voir toute la composition (nuages + porte) */
+    transition: transform 2.4s cubic-bezier(0.6, 0, 0.4, 1);
+}
+
+#paradise-splash.is-opening .splash-stage {
+    transform: scale(3.2);
+}
+
 .splash-portal {
     position: absolute;
     inset: -8%; /* légère marge pour que le zoom ne découvre jamais de bord */
     background-image: url('/door-intro.png');
     background-size: cover;
     background-position: center 42%; /* recentre sur la porte */
-    cursor: pointer;
-    transform-origin: 50% 44%; /* point de fuite : la porte */
-    transform: scale(1);
-    transition: transform 1.6s cubic-bezier(0.6, 0, 0.4, 1);
-}
-
-#paradise-splash.is-opening .splash-portal {
-    transform: scale(3.4);
 }
 
 .neon-overlay {
