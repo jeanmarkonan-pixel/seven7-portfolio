@@ -124,20 +124,6 @@ section { position:relative; z-index:1; }
 .skill-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
 .skill-tag { padding:6px 12px; background:rgba(255,107,0,0.06); border:1px solid rgba(255,107,0,0.12); border-radius:6px; font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.5px; }
 
-/* EXPERIENCE */
-.experience { padding:100px 24px; max-width:1200px; margin:0 auto; }
-.timeline { position:relative; padding-left:40px; }
-.timeline::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:2px; background:linear-gradient(180deg,var(--accent),var(--accent-tertiary),transparent); border-radius:2px; }
-.timeline-item { position:relative; padding-bottom:48px; }
-.timeline-item:last-child { padding-bottom:0; }
-.timeline-dot { position:absolute; left:-44px; top:6px; width:10px; height:10px; background:var(--bg); border:2px solid var(--accent); border-radius:50%; box-shadow:0 0 0 4px rgba(255,107,0,0.1), 0 0 15px rgba(255,107,0,0.2); }
-.timeline-card { background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:28px; transition:all 0.3s; }
-.timeline-card:hover { border-color:var(--border-hover); }
-.timeline-date { font-size:12px; color:var(--accent); font-weight:700; letter-spacing:1px; margin-bottom:8px; font-family:'JetBrains Mono',monospace; }
-.timeline-role { font-size:20px; font-weight:800; color:#fff; margin-bottom:6px; }
-.timeline-company { font-size:15px; color:var(--text-secondary); margin-bottom:12px; font-weight:500; }
-.timeline-desc { font-size:14px; color:var(--text-muted); line-height:1.7; }
-
 /* PROJECTS */
 .projects { padding:100px 24px; max-width:1200px; margin:0 auto; }
 .projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:28px; }
@@ -966,7 +952,6 @@ body.light-mode .player-volume-slider {
         <div class="nav-links">
             <a href="#services" data-i18n="nav_services">Services</a>
             <a href="#skills" data-i18n="nav_skills">Compétences</a>
-            <a href="#experience" data-i18n="nav_exp">Expérience</a>
             <a href="#projects" data-i18n="nav_projects">Projets</a>
             <a href="#media" data-i18n="nav_media">Média</a>
             <a href="#about" data-i18n="nav_about">À propos</a>
@@ -1028,7 +1013,7 @@ body.light-mode .player-volume-slider {
             <div class="service-icon">🌐</div>
             <h3 data-i18n="svc_1_title">Site Web / Portfolio</h3>
             <p data-i18n="svc_1_desc">Création de sites vitrines, portfolios et landing pages modernes, responsive et optimisés pour le référencement. Design sur-mesure avec animations fluides.</p>
-            <div class="service-price" data-i18n="svc_1_price">À partir de 50 000 FCFA</div>
+            <div class="service-price" data-i18n="svc_1_price">Devis sur demande</div>
             <div class="service-features">
                 <div class="service-feature" data-i18n="svc_1_f1">Design unique & personnalisé</div>
                 <div class="service-feature" data-i18n="svc_1_f2">Responsive mobile & desktop</div>
@@ -1040,7 +1025,7 @@ body.light-mode .player-volume-slider {
             <div class="service-icon">🔍</div>
             <h3 data-i18n="svc_2_title">Outil d'Audit Digital</h3>
             <p data-i18n="svc_2_desc">Développement d'outils d'audit automatisés, tableaux de suivi et dashboards de conformité. Parfait pour les cabinets d'audit et les entreprises.</p>
-            <div class="service-price" data-i18n="svc_2_price">Sur devis</div>
+            <div class="service-price" data-i18n="svc_2_price">Devis sur demande</div>
             <div class="service-features">
                 <div class="service-feature" data-i18n="svc_2_f1">Interface professionnelle</div>
                 <div class="service-feature" data-i18n="svc_2_f2">Suivi en temps réel</div>
@@ -1052,7 +1037,7 @@ body.light-mode .player-volume-slider {
             <div class="service-icon">⚡</div>
             <h3 data-i18n="svc_3_title">Application Web</h3>
             <p data-i18n="svc_3_desc">Conception d'applications web interactives : dashboards, outils de gestion, plateformes SaaS. Stack moderne avec Firebase, React ou vanilla JS.</p>
-            <div class="service-price" data-i18n="svc_3_price">Sur devis</div>
+            <div class="service-price" data-i18n="svc_3_price">Devis sur demande</div>
             <div class="service-features">
                 <div class="service-feature" data-i18n="svc_3_f1">Architecture robuste</div>
                 <div class="service-feature" data-i18n="svc_3_f2">Base de données Firebase</div>
@@ -1064,7 +1049,7 @@ body.light-mode .player-volume-slider {
             <div class="service-icon">🎨</div>
             <h3 data-i18n="svc_4_title">UI/UX & Prototypage</h3>
             <p data-i18n="svc_4_desc">Design d'interfaces utilisateur modernes, wireframes et prototypes interactifs. Focus sur l'expérience utilisateur et l'accessibilité.</p>
-            <div class="service-price" data-i18n="svc_4_price">À partir de 25 000 FCFA</div>
+            <div class="service-price" data-i18n="svc_4_price">Devis sur demande</div>
             <div class="service-features">
                 <div class="service-feature" data-i18n="svc_4_f1">Maquettes Figma</div>
                 <div class="service-feature" data-i18n="svc_4_f2">Prototypes cliquables</div>
@@ -1076,7 +1061,7 @@ body.light-mode .player-volume-slider {
             <div class="service-icon">🤖</div>
             <h3 data-i18n="svc_5_title">Vibecoding / IA</h3>
             <p data-i18n="svc_5_desc">Accompagnement dans l'utilisation de l'IA pour accélérer vos projets. Prompt engineering, automatisation de tâches et intégration d'outils IA.</p>
-            <div class="service-price" data-i18n="svc_5_price">À partir de 15 000 FCFA</div>
+            <div class="service-price" data-i18n="svc_5_price">Devis sur demande</div>
             <div class="service-features">
                 <div class="service-feature" data-i18n="svc_5_f1">Audit de votre workflow</div>
                 <div class="service-feature" data-i18n="svc_5_f2">Formation outils IA</div>
@@ -1088,7 +1073,7 @@ body.light-mode .player-volume-slider {
             <div class="service-icon">🔧</div>
             <h3 data-i18n="svc_6_title">Maintenance & Support</h3>
             <p data-i18n="svc_6_desc">Mise à jour, correction de bugs, optimisation des performances et évolution de votre site ou application existante.</p>
-            <div class="service-price" data-i18n="svc_6_price">À partir de 10 000 FCFA/mois</div>
+            <div class="service-price" data-i18n="svc_6_price">Devis sur demande</div>
             <div class="service-features">
                 <div class="service-feature" data-i18n="svc_6_f1">Corrections prioritaires</div>
                 <div class="service-feature" data-i18n="svc_6_f2">Mises à jour régulières</div>
@@ -1135,43 +1120,6 @@ body.light-mode .player-volume-slider {
             <div class="skill-header"><span class="skill-name" data-i18n="skill_audit">Audit & Conformité</span><span class="skill-level">85%</span></div>
             <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div>
             <div class="skill-tags"><span class="skill-tag">Audit Externe</span><span class="skill-tag">Normes Comptables</span><span class="skill-tag">Reporting</span><span class="skill-tag">Automatisation</span></div>
-        </div>
-    </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section class="experience" id="experience">
-    <div class="section-header reveal">
-        <div class="section-label" data-i18n="exp_label">Expérience</div>
-        <h2 class="section-title" data-i18n="exp_title">Mon parcours</h2>
-    </div>
-    <div class="timeline">
-        <div class="timeline-item reveal">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-                <div class="timeline-date" data-i18n="exp_1_date">2025 — Présent</div>
-                <div class="timeline-role" data-i18n="exp_1_role">Développeur Web & Vibecoder</div>
-                <div class="timeline-company" data-i18n="exp_1_company">SEVEN7 — Freelance</div>
-                <div class="timeline-desc" data-i18n="exp_1_desc">Création de solutions web complètes en utilisant l'IA comme copilote de développement. Conception d'outils d'audit automatisés, applications interactives et portfolios performants. Collaboration avec des clients pour transformer leurs idées en produits digitaux.</div>
-            </div>
-        </div>
-        <div class="timeline-item reveal reveal-delay-1">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-                <div class="timeline-date" data-i18n="exp_2_date">2024 — 2025</div>
-                <div class="timeline-role" data-i18n="exp_2_role">Consultant Audit & Digital</div>
-                <div class="timeline-company" data-i18n="exp_2_company">Cabinet d'Audit</div>
-                <div class="timeline-desc" data-i18n="exp_2_desc">Conduite de missions d'audit externe avec une approche digitale. Développement d'outils internes pour automatiser les processus de vérification comptable, réduisant le temps de traitement de 40%. Maîtrise des normes comptables et fiscales.</div>
-            </div>
-        </div>
-        <div class="timeline-item reveal reveal-delay-2">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-                <div class="timeline-date" data-i18n="exp_3_date">2023 — 2024</div>
-                <div class="timeline-role" data-i18n="exp_3_role">Développeur Junior</div>
-                <div class="timeline-company" data-i18n="exp_3_company">Agence Web</div>
-                <div class="timeline-desc" data-i18n="exp_3_desc">Développement de sites vitrines et applications web pour divers clients. Apprentissage des bonnes pratiques du développement moderne, du responsive design et de l'optimisation des performances. Premiers pas dans l'intégration d'outils d'IA au workflow.</div>
-            </div>
         </div>
     </div>
 </section>
@@ -1380,7 +1328,7 @@ body.light-mode .player-volume-slider {
             <div class="form-success" id="formSuccess">
                 <div class="form-success-icon">🎉</div>
                 <h3 data-i18n="form_success_title">Message envoyé !</h3>
-                <p data-i18n="form_success_desc">Je vous recontacte très vite. Merci !</p>
+                <p data-i18n="form_success_desc">Je vous recontacte très vite avec un devis personnalisé. Merci !</p>
             </div>
         </div>
     </div>
@@ -1746,7 +1694,6 @@ const translations = {
         intro_enter: "Cliquez pour entrer",
         nav_services: "Services",
         nav_skills: "Compétences",
-        nav_exp: "Expérience",
         nav_projects: "Projets",
         nav_media: "Média",
         nav_about: "À propos",
@@ -1767,42 +1714,42 @@ const translations = {
         services_title: "Ce que je propose",
         svc_1_title: "Site Web / Portfolio",
         svc_1_desc: "Création de sites vitrines, portfolios et landing pages modernes, responsive et optimisés pour le référencement. Design sur-mesure avec animations fluides.",
-        svc_1_price: "À partir de 50 000 FCFA",
+        svc_1_price: "Devis sur demande",
         svc_1_f1: "Design unique & personnalisé",
         svc_1_f2: "Responsive mobile & desktop",
         svc_1_f3: "Hébergement & mise en ligne",
         svc_1_f4: "Livraison en 3-5 jours",
         svc_2_title: "Outil d'Audit Digital",
         svc_2_desc: "Développement d'outils d'audit automatisés, tableaux de suivi et dashboards de conformité. Parfait pour les cabinets d'audit et les entreprises.",
-        svc_2_price: "Sur devis",
+        svc_2_price: "Devis sur demande",
         svc_2_f1: "Interface professionnelle",
         svc_2_f2: "Suivi en temps réel",
         svc_2_f3: "Export rapports PDF/Excel",
         svc_2_f4: "Sécurisé & scalable",
         svc_3_title: "Application Web",
         svc_3_desc: "Conception d'applications web interactives : dashboards, outils de gestion, plateformes SaaS. Stack moderne avec Firebase, React ou vanilla JS.",
-        svc_3_price: "Sur devis",
+        svc_3_price: "Devis sur demande",
         svc_3_f1: "Architecture robuste",
         svc_3_f2: "Base de données Firebase",
         svc_3_f3: "Authentification utilisateurs",
         svc_3_f4: "Support & maintenance",
         svc_4_title: "UI/UX & Prototypage",
         svc_4_desc: "Design d'interfaces utilisateur modernes, wireframes et prototypes interactifs. Focus sur l'expérience utilisateur et l'accessibilité.",
-        svc_4_price: "À partir de 25 000 FCFA",
+        svc_4_price: "Devis sur demande",
         svc_4_f1: "Maquettes Figma",
         svc_4_f2: "Prototypes cliquables",
         svc_4_f3: "Design system complet",
         svc_4_f4: "Revisions illimitées",
         svc_5_title: "Vibecoding / IA",
         svc_5_desc: "Accompagnement dans l'utilisation de l'IA pour accélérer vos projets. Prompt engineering, automatisation de tâches et intégration d'outils IA.",
-        svc_5_price: "À partir de 15 000 FCFA",
+        svc_5_price: "Devis sur demande",
         svc_5_f1: "Audit de votre workflow",
         svc_5_f2: "Formation outils IA",
         svc_5_f3: "Automatisation tâches",
         svc_5_f4: "Support continu",
         svc_6_title: "Maintenance & Support",
         svc_6_desc: "Mise à jour, correction de bugs, optimisation des performances et évolution de votre site ou application existante.",
-        svc_6_price: "À partir de 10 000 FCFA/mois",
+        svc_6_price: "Devis sur demande",
         svc_6_f1: "Corrections prioritaires",
         svc_6_f2: "Mises à jour régulières",
         svc_6_f3: "Sauvegardes automatiques",
@@ -1815,20 +1762,6 @@ const translations = {
         skill_design: "UI/UX Design",
         skill_tools: "Outils & Workflow",
         skill_audit: "Audit & Conformité",
-        exp_label: "Expérience",
-        exp_title: "Mon parcours",
-        exp_1_date: "2025 — Présent",
-        exp_1_role: "Développeur Web & Vibecoder",
-        exp_1_company: "SEVEN7 — Freelance",
-        exp_1_desc: "Création de solutions web complètes en utilisant l'IA comme copilote de développement. Conception d'outils d'audit automatisés, applications interactives et portfolios performants. Collaboration avec des clients pour transformer leurs idées en produits digitaux.",
-        exp_2_date: "2024 — 2025",
-        exp_2_role: "Consultant Audit & Digital",
-        exp_2_company: "Cabinet d'Audit",
-        exp_2_desc: "Conduite de missions d'audit externe avec une approche digitale. Développement d'outils internes pour automatiser les processus de vérification comptable, réduisant le temps de traitement de 40%. Maîtrise des normes comptables et fiscales.",
-        exp_3_date: "2023 — 2024",
-        exp_3_role: "Développeur Junior",
-        exp_3_company: "Agence Web",
-        exp_3_desc: "Développement de sites vitrines et applications web pour divers clients. Apprentissage des bonnes pratiques du développement moderne, du responsive design et de l'optimisation des performances. Premiers pas dans l'intégration d'outils d'IA au workflow.",
         projects_label: "Projets",
         projects_title: "Ce que j'ai construit",
         proj_1_desc: "Outil d'audit externe automatisé. Programme détaillé conforme au référentiel de mission : suivi des cycles d'audit, procédures, documents requis et statuts en temps réel. Interface professionnelle pour cabinets d'audit.",
@@ -1876,14 +1809,13 @@ const translations = {
         form_message_ph: "Décrivez votre projet...",
         form_send: "📤 Envoyer le message",
         form_success_title: "Message envoyé !",
-        form_success_desc: "Je vous recontacte très vite. Merci !"
+        form_success_desc: "Je vous recontacte très vite avec un devis personnalisé. Merci !"
     },
     en: {
         intro_sub: "Vibecoder Portfolio",
         intro_enter: "Click to enter",
         nav_services: "Services",
         nav_skills: "Skills",
-        nav_exp: "Experience",
         nav_projects: "Projects",
         nav_media: "Media",
         nav_about: "About",
@@ -1904,7 +1836,7 @@ const translations = {
         services_title: "What I offer",
         svc_1_title: "Website / Portfolio",
         svc_1_desc: "Creation of modern, responsive and SEO-optimized showcase sites, portfolios and landing pages. Custom design with smooth animations.",
-        svc_1_price: "From 50,000 FCFA",
+        svc_1_price: "Quote on request",
         svc_1_f1: "Unique & personalized design",
         svc_1_f2: "Responsive mobile & desktop",
         svc_1_f3: "Hosting & deployment",
@@ -1925,21 +1857,21 @@ const translations = {
         svc_3_f4: "Support & maintenance",
         svc_4_title: "UI/UX & Prototyping",
         svc_4_desc: "Design of modern user interfaces, wireframes and interactive prototypes. Focus on user experience and accessibility.",
-        svc_4_price: "From 25,000 FCFA",
+        svc_4_price: "Quote on request",
         svc_4_f1: "Figma mockups",
         svc_4_f2: "Clickable prototypes",
         svc_4_f3: "Complete design system",
         svc_4_f4: "Unlimited revisions",
         svc_5_title: "Vibecoding / AI",
         svc_5_desc: "Support in using AI to accelerate your projects. Prompt engineering, task automation and AI tool integration.",
-        svc_5_price: "From 15,000 FCFA",
+        svc_5_price: "Quote on request",
         svc_5_f1: "Workflow audit",
         svc_5_f2: "AI tools training",
         svc_5_f3: "Task automation",
         svc_5_f4: "Continuous support",
         svc_6_title: "Maintenance & Support",
         svc_6_desc: "Updates, bug fixes, performance optimization and evolution of your existing site or application.",
-        svc_6_price: "From 10,000 FCFA/month",
+        svc_6_price: "Quote on request",
         svc_6_f1: "Priority fixes",
         svc_6_f2: "Regular updates",
         svc_6_f3: "Automatic backups",
@@ -1952,20 +1884,6 @@ const translations = {
         skill_design: "UI/UX Design",
         skill_tools: "Tools & Workflow",
         skill_audit: "Audit & Compliance",
-        exp_label: "Experience",
-        exp_title: "My journey",
-        exp_1_date: "2025 — Present",
-        exp_1_role: "Web Developer & Vibecoder",
-        exp_1_company: "SEVEN7 — Freelance",
-        exp_1_desc: "Creating complete web solutions using AI as a development copilot. Designing automated audit tools, interactive applications and high-performance portfolios. Collaborating with clients to transform their ideas into digital products.",
-        exp_2_date: "2024 — 2025",
-        exp_2_role: "Audit & Digital Consultant",
-        exp_2_company: "Audit Firm",
-        exp_2_desc: "Conducting external audit missions with a digital approach. Developing internal tools to automate accounting verification processes, reducing processing time by 40%. Mastery of accounting and tax standards.",
-        exp_3_date: "2023 — 2024",
-        exp_3_role: "Junior Developer",
-        exp_3_company: "Web Agency",
-        exp_3_desc: "Development of showcase websites and web applications for various clients. Learning modern development best practices, responsive design and performance optimization. First steps in integrating AI tools into the workflow.",
         projects_label: "Projects",
         projects_title: "What I've built",
         proj_1_desc: "Automated external audit tool. Detailed program compliant with the mission framework: audit cycle tracking, procedures, required documents and real-time status. Professional interface for audit firms.",
@@ -2013,7 +1931,7 @@ const translations = {
         form_message_ph: "Describe your project...",
         form_send: "📤 Send message",
         form_success_title: "Message sent!",
-        form_success_desc: "I'll get back to you very soon. Thanks!"
+        form_success_desc: "I'll get back to you very soon with a personalized quote. Thanks!"
     }
 };
 
