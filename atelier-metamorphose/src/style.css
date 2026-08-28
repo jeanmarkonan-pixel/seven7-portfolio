@@ -1,0 +1,55 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    font-family: monospace; /* Style brutaliste/code */
+    color: #ffffff;
+}
+
+#canvas-metamorphose {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#ui-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    background: rgba(26, 26, 26, 0.85);
+    padding: 20px;
+    border: 1px solid #444;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: 1.2rem;
+    margin: 0 0 5px 0;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: #888;
+    margin: 0 0 20px 0;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.8rem;
+}
+
+input[type="range"] {
+    width: 100%;
+    background: #444;
+    accent-color: #fff;
+}
