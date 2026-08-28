@@ -80,6 +80,13 @@ controls.update();
 // scroll : on désactive le drag manuel des OrbitControls. Ils ne sont
 // réactivés qu'à l'arrivée sur la section finale (voir SECTION 10).
 controls.enabled = false;
+// OrbitControls force touch-action: none sur son domElement (le canvas
+// plein écran) dès sa création, ce qui bloque le scroll tactile sur mobile
+// pour TOUTE la page (le canvas est sous #scroll-content, qui laisse
+// passer les touches via pointer-events: none). On repasse en pan-y tant
+// que les contrôles ne sont pas actifs, pour laisser le scroll natif
+// fonctionner ; seule la section finale (orbite libre) repasse à 'none'.
+renderer.domElement.style.touchAction = 'pan-y';
 
 // ----------------------------------------------------------------------------
 // 4. LUMIÈRES DRAMATIQUES — ambiance froide, pluvieuse
@@ -283,6 +290,7 @@ function updateCameraFromScroll() {
     if (!freeOrbitActive) {
       freeOrbitActive = true;
       controls.enabled = true;
+      renderer.domElement.style.touchAction = 'none'; // orbite libre : le geste tactile pilote la caméra, pas le scroll
       const last = CAMERA_WAYPOINTS[CAMERA_WAYPOINTS.length - 1];
       camera.position.copy(last.position);
       controls.target.copy(last.target);
@@ -294,6 +302,7 @@ function updateCameraFromScroll() {
   if (freeOrbitActive) {
     freeOrbitActive = false;
     controls.enabled = false;
+    renderer.domElement.style.touchAction = 'pan-y'; // rend le scroll tactile natif à la page
   }
 
   const segments = CAMERA_WAYPOINTS.length - 1;
