@@ -1,22 +1,23 @@
 // ============================================================================
-// Arche Céleste — séquence d'accueil auto-jouée (porte + escalier dans les
-// nuages). Indépendant de la scène Three.js et du catalogue : ne gère que
-// la timeline de l'intro et le verrouillage du scroll pendant celle-ci.
+// Arche Céleste — orchestration de l'intro : initialise la scène 3D dédiée
+// (src/splash-scene.js), joue l'animation d'ouverture après un court délai,
+// puis masque l'overlay et libère les ressources GPU de cette scène pour
+// laisser la scène principale (src/main.js) prendre le relais.
 // ============================================================================
+
+import { createSplashScene } from './splash-scene.js';
 
 const SESSION_KEY = 'atelier-splash-seen';
 
 const splash = document.querySelector('#paradise-splash');
 const skipButton = document.querySelector('#skip-intro');
+const splashCanvas = document.querySelector('#canvas-splash');
 
-// Timeline (ms) — doit correspondre aux transitions CSS de .door-leaf,
-// .splash-light-beam et .splash-scene.is-zooming.
-const AUTO_START_DELAY_MS = 1000; // avant que les portes ne s'ouvrent seules
-const DOOR_OPEN_DURATION_MS = 1300; // durée de rotation des battants
-const ZOOM_DURATION_MS = 950; // durée du "travelling avant" à travers l'arche
-const FADE_OUT_DURATION_MS = 400;
+const AUTO_START_DELAY_MS = 900; // avant que l'animation d'ouverture ne se déclenche seule
+const FADE_OUT_DURATION_MS = 500;
 
 let timers = [];
+let scene = null;
 
 function clearTimers() {
   timers.forEach((id) => clearTimeout(id));
@@ -37,6 +38,10 @@ function finishSplash() {
   unlockBodyScroll();
   setTimeout(() => {
     splash.hidden = true;
+    if (scene) {
+      scene.dispose(); // libère la scène 3D de l'intro, plus jamais rejouée
+      scene = null;
+    }
   }, FADE_OUT_DURATION_MS);
 }
 
@@ -44,25 +49,27 @@ function playIntro() {
   sessionStorage.setItem(SESSION_KEY, 'true');
   lockBodyScroll();
 
+  scene = createSplashScene(splashCanvas);
+  scene.start();
+
+  window.addEventListener('resize', handleResize);
+
   timers.push(
     setTimeout(() => {
-      splash.classList.add('is-open'); // ouverture des portes + faisceau lumineux
+      scene.playEnterAnimation(() => {
+        finishSplash();
+      });
     }, AUTO_START_DELAY_MS)
   );
+}
 
-  timers.push(
-    setTimeout(() => {
-      splash.classList.add('is-zooming'); // travelling avant à travers l'arche
-    }, AUTO_START_DELAY_MS + DOOR_OPEN_DURATION_MS)
-  );
-
-  timers.push(
-    setTimeout(finishSplash, AUTO_START_DELAY_MS + DOOR_OPEN_DURATION_MS + ZOOM_DURATION_MS)
-  );
+function handleResize() {
+  if (scene) scene.resize();
 }
 
 function skipIntro() {
   sessionStorage.setItem(SESSION_KEY, 'true');
+  window.removeEventListener('resize', handleResize);
   finishSplash();
 }
 
