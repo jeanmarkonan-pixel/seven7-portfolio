@@ -46,6 +46,16 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .lang-toggle button { background:none; border:none; color:var(--text-muted); padding:8px 14px; cursor:pointer; transition:all 0.3s; font-family:inherit; font-weight:800; }
 .lang-toggle button.active { background:linear-gradient(135deg,var(--accent),var(--accent-tertiary)); color:#fff; }
 
+/* MOBILE NAV */
+.nav-hamburger { display:none; width:44px; height:44px; border-radius:12px; background:rgba(255,255,255,0.04); border:1px solid var(--border); align-items:center; justify-content:center; color:var(--text); cursor:pointer; flex-shrink:0; }
+.nav-hamburger:hover { border-color:var(--accent); color:var(--accent); }
+.mobile-nav { position:fixed; inset:0; z-index:1001; background:var(--bg-elevated); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; opacity:0; visibility:hidden; transition:opacity 0.3s ease, visibility 0.3s ease; }
+.mobile-nav.open { opacity:1; visibility:visible; }
+.mobile-nav a { color:var(--text); text-decoration:none; font-weight:800; font-size:22px; text-transform:uppercase; letter-spacing:1px; padding:14px 0; }
+.mobile-nav a:active, .mobile-nav a:hover { color:var(--accent); }
+.mobile-nav-close { position:absolute; top:22px; right:24px; width:44px; height:44px; border-radius:12px; background:rgba(255,255,255,0.04); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--text); cursor:pointer; }
+@media (max-width:900px) { .nav-hamburger { display:flex; } }
+
 /* HERO */
 .hero { padding:160px 24px 100px; max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; position:relative; z-index:1; opacity:0; animation:fadeInUp 1s ease 3.2s forwards; }
 .hero-left { max-width:540px; }
@@ -63,25 +73,22 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 
 /* SCREEN MOCKUP */
 .hero-right { display:flex; justify-content:center; align-items:center; }
-.screen-mockup { position:relative; width:100%; max-width:500px; transform:perspective(1000px) rotateY(-8deg) rotateX(4deg); transition:transform 0.6s; }
-.screen-mockup:hover { transform:perspective(1000px) rotateY(-4deg) rotateX(2deg); }
-.laptop-frame { background:linear-gradient(145deg,#15151c,#0a0a12); border-radius:16px 16px 4px 4px; padding:12px 12px 0; border:1px solid rgba(255,255,255,0.06); box-shadow: 0 0 0 1px rgba(79,110,247,0.08), 0 30px 100px rgba(0,0,0,0.7), 0 0 80px rgba(79,110,247,0.06); position:relative; }
-.laptop-notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:80px; height:18px; background:#0a0a12; border-radius:0 0 12px 12px; border:1px solid rgba(255,255,255,0.05); border-top:none; }
-.laptop-screen { background:#050508; border-radius:8px 8px 0 0; overflow:hidden; aspect-ratio:16/10; position:relative; }
-.screen-content { padding:18px; font-family:'JetBrains Mono',monospace; font-size:10px; line-height:1.6; color:var(--text-secondary); }
-.screen-line { display:flex; gap:10px; margin-bottom:5px; opacity:0; animation:typeLine 0.4s ease forwards; }
-.screen-line:nth-child(1){animation-delay:3.5s;} .screen-line:nth-child(2){animation-delay:3.9s;} .screen-line:nth-child(3){animation-delay:4.3s;} .screen-line:nth-child(4){animation-delay:4.7s;} .screen-line:nth-child(5){animation-delay:5.1s;} .screen-line:nth-child(6){animation-delay:5.5s;} .screen-line:nth-child(7){animation-delay:5.9s;} .screen-line:nth-child(8){animation-delay:6.3s;} .screen-line:nth-child(9){animation-delay:6.7s;} .screen-line:nth-child(10){animation-delay:7.1s;} .screen-line:nth-child(11){animation-delay:7.5s;} .screen-line:nth-child(12){animation-delay:7.9s;}
-@keyframes typeLine { from{opacity:0;transform:translateX(-8px);} to{opacity:1;transform:translateX(0);} }
-.line-num { color:var(--text-muted); min-width:20px; text-align:right; font-size:9px; }
-.line-code { color:var(--accent); }
-.line-code .kw { color:var(--accent-secondary); }
-.line-code .str { color:#fbbf24; }
-.line-code .fn { color:#22d3ee; }
-.line-code .comment { color:#374151; }
-.laptop-base { height:14px; background:linear-gradient(180deg,#15151c,#08080c); border-radius:0 0 16px 16px; border:1px solid rgba(255,255,255,0.04); border-top:none; position:relative; }
-.laptop-groove { position:absolute; top:2px; left:50%; transform:translateX(-50%); width:60px; height:4px; background:rgba(255,255,255,0.04); border-radius:4px; }
-.screen-glow { position:absolute; inset:0; background:linear-gradient(180deg,rgba(79,110,247,0.02) 0%,transparent 60%); pointer-events:none; animation:screenFlicker 4s ease-in-out infinite; }
-@keyframes screenFlicker { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
+.avatar-frame { position:relative; width:100%; max-width:340px; aspect-ratio:1/1.05; border-radius:28px; overflow:hidden; animation:avatarFloat 6s ease-in-out infinite; box-shadow:0 30px 100px rgba(0,0,0,0.5), 0 0 0 1px rgba(79,110,247,0.15); }
+.avatar-frame img { width:100%; height:100%; object-fit:cover; display:block; animation:avatarZoom 12s ease-in-out infinite alternate; }
+@keyframes avatarZoom { from{transform:scale(1);} to{transform:scale(1.06);} }
+@keyframes avatarFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+.avatar-halo { position:absolute; inset:-14px; border-radius:34px; border:2px solid var(--accent); opacity:0.6; pointer-events:none; animation:avatarPulse 2.4s ease-out infinite; }
+.avatar-halo.delay { animation-delay:1.2s; }
+@keyframes avatarPulse { 0%{transform:scale(1); opacity:0.6;} 100%{transform:scale(1.1); opacity:0;} }
+.avatar-status { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:9px; padding:9px 18px; border-radius:50px; background:rgba(3,3,5,0.72); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.12); font-size:12px; font-weight:700; color:#fff; letter-spacing:0.4px; white-space:nowrap; }
+.avatar-waveform { display:flex; align-items:center; gap:2.5px; height:14px; }
+.avatar-waveform span { width:3px; border-radius:2px; background:var(--accent); animation:avatarWave 0.9s ease-in-out infinite alternate; }
+.avatar-waveform span:nth-child(1){height:40%; animation-delay:0s;}
+.avatar-waveform span:nth-child(2){height:100%; animation-delay:0.15s;}
+.avatar-waveform span:nth-child(3){height:60%; animation-delay:0.3s;}
+.avatar-waveform span:nth-child(4){height:85%; animation-delay:0.1s;}
+.avatar-waveform span:nth-child(5){height:50%; animation-delay:0.25s;}
+@keyframes avatarWave { 0%{transform:scaleY(0.4);} 100%{transform:scaleY(1);} }
 
 /* SECTIONS */
 section { position:relative; z-index:1; }
@@ -110,27 +117,28 @@ section { position:relative; z-index:1; }
 .skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
 .skill-card { background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:28px; transition:all 0.4s; }
 .skill-card:hover { border-color:var(--border-hover); transform:translateY(-4px); box-shadow:0 20px 60px rgba(79,110,247,0.06); }
-.skill-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
 .skill-name { font-size:15px; font-weight:700; color:#fff; }
-.skill-level { font-size:13px; color:var(--accent); font-weight:700; font-family:'JetBrains Mono',monospace; }
-.skill-bar-bg { height:5px; background:rgba(255,255,255,0.04); border-radius:3px; overflow:hidden; }
-.skill-bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--accent),var(--accent-tertiary)); transition:width 1.2s cubic-bezier(0.4,0,0.2,1); width:0; box-shadow:0 0 10px rgba(79,110,247,0.3); }
-.skill-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.skill-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
 .skill-tag { padding:6px 12px; background:rgba(79,110,247,0.06); border:1px solid rgba(79,110,247,0.12); border-radius:6px; font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.5px; }
 
-/* AI STACK (locked skills & plugins showcase) */
+/* AI STACK (locked skills & plugins showcase, collapsible) */
 .ai-stack { padding:100px 24px; max-width:1200px; margin:0 auto; }
-.ai-stack-note { font-size:14px; color:var(--text-muted); max-width:640px; margin:-24px 0 44px; line-height:1.7; }
-.ai-stack-category { margin-bottom:36px; }
+.ai-stack-note { font-size:14px; color:var(--text-muted); max-width:640px; margin:-24px 0 36px; line-height:1.7; }
+.ai-stack-category { margin-bottom:10px; border:1px solid var(--border); border-radius:14px; background:var(--bg-card); overflow:hidden; }
 .ai-stack-category:last-child { margin-bottom:0; }
-.ai-stack-category-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:2px; color:var(--text-secondary); margin-bottom:14px; }
-.ai-stack-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
-.ai-stack-item { position:relative; background:var(--bg-card); border:1px solid var(--border); border-radius:14px; padding:16px 18px; transition:all 0.3s; cursor:default; }
+.ai-stack-category-title { list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:2px; color:var(--text-secondary); padding:16px 20px; }
+.ai-stack-category-title::-webkit-details-marker { display:none; }
+.ai-stack-category-title:hover { color:var(--text); }
+.ai-stack-chevron { flex-shrink:0; color:var(--text-muted); transition:transform 0.3s ease; }
+.ai-stack-category[open] .ai-stack-chevron { transform:rotate(180deg); }
+.ai-stack-category[open] .ai-stack-category-title { border-bottom:1px solid var(--border); }
+.ai-stack-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:10px; padding:16px 20px 20px; }
+.ai-stack-item { position:relative; background:var(--bg-elevated); border:1px solid var(--border); border-radius:12px; padding:13px 15px; transition:all 0.3s; cursor:default; }
 .ai-stack-item:hover { border-color:var(--border-hover); }
-.ai-stack-item-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px; }
-.ai-stack-name { font-size:13px; font-weight:700; color:#fff; font-family:'JetBrains Mono',monospace; letter-spacing:-0.2px; }
-.ai-stack-lock { font-size:13px; opacity:0.55; flex-shrink:0; }
-.ai-stack-desc { font-size:12.5px; color:var(--text-secondary); line-height:1.5; }
+.ai-stack-item-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:5px; }
+.ai-stack-name { font-size:12.5px; font-weight:700; color:#fff; font-family:'JetBrains Mono',monospace; letter-spacing:-0.2px; }
+.ai-stack-lock { font-size:12px; opacity:0.55; flex-shrink:0; }
+.ai-stack-desc { font-size:12px; color:var(--text-secondary); line-height:1.5; }
 
 /* PROJECTS */
 .projects { padding:100px 24px; max-width:1200px; margin:0 auto; }
@@ -236,14 +244,7 @@ body.light-mode nav {
     background: rgba(248,247,245,0.9);
     border-bottom-color: rgba(0,0,0,0.06);
 }
-body.light-mode .laptop-frame {
-    background: linear-gradient(145deg, #e8e8f0, #d8d8e0);
-    border-color: rgba(0,0,0,0.1);
-    box-shadow: 0 30px 100px rgba(0,0,0,0.15), 0 0 80px rgba(79,110,247,0.04);
-}
-body.light-mode .laptop-notch { background: #d8d8e0; border-color: rgba(0,0,0,0.08); }
-body.light-mode .laptop-screen { background: #f0f0f5; }
-body.light-mode .laptop-base { background: linear-gradient(180deg, #e8e8f0, #d0d0d8); border-color: rgba(0,0,0,0.06); }
+body.light-mode .avatar-frame { box-shadow: 0 30px 100px rgba(0,0,0,0.15), 0 0 0 1px rgba(79,110,247,0.1); }
 body.light-mode .project-thumb { background: linear-gradient(135deg, #f0f0f5 0%, #e8e8f0 50%, #f5f5fa 100%); }
 body.light-mode .empty-content { color: #b0b0c0; }
 body.light-mode .intro-logo { text-shadow: 0 0 20px rgba(79,110,247,0.3), 0 0 40px rgba(79,110,247,0.2), 0 0 80px rgba(79,110,247,0.1); }
@@ -258,58 +259,8 @@ body, body * {
                 box-shadow 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 /* On exclut les éléments qui ont leurs propres animations pour éviter les conflits */
-.badge-dot, .status-dot, .intro-logo, .bg-orb, .screen-line, .skill-bar-fill, .project-icon, .form-success-icon {
+.badge-dot, .status-dot, .intro-logo, .bg-orb, .avatar-frame, .avatar-halo, .avatar-waveform span, .project-icon, .form-success-icon {
     transition: none !important;
-}
-
-
-/* ===== COMPTEUR DE VISITEURS ===== */
-.visitor-counter {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 18px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    transition: all 0.4s;
-}
-.visitor-counter:hover {
-    border-color: var(--accent);
-    box-shadow: 0 8px 32px rgba(79,110,247,0.15);
-}
-.visitor-counter .pulse-ring {
-    width: 8px;
-    height: 8px;
-    background: #22c55e;
-    border-radius: 50%;
-    position: relative;
-}
-.visitor-counter .pulse-ring::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 2px solid #22c55e;
-    animation: visitorPulse 2s ease-out infinite;
-}
-@keyframes visitorPulse {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(2); opacity: 0; }
-}
-.visitor-counter .count {
-    color: var(--accent);
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
 }
 
 /* ===== WIDGET CHAT ===== */
@@ -505,7 +456,6 @@ body, body * {
 
 @media (max-width: 600px) {
     .chat-window { width: calc(100vw - 48px); right: -12px; }
-    .visitor-counter { bottom: 16px; left: 16px; font-size: 12px; padding: 8px 14px; }
     .chat-widget { bottom: 16px; right: 16px; }
 }
 
@@ -783,7 +733,7 @@ body.light-mode .player-volume-slider {
 }
 
 /* RESPONSIVE */
-@media (max-width:900px) { .hero { grid-template-columns:1fr; text-align:center; padding-top:120px; } .hero-left { max-width:100%; } .hero-cta { justify-content:center; } .hero-right { display:none; } nav { padding:16px 24px; } .nav-links { display:none; } .nav-right { gap:12px; } .about-stats { gap:40px; } .contact-grid { grid-template-columns:1fr; } }
+@media (max-width:900px) { .hero { grid-template-columns:1fr; text-align:center; padding-top:120px; } .hero-left { max-width:100%; } .hero-cta { justify-content:center; } .hero-right { display:none; } nav { padding:16px 24px; } .nav-links { display:none; } .nav-right { gap:12px; } .about-stats { gap:40px; } .contact-grid { grid-template-columns:1fr; } .services, .skills, .ai-stack, .projects, .about, .media-section { padding-top:56px; padding-bottom:56px; } .contact { padding-top:56px; padding-bottom:72px; } .section-title { margin-bottom:32px; } .services-grid, .skills-grid, .projects-grid { gap:16px; } }
 @media (max-width:600px) { .projects-grid, .services-grid, .skills-grid { grid-template-columns:1fr; } .timeline { padding-left:28px; } .timeline-dot { left:-32px; } .intro-logo { letter-spacing:6px; } }
 
 /* ===== FORMULAIRE DE CONTACT ===== */
@@ -970,8 +920,25 @@ body.light-mode .player-volume-slider {
             <button onclick="setLang('en')" id="btn-en">EN</button>
         </div>
         <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Changer de thème"></button>
+        <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="20" height="20"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
     </div>
 </nav>
+
+<!-- MOBILE NAV OVERLAY -->
+<div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" onclick="toggleMobileNav()" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="20" height="20"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <a href="#services" data-i18n="nav_services" onclick="toggleMobileNav()">Services</a>
+    <a href="#skills" data-i18n="nav_skills" onclick="toggleMobileNav()">Compétences</a>
+    <a href="#ai-stack" data-i18n="nav_stack" onclick="toggleMobileNav()">Stack IA</a>
+    <a href="#projects" data-i18n="nav_projects" onclick="toggleMobileNav()">Projets</a>
+    <a href="#media" data-i18n="nav_media" onclick="toggleMobileNav()">Média</a>
+    <a href="#about" data-i18n="nav_about" onclick="toggleMobileNav()">À propos</a>
+    <a href="#contact" data-i18n="nav_contact" onclick="toggleMobileNav()">Contact</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -985,27 +952,13 @@ body.light-mode .player-volume-slider {
         </div>
     </div>
     <div class="hero-right">
-        <div class="screen-mockup">
-            <div class="laptop-frame">
-                <div class="laptop-notch"></div>
-                <div class="laptop-screen">
-                    <div class="screen-glow"></div>
-                    <div class="screen-content">
-                        <div class="screen-line"><span class="line-num">1</span><span class="line-code"><span class="kw">const</span> <span class="fn">SEVEN7</span> = {</span></div>
-                        <div class="screen-line"><span class="line-num">2</span><span class="line-code">  name: <span class="str">"Portfolio"</span>,</span></div>
-                        <div class="screen-line"><span class="line-num">3</span><span class="line-code">  stack: [<span class="str">"HTML"</span>, <span class="str">"CSS"</span>, <span class="str">"JS"</span>],</span></div>
-                        <div class="screen-line"><span class="line-num">4</span><span class="line-code">  aiTools: [<span class="str">"Claude"</span>, <span class="str">"Kimi"</span>],</span></div>
-                        <div class="screen-line"><span class="line-num">5</span><span class="line-code">  status: <span class="str">"online"</span>,</span></div>
-                        <div class="screen-line"><span class="line-num">6</span><span class="line-code">  <span class="fn">build</span>: () => <span class="str">"🚀"</span></span></div>
-                        <div class="screen-line"><span class="line-num">7</span><span class="line-code">};</span></div>
-                        <div class="screen-line"><span class="line-num">8</span><span class="line-code"><span class="comment">// Powered by AI & passion</span></span></div>
-                        <div class="screen-line"><span class="line-num">9</span><span class="line-code"><span class="kw">export default</span> SEVEN7;</span></div>
-                        <div class="screen-line"><span class="line-num">10</span><span class="line-code"> </span></div>
-                        <div class="screen-line"><span class="line-num">11</span><span class="line-code"><span class="kw">$</span> <span class="fn">npm</span> run deploy</span></div>
-                        <div class="screen-line"><span class="line-num">12</span><span class="line-code"><span class="str">✓</span> Build successful <span class="comment">(1.2s)</span></span></div>
-                    </div>
-                </div>
-                <div class="laptop-base"><div class="laptop-groove"></div></div>
+        <div class="avatar-frame">
+            <div class="avatar-halo"></div>
+            <div class="avatar-halo delay"></div>
+            <img src="assets/avatar.jpg" alt="Jean Mark, créateur de SEVEN7" loading="eager">
+            <div class="avatar-status">
+                <div class="avatar-waveform"><span></span><span></span><span></span><span></span><span></span></div>
+                <span data-i18n="avatar_status">Disponible pour vos projets</span>
             </div>
         </div>
     </div>
@@ -1101,33 +1054,27 @@ body.light-mode .player-volume-slider {
     </div>
     <div class="skills-grid">
         <div class="skill-card reveal">
-            <div class="skill-header"><span class="skill-name" data-i18n="skill_frontend">Développement Frontend</span><span class="skill-level">95%</span></div>
-            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="95"></div></div>
+            <div class="skill-name" data-i18n="skill_frontend">Développement Frontend</div>
             <div class="skill-tags"><span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span class="skill-tag">JavaScript</span><span class="skill-tag">React</span><span class="skill-tag">Tailwind</span></div>
         </div>
         <div class="skill-card reveal reveal-delay-1">
-            <div class="skill-header"><span class="skill-name" data-i18n="skill_backend">Développement Backend</span><span class="skill-level">80%</span></div>
-            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80"></div></div>
+            <div class="skill-name" data-i18n="skill_backend">Développement Backend</div>
             <div class="skill-tags"><span class="skill-tag">Node.js</span><span class="skill-tag">Firebase</span><span class="skill-tag">API REST</span><span class="skill-tag">SQL</span></div>
         </div>
         <div class="skill-card reveal reveal-delay-2">
-            <div class="skill-header"><span class="skill-name" data-i18n="skill_ai">IA & Vibecoding</span><span class="skill-level">92%</span></div>
-            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="92"></div></div>
+            <div class="skill-name" data-i18n="skill_ai">IA & Vibecoding</div>
             <div class="skill-tags"><span class="skill-tag">Claude</span><span class="skill-tag">Kimi</span><span class="skill-tag">Gemini</span><span class="skill-tag">Slack</span><span class="skill-tag">Prompt Engineering</span></div>
         </div>
         <div class="skill-card reveal">
-            <div class="skill-header"><span class="skill-name" data-i18n="skill_design">UI/UX Design</span><span class="skill-level">75%</span></div>
-            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="75"></div></div>
+            <div class="skill-name" data-i18n="skill_design">UI/UX Design</div>
             <div class="skill-tags"><span class="skill-tag">Figma</span><span class="skill-tag">Design System</span><span class="skill-tag">Prototypage</span><span class="skill-tag">Animation</span></div>
         </div>
         <div class="skill-card reveal reveal-delay-1">
-            <div class="skill-header"><span class="skill-name" data-i18n="skill_tools">Outils & Workflow</span><span class="skill-level">88%</span></div>
-            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="88"></div></div>
+            <div class="skill-name" data-i18n="skill_tools">Outils & Workflow</div>
             <div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span class="skill-tag">VS Code</span><span class="skill-tag">Vercel</span><span class="skill-tag">Firebase</span></div>
         </div>
         <div class="skill-card reveal reveal-delay-2">
-            <div class="skill-header"><span class="skill-name" data-i18n="skill_audit">Audit & Conformité</span><span class="skill-level">85%</span></div>
-            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div>
+            <div class="skill-name" data-i18n="skill_audit">Audit & Conformité</div>
             <div class="skill-tags"><span class="skill-tag">Audit Externe</span><span class="skill-tag">Normes Comptables</span><span class="skill-tag">Reporting</span><span class="skill-tag">Automatisation</span></div>
         </div>
     </div>
@@ -1141,8 +1088,8 @@ body.light-mode .player-volume-slider {
     </div>
     <p class="ai-stack-note reveal" data-i18n="stack_note">Les outils IA que j'utilise au quotidien dans mon workflow — affichés ici à titre indicatif, verrouillés : non activables depuis le portfolio.</p>
 
-    <div class="ai-stack-category reveal">
-        <div class="ai-stack-category-title" data-i18n="stack_cat_dev">Développement & qualité</div>
+    <details class="ai-stack-category reveal" open>
+        <summary class="ai-stack-category-title"><span data-i18n="stack_cat_dev">Développement & qualité</span><svg class="ai-stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="ai-stack-grid">
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">code-review</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_code_review">Revue de code automatisée</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">simplify</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_simplify">Simplification & refactoring</div></div>
@@ -1150,10 +1097,10 @@ body.light-mode .player-volume-slider {
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">run</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_run">Lancement & test d'apps en direct</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">init</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_init">Documentation de projet</div></div>
         </div>
-    </div>
+    </details>
 
-    <div class="ai-stack-category reveal">
-        <div class="ai-stack-category-title" data-i18n="stack_cat_auto">Automatisation & configuration</div>
+    <details class="ai-stack-category reveal">
+        <summary class="ai-stack-category-title"><span data-i18n="stack_cat_auto">Automatisation & configuration</span><svg class="ai-stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="ai-stack-grid">
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">session-start-hook</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_session_hook">Hooks de démarrage de session</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">update-config</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_update_config">Configuration avancée</div></div>
@@ -1163,10 +1110,10 @@ body.light-mode .player-volume-slider {
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">claude-api</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_claude_api">Intégration API Claude</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">skill-creator</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_skill_creator">Création de compétences IA</div></div>
         </div>
-    </div>
+    </details>
 
-    <div class="ai-stack-category reveal">
-        <div class="ai-stack-category-title" data-i18n="stack_cat_design">Design & visuel</div>
+    <details class="ai-stack-category reveal">
+        <summary class="ai-stack-category-title"><span data-i18n="stack_cat_design">Design & visuel</span><svg class="ai-stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="ai-stack-grid">
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">design</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_design">Maquettes & canvas visuels</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">dataviz</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_dataviz">Graphiques & dashboards</div></div>
@@ -1174,35 +1121,35 @@ body.light-mode .player-volume-slider {
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">artifact-diagramming</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_artifact_diagram">Diagrammes techniques</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">artifact-capabilities</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_artifact_capabilities">Applications interactives</div></div>
         </div>
-    </div>
+    </details>
 
-    <div class="ai-stack-category reveal">
-        <div class="ai-stack-category-title" data-i18n="stack_cat_docs">Documents & bureautique</div>
+    <details class="ai-stack-category reveal">
+        <summary class="ai-stack-category-title"><span data-i18n="stack_cat_docs">Documents & bureautique</span><svg class="ai-stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="ai-stack-grid">
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">docx</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_docx">Documents Word</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">pdf</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_pdf">Édition & fusion de PDF</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">pptx</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_pptx">Présentations PowerPoint</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">xlsx</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_xlsx">Tableurs Excel</div></div>
         </div>
-    </div>
+    </details>
 
-    <div class="ai-stack-category reveal">
-        <div class="ai-stack-category-title" data-i18n="stack_cat_productivity">Productivité</div>
+    <details class="ai-stack-category reveal">
+        <summary class="ai-stack-category-title"><span data-i18n="stack_cat_productivity">Productivité</span><svg class="ai-stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="ai-stack-grid">
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">morning</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_morning">Brief quotidien automatisé</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">import-memory</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_import_memory">Import de mémoire IA</div></div>
         </div>
-    </div>
+    </details>
 
-    <div class="ai-stack-category reveal">
-        <div class="ai-stack-category-title" data-i18n="stack_cat_plugins">Plugins & intégrations connectées</div>
+    <details class="ai-stack-category reveal">
+        <summary class="ai-stack-category-title"><span data-i18n="stack_cat_plugins">Plugins & intégrations connectées</span><svg class="ai-stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="ai-stack-grid">
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">GitHub</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_github">Dépôts, pull requests & CI</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">Figma</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_figma">Design & prototypage</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">Gmail</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_gmail">Gestion des emails</div></div>
             <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">Claude Code Remote</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_ccr">Sessions cloud & agents</div></div>
         </div>
-    </div>
+    </details>
 </section>
 
 <!-- PROJECTS -->
@@ -1509,46 +1456,6 @@ setTimeout(closeSplash, 3000);
 // Appliquer le theme immediatement (avant le splash screen)
 initTheme();
 
-
-// ===== COMPTEUR DE VISITEURS =====
-// Utilise CountAPI (gratuit, pas de backend necessaire)
-// Chaque visite incremente le compteur en temps reel
-function initVisitorCounter() {
-    const countEl = document.getElementById('visitorCount');
-
-    // Essaye de recuperer le compteur existant
-    fetch('https://api.countapi.xyz/hit/seven7-portfolio/visits')
-        .then(res => res.json())
-        .then(data => {
-            if (data.value) {
-                animateCounter(countEl, data.value);
-            }
-        })
-        .catch(() => {
-            // Fallback : compteur local
-            let localCount = parseInt(localStorage.getItem('seven7-visits') || '0') + 1;
-            localStorage.setItem('seven7-visits', localCount);
-            animateCounter(countEl, localCount + 1247); // +1247 pour avoir un beau chiffre
-        });
-}
-
-function animateCounter(el, target) {
-    let current = 0;
-    const duration = 1500;
-    const step = target / (duration / 16);
-
-    function update() {
-        current += step;
-        if (current >= target) {
-            el.textContent = target.toLocaleString();
-            return;
-        }
-        el.textContent = Math.floor(current).toLocaleString();
-        requestAnimationFrame(update);
-    }
-    update();
-}
-
 // ===== WIDGET CHAT =====
 // Chat simule avec reponses automatiques
 // Pour un vrai chat en direct, remplace ce code par Tawk.to, Crisp, ou WhatsApp Business
@@ -1643,10 +1550,6 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
-
-// Initialiser
-window.addEventListener('DOMContentLoaded', initVisitorCounter);
-
 
 // ===== PLAYER AUDIO/VIDEO =====
 let playerMedia = null;
@@ -1794,6 +1697,7 @@ const translations = {
         hero_title_1: "L'IA au service",
         hero_title_2: "de votre performance métier",
         hero_desc: "J'aide cabinets et entreprises à gagner en performance grâce à des outils numériques sur-mesure : automatisation, tableaux de bord et intégration de l'IA dans vos processus métier.",
+        avatar_status: "Disponible pour vos projets",
         btn_services: "Mes services",
         btn_contact: "Me contacter",
         services_label: "Services",
@@ -1908,7 +1812,6 @@ const translations = {
         contact_phone_label: "Téléphone",
         contact_email_label: "Email",
         footer: "© 2026 SEVEN7 — Construit avec passion & IA",
-        visitors_label: "Visites :",
         chat_status: "En ligne",
         chat_welcome: "Bonjour, je suis Jean Mark, le créateur de SEVEN7. Comment puis-je vous aider aujourd'hui ?",
         chat_placeholder: "Écrivez un message...",
@@ -1953,6 +1856,7 @@ const translations = {
         hero_title_1: "AI serving",
         hero_title_2: "your business performance",
         hero_desc: "I help firms and businesses boost performance with tailor-made digital tools: automation, dashboards, and AI integration into your business processes.",
+        avatar_status: "Available for your projects",
         btn_services: "My services",
         btn_contact: "Contact me",
         services_label: "Services",
@@ -2067,7 +1971,6 @@ const translations = {
         contact_phone_label: "Phone",
         contact_email_label: "Email",
         footer: "© 2026 SEVEN7 — Built with passion & AI",
-        visitors_label: "Visits:",
         chat_status: "Online",
         chat_welcome: "Hello, I'm Jean Mark, the creator of SEVEN7. How can I help you today?",
         chat_placeholder: "Type a message...",
@@ -2096,6 +1999,10 @@ const translations = {
 
 let currentLang = 'fr';
 
+function toggleMobileNav() {
+    document.getElementById('mobileNav').classList.toggle('open');
+}
+
 function setLang(lang) {
     currentLang = lang;
     document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
@@ -2117,9 +2024,6 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-                bar.style.width = bar.getAttribute('data-width') + '%';
-            });
         }
     });
 }, { threshold: 0.1 });
@@ -2235,13 +2139,6 @@ setLang = function(lang) {
     });
 };
 </script>
-
-<!-- COMPTEUR DE VISITEURS -->
-<div class="visitor-counter" id="visitorCounter">
-    <div class="pulse-ring"></div>
-    <span data-i18n="visitors_label">Visites :</span>
-    <span class="count" id="visitorCount">...</span>
-</div>
 
 <!-- WIDGET CHAT -->
 <div class="chat-widget" id="chatWidget">
