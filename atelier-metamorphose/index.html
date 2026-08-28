@@ -10,24 +10,46 @@
     <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-    <!-- Porte Paradisiaque : séquence d'accueil, masque le site tant qu'elle n'est pas franchie -->
+    <!-- Arche Céleste : séquence d'accueil auto-jouée, masque le site tant qu'elle n'est pas terminée -->
     <div id="paradise-splash">
-        <div class="splash-sky"></div>
-        <div class="splash-light-beam"></div>
+        <button type="button" id="skip-intro" class="splash-skip-btn">Passer l'animation</button>
 
-        <div class="splash-door-frame">
-            <p class="splash-logo">ATELIER <span>//</span> MÉTAMORPHOSE</p>
-
-            <div class="door-leaf door-leaf--left">
-                <span class="door-leaf__moulding"></span>
+        <div class="splash-scene">
+            <div class="splash-sky">
+                <span class="cloud cloud--1"></span>
+                <span class="cloud cloud--2"></span>
+                <span class="cloud cloud--3"></span>
+                <span class="cloud cloud--4"></span>
+                <span class="cloud cloud--5"></span>
             </div>
-            <div class="door-leaf door-leaf--right">
-                <span class="door-leaf__moulding"></span>
+
+            <div class="splash-staircase" aria-hidden="true">
+                <span class="stair-step" style="--i:0"></span>
+                <span class="stair-step" style="--i:1"></span>
+                <span class="stair-step" style="--i:2"></span>
+                <span class="stair-step" style="--i:3"></span>
+                <span class="stair-step" style="--i:4"></span>
+                <span class="stair-step" style="--i:5"></span>
+                <span class="stair-step" style="--i:6"></span>
+            </div>
+
+            <div class="splash-light-beam"></div>
+
+            <div class="splash-door-frame">
+                <p class="splash-sign">ATELIER MÉTAMORPHOSE</p>
+
+                <div class="splash-arch">
+                    <div class="door-leaf door-leaf--left">
+                        <span class="door-leaf__moulding"></span>
+                        <span class="door-leaf__handle"></span>
+                    </div>
+                    <div class="door-leaf door-leaf--right">
+                        <span class="door-leaf__moulding"></span>
+                        <span class="door-leaf__handle"></span>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <button type="button" id="enter-atelier" class="splash-enter-btn">Entrer dans l'Atelier</button>
-        <button type="button" id="skip-intro" class="splash-skip-btn">Passer l'intro</button>
     </div>
 
     <canvas id="canvas-metamorphose"></canvas>
