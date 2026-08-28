@@ -10,47 +10,28 @@
     <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-    <!-- Arche Céleste : séquence d'accueil auto-jouée, masque le site tant qu'elle n'est pas terminée -->
-    <div id="paradise-splash">
-        <button type="button" id="skip-intro" class="splash-skip-btn">Passer l'animation</button>
-
-        <div class="splash-scene">
-            <div class="splash-sky">
-                <span class="cloud cloud--1"></span>
-                <span class="cloud cloud--2"></span>
-                <span class="cloud cloud--3"></span>
-                <span class="cloud cloud--4"></span>
-                <span class="cloud cloud--5"></span>
+    <!-- Hero éditorial : wordmark plein cadre, remplace l'ancienne intro animée -->
+    <header id="hero">
+        <nav class="hero-nav">
+            <span class="hero-nav__brand">Atelier // Métamorphose</span>
+            <div class="hero-nav__links">
+                <a href="#scroll-content">Collection</a>
+                <a href="#catalogue">Boutique</a>
+                <a href="#catalogue" class="hero-nav__cta">Découvrir</a>
             </div>
+        </nav>
 
-            <div class="splash-staircase" aria-hidden="true">
-                <span class="stair-step" style="--i:0"></span>
-                <span class="stair-step" style="--i:1"></span>
-                <span class="stair-step" style="--i:2"></span>
-                <span class="stair-step" style="--i:3"></span>
-                <span class="stair-step" style="--i:4"></span>
-                <span class="stair-step" style="--i:5"></span>
-                <span class="stair-step" style="--i:6"></span>
-            </div>
+        <div class="hero-visual" aria-hidden="true"></div>
 
-            <div class="splash-light-beam"></div>
-
-            <div class="splash-door-frame">
-                <p class="splash-sign">ATELIER MÉTAMORPHOSE</p>
-
-                <div class="splash-arch">
-                    <div class="door-leaf door-leaf--left">
-                        <span class="door-leaf__moulding"></span>
-                        <span class="door-leaf__handle"></span>
-                    </div>
-                    <div class="door-leaf door-leaf--right">
-                        <span class="door-leaf__moulding"></span>
-                        <span class="door-leaf__handle"></span>
-                    </div>
-                </div>
-            </div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Pièce du jour</p>
+            <h1 class="hero-wordmark">atelier<span>.</span></h1>
+            <p class="hero-subtitle">// métamorphose</p>
+            <p class="hero-tagline">Chaque pièce, une seconde peau.</p>
         </div>
-    </div>
+
+        <a href="#scroll-content" class="hero-scroll-cta">Découvrir ↓</a>
+    </header>
 
     <canvas id="canvas-metamorphose"></canvas>
 
@@ -140,7 +121,6 @@
         <div id="product-modal-body"></div>
     </div>
 
-    <script type="module" src="./src/splash.js"></script>
     <script type="module" src="./src/main.js"></script>
     <script type="module" src="./src/catalogue.js"></script>
 </body>
