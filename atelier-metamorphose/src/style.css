@@ -1,11 +1,36 @@
+/* ============================================================================
+   IDENTITÉ VISUELLE — Rouge Bordeaux & Ciel Nuageux
+   Palette : bordeaux profond (structure/fond sombre), or impérial (accents,
+   boutons, bordures), blanc nuage/beige poudré (sections claires), serif
+   élégante (Cinzel/Playfair Display) pour les titres.
+============================================================================ */
+
+:root {
+    --color-burgundy-deep: #58111a;
+    --color-burgundy: #7b1122;
+    --color-burgundy-door: #5b0e1b;
+    --color-burgundy-door-dark: #4a0e17;
+    --color-gold: #d4af37;
+    --color-gold-light: #e8c170;
+    --color-cloud-white: #f7f3ec;
+    --color-cloud-beige: #eae0d0;
+    --font-serif: 'Playfair Display', 'Cinzel', serif;
+    --font-display: 'Cinzel', 'Playfair Display', serif;
+}
+
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
     overflow-x: hidden; /* le scroll vertical pilote le scrollytelling */
     background-color: #1a1a1a;
-    font-family: monospace; /* Style brutaliste/code */
+    font-family: monospace;
     color: #ffffff;
+}
+
+body.splash-active {
+    overflow: hidden;
+    height: 100vh;
 }
 
 #canvas-metamorphose {
@@ -22,21 +47,23 @@ body, html {
     top: 20px;
     left: 20px;
     z-index: 10;
-    background: rgba(26, 26, 26, 0.85);
+    background: rgba(74, 14, 23, 0.85);
     padding: 20px;
-    border: 1px solid #444;
+    border: 1px solid var(--color-gold);
     text-transform: uppercase;
 }
 
 h1 {
+    font-family: var(--font-display);
     font-size: 1.2rem;
     margin: 0 0 5px 0;
     letter-spacing: 2px;
+    color: var(--color-gold-light);
 }
 
 .subtitle {
     font-size: 0.8rem;
-    color: #888;
+    color: #cbb89a;
     margin: 0 0 20px 0;
 }
 
@@ -50,7 +77,225 @@ h1 {
 input[type="range"] {
     width: 100%;
     background: #444;
-    accent-color: #fff;
+    accent-color: var(--color-gold);
+}
+
+/* ----------------------------------------------------------------------
+   PORTE PARADISIAQUE — séquence d'accueil plein écran (voir src/splash.js)
+---------------------------------------------------------------------- */
+
+#paradise-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+#paradise-splash.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#paradise-splash[hidden] {
+    display: none;
+}
+
+.splash-sky {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 30%, rgba(255, 240, 200, 0.55) 0%, rgba(232, 193, 112, 0.25) 30%, transparent 65%),
+        linear-gradient(180deg, #fdf6e3 0%, #f3d9a8 25%, #e3b979 50%, #b98a5c 75%, #7a5138 100%);
+}
+
+.splash-sky::before,
+.splash-sky::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(2px);
+}
+
+.splash-sky::before {
+    width: 60vw;
+    height: 22vw;
+    top: 18%;
+    left: -10%;
+}
+
+.splash-sky::after {
+    width: 50vw;
+    height: 18vw;
+    top: 55%;
+    right: -15%;
+}
+
+.splash-light-beam {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 40vw;
+    height: 100%;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at 50% 45%, rgba(255, 250, 230, 0.95) 0%, rgba(255, 230, 160, 0.5) 35%, transparent 70%);
+    opacity: 0;
+    transition: opacity 1s ease 0.2s;
+    pointer-events: none;
+}
+
+#paradise-splash.is-open .splash-light-beam {
+    opacity: 1;
+}
+
+.splash-door-frame {
+    position: relative;
+    z-index: 2;
+    width: min(80vw, 640px);
+    height: min(72vh, 820px);
+    perspective: 1800px;
+}
+
+.splash-logo {
+    position: absolute;
+    top: -60px;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    letter-spacing: 4px;
+    color: var(--color-burgundy-deep);
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.splash-logo span {
+    color: var(--color-gold);
+}
+
+.door-leaf {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background:
+        linear-gradient(135deg, var(--color-burgundy-door) 0%, var(--color-burgundy-door-dark) 100%);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+    transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+    transform-style: preserve-3d;
+}
+
+.door-leaf--left {
+    left: 0;
+    transform-origin: left center;
+    border-right: 2px solid var(--color-gold);
+}
+
+.door-leaf--right {
+    right: 0;
+    transform-origin: right center;
+    border-left: 2px solid var(--color-gold);
+}
+
+#paradise-splash.is-open .door-leaf--left {
+    transform: rotateY(-100deg);
+}
+
+#paradise-splash.is-open .door-leaf--right {
+    transform: rotateY(100deg);
+}
+
+.door-leaf__moulding {
+    position: absolute;
+    inset: 6% 10%;
+    border: 3px solid var(--color-gold);
+    box-shadow:
+        inset 0 0 0 6px var(--color-burgundy-door),
+        inset 0 0 0 9px var(--color-gold-light);
+}
+
+.door-leaf__moulding::before,
+.door-leaf__moulding::after {
+    content: '';
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    height: 42%;
+    border: 2px solid var(--color-gold);
+}
+
+.door-leaf__moulding::before {
+    top: 8%;
+}
+
+.door-leaf__moulding::after {
+    bottom: 8%;
+}
+
+.splash-enter-btn {
+    position: relative;
+    z-index: 3;
+    margin-top: 36px;
+    background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+    color: var(--color-burgundy-deep);
+    border: none;
+    padding: 16px 40px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+#paradise-splash.is-open .splash-enter-btn,
+#paradise-splash.is-open .splash-skip-btn {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.splash-skip-btn {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    z-index: 3;
+    background: none;
+    border: 1px solid rgba(74, 14, 23, 0.4);
+    color: var(--color-burgundy-deep);
+    font-family: monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+@media (max-width: 640px) {
+    .splash-door-frame {
+        width: 92vw;
+        height: 78vh;
+    }
+
+    .splash-logo {
+        top: -46px;
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+
+    .splash-enter-btn {
+        padding: 14px 28px;
+        font-size: 0.8rem;
+    }
 }
 
 /* ----------------------------------------------------------------------
@@ -77,17 +322,19 @@ input[type="range"] {
 }
 
 .story-section h2 {
+    font-family: var(--font-display);
     font-size: clamp(2rem, 6vw, 4.5rem);
     margin: 0 0 12px 0;
     letter-spacing: 3px;
     text-transform: uppercase;
+    color: var(--color-gold-light);
     text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
 }
 
 .story-section p {
     max-width: 32ch;
     font-size: 1rem;
-    color: #ccc;
+    color: #e8ddc8;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
 
@@ -101,16 +348,16 @@ input[type="range"] {
 }
 
 /* ----------------------------------------------------------------------
-   Catalogue, panier & modale produit — pièces réutilisables du design
-   brutaliste (fond sombre, bordures franches, monospace, accents blancs).
+   Catalogue, panier & modale produit — sections claires (ciel/beige),
+   accents bordeaux & or, titres en serif.
 ---------------------------------------------------------------------- */
 
 .btn-primary {
-    background: #ffffff;
-    color: #1a1a1a;
+    background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+    color: var(--color-burgundy-deep);
     border: none;
     padding: 12px 20px;
-    font-family: monospace;
+    font-family: var(--font-display);
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -118,8 +365,8 @@ input[type="range"] {
 }
 
 .btn-primary:disabled {
-    background: #444;
-    color: #888;
+    background: #d8cdb8;
+    color: #9a8f7a;
     cursor: not-allowed;
 }
 
@@ -128,7 +375,7 @@ input[type="range"] {
 #catalogue {
     position: relative;
     z-index: 6;
-    background: #1a1a1a;
+    background: linear-gradient(180deg, var(--color-cloud-white) 0%, var(--color-cloud-beige) 100%);
     padding: 60px 8vw 100px;
     box-sizing: border-box;
 }
@@ -143,22 +390,24 @@ input[type="range"] {
 }
 
 .catalogue__header h2 {
+    font-family: var(--font-display);
     font-size: clamp(1.8rem, 4vw, 3rem);
     letter-spacing: 3px;
     margin: 0;
+    color: var(--color-burgundy-deep);
 }
 
 .catalogue__search {
-    background: #0a0a0a;
-    border: 1px solid #444;
-    color: #fff;
+    background: #ffffff;
+    border: 1px solid var(--color-gold);
+    color: var(--color-burgundy-deep);
     font-family: monospace;
     padding: 10px 14px;
     min-width: 240px;
 }
 
 .catalogue__no-results {
-    color: #888;
+    color: #8a7a5c;
     text-align: center;
     padding: 40px 0;
 }
@@ -170,8 +419,8 @@ input[type="range"] {
 }
 
 .product-card {
-    border: 1px solid #333;
-    background: #0e0e0e;
+    border: 1px solid #d8cdb8;
+    background: #ffffff;
     display: flex;
     flex-direction: column;
 }
@@ -193,18 +442,18 @@ input[type="range"] {
 .product-card__title {
     background: none;
     border: none;
-    color: #fff;
-    font-family: monospace;
-    font-size: 1rem;
+    color: var(--color-burgundy-deep);
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
     text-align: left;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     padding: 14px 14px 0;
     cursor: pointer;
 }
 
 .product-card__price {
-    color: #aaa;
+    color: var(--color-gold);
+    font-weight: bold;
     padding: 4px 14px 0;
     margin: 0;
 }
@@ -217,9 +466,9 @@ input[type="range"] {
 }
 
 .product-card__size {
-    background: #0a0a0a;
-    border: 1px solid #444;
-    color: #fff;
+    background: #ffffff;
+    border: 1px solid #d8cdb8;
+    color: var(--color-burgundy-deep);
     font-family: monospace;
     padding: 0 8px;
 }
@@ -237,21 +486,22 @@ input[type="range"] {
     bottom: 24px;
     right: 24px;
     z-index: 20;
-    background: #ffffff;
-    color: #1a1a1a;
+    background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+    color: var(--color-burgundy-deep);
     border: none;
     padding: 14px 20px;
-    font-family: monospace;
+    font-family: var(--font-display);
     font-weight: bold;
     letter-spacing: 1px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
 #cart-badge {
-    background: #1a1a1a;
+    background: var(--color-burgundy-deep);
     color: #fff;
     border-radius: 50%;
     min-width: 20px;
@@ -267,7 +517,7 @@ input[type="range"] {
 #product-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(58, 17, 26, 0.6);
     z-index: 25;
     opacity: 0;
     pointer-events: none;
@@ -286,8 +536,8 @@ input[type="range"] {
     right: 0;
     height: 100%;
     width: min(420px, 100%);
-    background: #141414;
-    border-left: 1px solid #333;
+    background: var(--color-cloud-white);
+    border-left: 2px solid var(--color-gold);
     z-index: 30;
     transform: translateX(100%);
     transition: transform 0.25s ease;
@@ -305,19 +555,21 @@ input[type="range"] {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #d8cdb8;
+    background: var(--color-burgundy-deep);
 }
 
 .cart-drawer__header h3 {
     margin: 0;
-    text-transform: uppercase;
+    font-family: var(--font-display);
     letter-spacing: 1px;
+    color: var(--color-gold-light);
 }
 
 #cart-close {
     background: none;
     border: none;
-    color: #fff;
+    color: var(--color-gold-light);
     font-size: 1.2rem;
     cursor: pointer;
 }
@@ -329,7 +581,7 @@ input[type="range"] {
 }
 
 .cart-drawer__empty {
-    color: #888;
+    color: #8a7a5c;
     text-align: center;
     padding: 20px;
 }
@@ -340,7 +592,7 @@ input[type="range"] {
     gap: 12px;
     align-items: center;
     padding: 12px 0;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #e5dac2;
 }
 
 .cart-item__image {
@@ -351,13 +603,14 @@ input[type="range"] {
 
 .cart-item__name {
     margin: 0;
-    font-size: 0.85rem;
-    text-transform: uppercase;
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    color: var(--color-burgundy-deep);
 }
 
 .cart-item__meta {
     margin: 4px 0;
-    color: #888;
+    color: #8a7a5c;
     font-size: 0.75rem;
 }
 
@@ -368,9 +621,9 @@ input[type="range"] {
 }
 
 .cart-item__qty button {
-    background: #222;
-    border: 1px solid #444;
-    color: #fff;
+    background: #fff;
+    border: 1px solid var(--color-gold);
+    color: var(--color-burgundy-deep);
     width: 22px;
     height: 22px;
     cursor: pointer;
@@ -379,21 +632,23 @@ input[type="range"] {
 .cart-item__remove {
     background: none;
     border: none;
-    color: #888;
+    color: #8a7a5c;
     cursor: pointer;
     align-self: start;
 }
 
 .cart-drawer__footer {
     padding: 20px;
-    border-top: 1px solid #333;
+    border-top: 1px solid #d8cdb8;
 }
 
 .cart-drawer__total {
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
+    font-family: var(--font-display);
     font-size: 1.1rem;
+    color: var(--color-burgundy-deep);
     text-transform: uppercase;
 }
 
@@ -411,8 +666,8 @@ input[type="range"] {
     width: min(720px, 92vw);
     max-height: 88vh;
     overflow-y: auto;
-    background: #141414;
-    border: 1px solid #333;
+    background: var(--color-cloud-white);
+    border: 2px solid var(--color-gold);
     z-index: 35;
     opacity: 0;
     pointer-events: none;
@@ -431,7 +686,7 @@ input[type="range"] {
     right: 12px;
     background: none;
     border: none;
-    color: #fff;
+    color: var(--color-burgundy-deep);
     font-size: 1.2rem;
     cursor: pointer;
     z-index: 1;
@@ -455,18 +710,21 @@ input[type="range"] {
 }
 
 .product-modal__details h3 {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
     margin: 0 0 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    color: var(--color-burgundy-deep);
 }
 
 .product-modal__price {
-    color: #aaa;
+    color: var(--color-gold);
+    font-weight: bold;
     margin: 0 0 16px;
 }
 
 .product-modal__description {
-    color: #ccc;
+    color: #5a4d3a;
     font-size: 0.9rem;
     line-height: 1.5;
     margin-bottom: 20px;
@@ -480,8 +738,8 @@ input[type="range"] {
 
 .product-modal__tab {
     background: none;
-    border: 1px solid #444;
-    color: #888;
+    border: 1px solid var(--color-gold);
+    color: var(--color-burgundy-deep);
     font-family: monospace;
     padding: 8px 14px;
     cursor: pointer;
@@ -490,24 +748,24 @@ input[type="range"] {
 }
 
 .product-modal__tab.is-active {
-    background: #fff;
-    color: #1a1a1a;
-    border-color: #fff;
+    background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+    color: var(--color-burgundy-deep);
+    border-color: var(--color-gold);
 }
 
 .product-modal__panel label {
     display: block;
     margin-bottom: 6px;
     font-size: 0.8rem;
-    color: #888;
+    color: #8a7a5c;
     text-transform: uppercase;
 }
 
 .product-modal__panel select {
     width: 100%;
-    background: #0a0a0a;
-    border: 1px solid #444;
-    color: #fff;
+    background: #fff;
+    border: 1px solid #d8cdb8;
+    color: var(--color-burgundy-deep);
     font-family: monospace;
     padding: 10px;
     margin-bottom: 16px;
@@ -521,19 +779,20 @@ input[type="range"] {
 
 .size-guide-table th,
 .size-guide-table td {
-    border: 1px solid #333;
+    border: 1px solid #d8cdb8;
     padding: 8px;
     text-align: center;
 }
 
 .size-guide-table th {
-    color: #fff;
+    background: var(--color-burgundy-deep);
+    color: var(--color-gold-light);
     text-transform: uppercase;
     font-size: 0.7rem;
 }
 
 .size-guide-table td {
-    color: #ccc;
+    color: #5a4d3a;
 }
 
 /* --- Responsive ---------------------------------------------------------- */

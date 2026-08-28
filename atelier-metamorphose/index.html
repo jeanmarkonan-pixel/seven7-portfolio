@@ -4,9 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATELIER // MÉTAMORPHOSE - Prototype v1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
+    <!-- Porte Paradisiaque : séquence d'accueil, masque le site tant qu'elle n'est pas franchie -->
+    <div id="paradise-splash">
+        <div class="splash-sky"></div>
+        <div class="splash-light-beam"></div>
+
+        <div class="splash-door-frame">
+            <p class="splash-logo">ATELIER <span>//</span> MÉTAMORPHOSE</p>
+
+            <div class="door-leaf door-leaf--left">
+                <span class="door-leaf__moulding"></span>
+            </div>
+            <div class="door-leaf door-leaf--right">
+                <span class="door-leaf__moulding"></span>
+            </div>
+        </div>
+
+        <button type="button" id="enter-atelier" class="splash-enter-btn">Entrer dans l'Atelier</button>
+        <button type="button" id="skip-intro" class="splash-skip-btn">Passer l'intro</button>
+    </div>
+
     <canvas id="canvas-metamorphose"></canvas>
 
     <!-- Interface minimale Brutaliste -->
@@ -95,6 +118,7 @@
         <div id="product-modal-body"></div>
     </div>
 
+    <script type="module" src="./src/splash.js"></script>
     <script type="module" src="./src/main.js"></script>
     <script type="module" src="./src/catalogue.js"></script>
 </body>
