@@ -129,17 +129,19 @@ input[type="range"] {
     inset: 0;
     cursor: pointer;
     transform-origin: 50% 46%; /* point de fuite : la porte */
-    transform: scale(0.82); /* recule la scène pour voir toute la composition (nuages + porte) */
-    transition: transform 2.4s cubic-bezier(0.6, 0, 0.4, 1);
+    transform: translateZ(0) scale(0.6); /* la porte reste petite, loin au fond */
+    transition: transform 2.4s cubic-bezier(0.45, 0, 0.4, 1);
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 #paradise-splash.is-opening .splash-stage {
-    transform: scale(3.2);
+    transform: translateZ(0) scale(3.2);
 }
 
 .splash-portal {
     position: absolute;
-    inset: -8%; /* légère marge pour que le zoom ne découvre jamais de bord */
+    inset: -12%; /* marge large pour que le zoom ne découvre jamais de bord, même à scale(0.6) */
     background-image: url('/door-intro.png');
     background-size: cover;
     background-position: center 42%; /* recentre sur la porte */
@@ -147,12 +149,18 @@ input[type="range"] {
 
 .neon-overlay {
     position: absolute;
-    top: 20%;
+    top: 14%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.6); /* assortie à l'échelle de repos de la scène */
     z-index: 10;
     text-align: center;
     pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+#paradise-splash.is-opening .neon-overlay {
+    /* ne suit pas le zoom (éviterait un texte géant et flou) : disparaît en fondu dès le départ du zoom */
+    opacity: 0;
 }
 
 .neon-text {
