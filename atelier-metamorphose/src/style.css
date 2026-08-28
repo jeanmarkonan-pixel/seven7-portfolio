@@ -84,10 +84,10 @@ input[type="range"] {
 }
 
 /* ----------------------------------------------------------------------
-   ARCHE CÉLESTE — intro plein écran auto-jouée. La scène (nuages
-   volumétriques, arche, porte, enseigne néon) est un rendu Three.js dédié
-   (voir src/splash-scene.js, orchestré par src/splash.js) : ici on ne
-   stylise que le conteneur plein écran et son canvas.
+   ARCHE CÉLESTE — intro plein écran auto-jouée, en CSS pur (nébuleuse
+   bleue, arche bordeaux, porte entrouverte, enseigne néon, escalier).
+   Orchestrée par src/splash.js : ouverture de la porte puis fondu vers
+   le site.
 ---------------------------------------------------------------------- */
 
 #paradise-splash {
@@ -96,7 +96,11 @@ input[type="range"] {
     z-index: 1000;
     overflow: hidden;
     opacity: 1;
-    transition: opacity 0.5s ease;
+    background-color: #050b14;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s ease;
 }
 
 #paradise-splash.is-hidden {
@@ -106,14 +110,6 @@ input[type="range"] {
 
 #paradise-splash[hidden] {
     display: none;
-}
-
-#canvas-splash {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
 }
 
 .splash-skip-btn {
@@ -129,6 +125,135 @@ input[type="range"] {
     letter-spacing: 1px;
     padding: 8px 14px;
     cursor: pointer;
+}
+
+.hero-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1a3a68 0%, #081226 60%, #030710 100%);
+}
+
+.cloud-layer {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(24, 84, 156, 0.8) 0%, transparent 50%),
+        radial-gradient(circle at 80% 75%, rgba(16, 68, 130, 0.85) 0%, transparent 50%),
+        radial-gradient(circle at 50% 30%, rgba(41, 112, 196, 0.4) 0%, transparent 60%);
+    filter: blur(20px);
+}
+
+.door-scene {
+    position: absolute;
+    bottom: 6vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.arch-frame {
+    position: relative;
+    width: min(38vw, 300px);
+    height: min(56vh, 440px);
+    background-color: var(--color-burgundy-door-dark);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    box-shadow:
+        inset 0 0 24px rgba(0, 0, 0, 0.6),
+        0 12px 36px rgba(0, 0, 0, 0.5);
+    border: 4px solid var(--color-burgundy-door);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.neon-sign {
+    margin-top: 8%;
+    color: var(--color-gold-neon);
+    font-family: var(--font-display);
+    font-size: clamp(0.8rem, 1.6vw, 1.1rem);
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 2px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #ffea61,
+        0 0 20px #ffea61,
+        0 0 30px #ffc400;
+    animation: neonGlow 1.5s ease-in-out infinite alternate;
+}
+
+.door-leaf {
+    position: absolute;
+    bottom: 0;
+    width: 78%;
+    height: 72%;
+    background: linear-gradient(135deg, var(--color-burgundy-door-dark) 0%, var(--color-burgundy-door) 100%);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border: 2px solid #4a102e;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.door-inner-panel {
+    position: absolute;
+    right: 8%;
+    bottom: 0;
+    width: 76%;
+    height: 92%;
+    background-color: #61153d;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    transform-origin: left;
+    transform: rotateY(-35deg);
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.5);
+    transition: transform 1.8s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+#paradise-splash.is-opening .door-inner-panel {
+    transform: rotateY(-115deg);
+}
+
+.door-handle {
+    position: absolute;
+    left: 10%;
+    top: 50%;
+    width: 10px;
+    height: 22px;
+    background: linear-gradient(to bottom, var(--color-gold-light), #d48806);
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(255, 229, 143, 0.6);
+}
+
+.stairs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -2px;
+}
+
+.step {
+    background: linear-gradient(to bottom, var(--color-burgundy-door), #671941);
+    border-bottom: 2px solid #4a102e;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.step-1 { width: min(42vw, 320px); height: 16px; }
+.step-2 { width: min(47vw, 360px); height: 18px; }
+.step-3 { width: min(52vw, 400px); height: 20px; }
+.step-4 { width: min(57vw, 440px); height: 22px; }
+
+@keyframes neonGlow {
+    from { opacity: 0.9; text-shadow: 0 0 5px #fff, 0 0 10px #ffea61, 0 0 15px #ffea61; }
+    to { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #ffea61, 0 0 30px #ffea61, 0 0 40px #ffc400; }
 }
 
 /* ----------------------------------------------------------------------
