@@ -196,6 +196,7 @@ footer { text-align:center; padding:40px 24px; color:var(--text-muted); font-siz
 .reveal-delay-1 { transition-delay:0.1s; }
 .reveal-delay-2 { transition-delay:0.2s; }
 .reveal-delay-3 { transition-delay:0.3s; }
+.reveal-delay-4 { transition-delay:0.4s; }
 
 
 /* ===== DARK/LIGHT TOGGLE ===== */
@@ -1218,7 +1219,19 @@ body.light-mode .player-volume-slider {
                 </div>
             </div>
         </div>
-        <div class="project-card empty reveal reveal-delay-3">
+        <div class="project-card reveal reveal-delay-3" onclick="window.open('formation.html','_blank')">
+            <div class="project-thumb"><div class="project-icon">🎓</div></div>
+            <div class="project-info">
+                <div class="project-meta"><span class="project-tag">Formation</span><span class="project-tag">IA</span><span class="project-tag">Audit</span></div>
+                <h3>Formation IA</h3>
+                <p data-i18n="proj_4_desc">Formation professionnelle individuelle pour intégrer l'intelligence artificielle dans son métier — comptabilité, audit, finance. Rédaction, formules Excel, exploitation de documents, sans exposer les données de vos clients.</p>
+                <div class="project-footer">
+                    <a href="formation.html" target="_blank" class="project-link" data-i18n="proj_link">Voir le site →</a>
+                    <div class="project-status"><div class="status-dot"></div><span data-i18n="proj_live">En ligne</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="project-card empty reveal reveal-delay-4">
             <div class="empty-content"><div class="plus">+</div><p data-i18n="proj_empty">Prochain projet bientôt...</p></div>
         </div>
     </div>
@@ -1821,6 +1834,7 @@ const translations = {
         proj_1_desc: "Outil d'audit externe automatisé. Programme détaillé conforme au référentiel de mission : suivi des cycles d'audit, procédures, documents requis et statuts en temps réel. Interface professionnelle pour cabinets d'audit.",
         proj_2_desc: "Architecture backend modulaire pour les applications SEVEN7. API REST, gestion d'authentification, base de données Firebase et structure scalable pour les futurs projets.",
         proj_3_desc: "Ce portfolio que vous consultez actuellement. Design audacieux, animations fluides, traduction FR/EN, mockup d'écran animé et système de contact intégré. 100% codé avec l'aide de l'IA.",
+        proj_4_desc: "Formation professionnelle individuelle pour intégrer l'intelligence artificielle dans son métier — comptabilité, audit, finance. Rédaction, formules Excel, exploitation de documents, sans exposer les données de vos clients.",
         proj_link: "Voir le site →",
         proj_github: "Voir sur GitHub →",
         proj_live: "En ligne",
@@ -1957,6 +1971,7 @@ const translations = {
         proj_1_desc: "Automated external audit tool. Detailed program compliant with the mission framework: audit cycle tracking, procedures, required documents and real-time status. Professional interface for audit firms.",
         proj_2_desc: "Modular backend architecture for SEVEN7 applications. REST API, authentication management, Firebase database and scalable structure for future projects.",
         proj_3_desc: "This portfolio you are currently viewing. Bold design, smooth animations, FR/EN translation, animated screen mockup and integrated contact system. 100% coded with the help of AI.",
+        proj_4_desc: "Individual professional training to integrate artificial intelligence into your profession — accounting, audit, finance. Writing, Excel formulas, document processing, without exposing your clients' data.",
         proj_link: "View site →",
         proj_github: "View on GitHub →",
         proj_live: "Live",
