@@ -97,7 +97,7 @@ section { position:relative; z-index:1; }
 .service-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent-tertiary)); opacity:0; transition:opacity 0.4s; }
 .service-card:hover { border-color:var(--border-hover); transform:translateY(-6px); box-shadow:0 25px 70px rgba(79,110,247,0.08); }
 .service-card:hover::before { opacity:1; }
-.service-icon { width:56px; height:56px; background:linear-gradient(135deg,rgba(79,110,247,0.15),rgba(109,40,217,0.1)); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:28px; margin-bottom:20px; border:1px solid rgba(79,110,247,0.15); }
+.service-icon { width:56px; height:56px; background:linear-gradient(135deg,rgba(79,110,247,0.15),rgba(109,40,217,0.1)); border-radius:16px; display:flex; align-items:center; justify-content:center; color:var(--accent); margin-bottom:20px; border:1px solid rgba(79,110,247,0.15); }
 .service-card h3 { font-size:20px; font-weight:800; color:#fff; margin-bottom:10px; }
 .service-card p { font-size:14px; color:var(--text-secondary); line-height:1.7; margin-bottom:20px; }
 .service-price { display:inline-block; padding:8px 16px; background:rgba(79,110,247,0.1); border:1px solid rgba(79,110,247,0.2); border-radius:8px; font-size:13px; color:var(--accent); font-weight:700; font-family:'JetBrains Mono',monospace; }
@@ -1018,7 +1018,7 @@ body.light-mode .player-volume-slider {
     </div>
     <div class="services-grid">
         <div class="service-card reveal">
-            <div class="service-icon">🌐</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z"/></svg></div>
             <h3 data-i18n="svc_1_title">Site Web / Portfolio</h3>
             <p data-i18n="svc_1_desc">Création de sites vitrines, portfolios et landing pages modernes, responsive et optimisés pour le référencement. Design sur-mesure avec animations fluides.</p>
             <div class="service-price" data-i18n="svc_1_price">Devis sur demande</div>
@@ -1030,7 +1030,7 @@ body.light-mode .player-volume-slider {
             </div>
         </div>
         <div class="service-card reveal reveal-delay-1">
-            <div class="service-icon">🔍</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/><path d="M8 10.5l1.6 1.6L14 8"/></svg></div>
             <h3 data-i18n="svc_2_title">Outil d'Audit Digital</h3>
             <p data-i18n="svc_2_desc">Développement d'outils d'audit automatisés, tableaux de suivi et dashboards de conformité. Parfait pour les cabinets d'audit et les entreprises.</p>
             <div class="service-price" data-i18n="svc_2_price">Devis sur demande</div>
@@ -1042,7 +1042,7 @@ body.light-mode .player-volume-slider {
             </div>
         </div>
         <div class="service-card reveal reveal-delay-2">
-            <div class="service-icon">⚡</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 6.3h.01M10 6.3h.01"/></svg></div>
             <h3 data-i18n="svc_3_title">Application Web</h3>
             <p data-i18n="svc_3_desc">Conception d'applications web interactives : dashboards, outils de gestion, plateformes SaaS. Stack moderne avec Firebase, React ou vanilla JS.</p>
             <div class="service-price" data-i18n="svc_3_price">Devis sur demande</div>
@@ -1054,7 +1054,7 @@ body.light-mode .player-volume-slider {
             </div>
         </div>
         <div class="service-card reveal">
-            <div class="service-icon">🎨</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M4 20l4.2-1.1L19 8.1a2 2 0 000-2.8l-.3-.3a2 2 0 00-2.8 0L5.1 15.8 4 20z"/><path d="M14 6l4 4"/></svg></div>
             <h3 data-i18n="svc_4_title">UI/UX & Prototypage</h3>
             <p data-i18n="svc_4_desc">Design d'interfaces utilisateur modernes, wireframes et prototypes interactifs. Focus sur l'expérience utilisateur et l'accessibilité.</p>
             <div class="service-price" data-i18n="svc_4_price">Devis sur demande</div>
@@ -1066,7 +1066,7 @@ body.light-mode .player-volume-slider {
             </div>
         </div>
         <div class="service-card reveal reveal-delay-1">
-            <div class="service-icon">🤖</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div>
             <h3 data-i18n="svc_5_title">Vibecoding / IA</h3>
             <p data-i18n="svc_5_desc">Accompagnement dans l'utilisation de l'IA pour accélérer vos projets. Prompt engineering, automatisation de tâches et intégration d'outils IA.</p>
             <div class="service-price" data-i18n="svc_5_price">Devis sur demande</div>
@@ -1078,7 +1078,7 @@ body.light-mode .player-volume-slider {
             </div>
         </div>
         <div class="service-card reveal reveal-delay-2">
-            <div class="service-icon">🔧</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.6 2.6-2.8-.6-.6-2.8 2.6-2.6z"/></svg></div>
             <h3 data-i18n="svc_6_title">Maintenance & Support</h3>
             <p data-i18n="svc_6_desc">Mise à jour, correction de bugs, optimisation des performances et évolution de votre site ou application existante.</p>
             <div class="service-price" data-i18n="svc_6_price">Devis sur demande</div>
@@ -1905,7 +1905,7 @@ const translations = {
         footer: "© 2026 SEVEN7 — Construit avec passion & IA",
         visitors_label: "Visites :",
         chat_status: "En ligne",
-        chat_welcome: "Bonjour ! 👋 Je suis Jean Mark, le créateur de SEVEN7. Comment puis-je vous aider aujourd'hui ?",
+        chat_welcome: "Bonjour, je suis Jean Mark, le créateur de SEVEN7. Comment puis-je vous aider aujourd'hui ?",
         chat_placeholder: "Écrivez un message...",
         form_name: "Nom",
         form_name_ph: "Jean Mark",
@@ -2064,7 +2064,7 @@ const translations = {
         footer: "© 2026 SEVEN7 — Built with passion & AI",
         visitors_label: "Visits:",
         chat_status: "Online",
-        chat_welcome: "Hello! 👋 I'm Jean Mark, the creator of SEVEN7. How can I help you today?",
+        chat_welcome: "Hello, I'm Jean Mark, the creator of SEVEN7. How can I help you today?",
         chat_placeholder: "Type a message...",
         form_name: "Name",
         form_name_ph: "John Doe",
@@ -2241,7 +2241,7 @@ setLang = function(lang) {
 <!-- WIDGET CHAT -->
 <div class="chat-widget" id="chatWidget">
     <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">
-        💬
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
         <span class="chat-badge" id="chatBadge">1</span>
     </button>
     <div class="chat-window" id="chatWindow">
@@ -2255,7 +2255,7 @@ setLang = function(lang) {
         </div>
         <div class="chat-body" id="chatBody">
             <div class="chat-message bot">
-                <div data-i18n="chat_welcome">Bonjour ! 👋 Je suis Jean Mark, le créateur de SEVEN7. Comment puis-je vous aider aujourd'hui ?</div>
+                <div data-i18n="chat_welcome">Bonjour, je suis Jean Mark, le créateur de SEVEN7. Comment puis-je vous aider aujourd'hui ?</div>
                 <div class="chat-message-time" id="chatTime1"></div>
             </div>
         </div>
