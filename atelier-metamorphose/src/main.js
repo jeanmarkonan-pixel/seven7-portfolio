@@ -273,7 +273,7 @@ updateScrollProgress();
  * section finale ("EXPLOREZ") est atteinte, pour une rotation libre.
  */
 function updateCameraFromScroll() {
-  smoothScrollProgress += (rawScrollProgress - smoothScrollProgress) * 0.08;
+  smoothScrollProgress += (rawScrollProgress - smoothScrollProgress) * 0.045;
 
   const lastSegmentStart = (CAMERA_WAYPOINTS.length - 2) / (CAMERA_WAYPOINTS.length - 1);
 

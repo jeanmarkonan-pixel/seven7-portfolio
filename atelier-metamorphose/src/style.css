@@ -67,7 +67,7 @@ input[type="range"] {
 }
 
 .story-section {
-    height: 100vh;
+    height: 180vh; /* plus de scroll par chapitre = transition de caméra plus lente */
     display: flex;
     flex-direction: column;
     justify-content: center;
