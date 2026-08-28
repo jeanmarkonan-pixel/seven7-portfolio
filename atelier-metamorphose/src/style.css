@@ -31,8 +31,9 @@ body, html {
     color: #ffffff;
 }
 
-html {
-    scroll-behavior: smooth;
+body.splash-active {
+    overflow: hidden;
+    height: 100vh;
 }
 
 #canvas-metamorphose {
@@ -83,142 +84,231 @@ input[type="range"] {
 }
 
 /* ----------------------------------------------------------------------
-   HERO ÉDITORIAL — wordmark plein cadre façon "Bordeaux Nail Studio"
-   (nav minimale, wordmark serif géant, visuel plein cadre en bordeaux).
-   Section statique en tête de page, au-dessus de la scène 3D fixe.
+   ARCHE CÉLESTE — intro plein écran auto-jouée (voir src/splash.js)
+   Ciel azur + nuages en couches, escalier convergent, arche bordeaux à
+   enseigne néon dorée, ouverture 3D des battants puis travelling avant.
 ---------------------------------------------------------------------- */
 
-#hero {
-    position: relative;
-    z-index: 6;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+#paradise-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--color-burgundy-door) 0%, var(--color-burgundy-door-dark) 55%, #3a0a12 100%);
-    color: #fff;
+    opacity: 1;
+    transition: opacity 0.4s ease;
 }
 
-.hero-visual {
+#paradise-splash.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#paradise-splash[hidden] {
+    display: none;
+}
+
+.splash-scene {
     position: absolute;
     inset: 0;
-    z-index: 0;
-    background:
-        radial-gradient(ellipse 55% 70% at 78% 40%, rgba(232, 193, 112, 0.16) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 82% 55%, rgba(255, 255, 255, 0.1) 0%, transparent 65%);
-}
-
-.hero-nav {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 6vw;
-    font-family: monospace;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.hero-nav__brand {
-    font-family: var(--font-display);
-    letter-spacing: 2px;
-    color: var(--color-gold-light);
-}
-
-.hero-nav__links {
     display: flex;
     align-items: center;
-    gap: 24px;
-}
-
-.hero-nav__links a {
-    color: #f0e6dc;
-    text-decoration: none;
-}
-
-.hero-nav__cta {
-    background: var(--color-gold-light);
-    color: var(--color-burgundy-door-dark) !important;
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-weight: bold;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    padding: 0 6vw;
+    transform: scale(1);
+    opacity: 1;
+    transition: transform 0.95s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.95s ease-in;
+    will-change: transform, opacity;
 }
 
-.hero-eyebrow {
-    font-family: monospace;
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--color-gold-light);
-    margin: 0 0 12px;
+#paradise-splash.is-zooming .splash-scene {
+    transform: scale(2.6);
+    opacity: 0;
 }
 
-.hero-wordmark {
-    font-family: var(--font-serif);
-    font-weight: 700;
-    font-size: clamp(3.5rem, 13vw, 9rem);
-    line-height: 0.95;
-    margin: 0;
-    text-transform: lowercase;
+.splash-sky {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #5aa9d6 0%, #8ccbe8 25%, #bfe3f2 50%, #e6f4f9 75%, #fdfbf6 100%);
+    overflow: hidden;
 }
 
-.hero-wordmark span {
-    color: var(--color-gold-light);
+.cloud {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 55%, rgba(255, 255, 255, 0) 75%);
+    filter: blur(6px);
 }
 
-.hero-subtitle {
-    font-family: var(--font-display);
-    font-size: clamp(1.1rem, 3vw, 1.8rem);
-    letter-spacing: 2px;
-    color: var(--color-gold-light);
-    margin: 4px 0 20px;
+.cloud--1 { width: 46vw; height: 18vw; top: 8%; left: -12%; }
+.cloud--2 { width: 32vw; height: 13vw; top: 18%; right: -8%; opacity: 0.85; }
+.cloud--3 { width: 55vw; height: 20vw; top: 62%; left: -18%; opacity: 0.9; }
+.cloud--4 { width: 38vw; height: 15vw; top: 70%; right: -14%; }
+.cloud--5 { width: 26vw; height: 10vw; top: 40%; left: 55%; opacity: 0.7; }
+
+.splash-staircase {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: min(70vw, 560px);
+    height: 34%;
+    transform: translateX(-50%);
+    z-index: 1;
 }
 
-.hero-tagline {
-    font-family: monospace;
-    font-size: 0.9rem;
-    color: #e8ddc8;
-    max-width: 32ch;
+.stair-step {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--i) * 8%);
+    width: calc(100% - var(--i) * 9%);
+    height: 9%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, #ffffff 0%, #dbe9f2 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 6px rgba(94, 16, 29, 0.15);
 }
 
-.hero-scroll-cta {
+.splash-light-beam {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 36vw;
+    height: 100%;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at 50% 55%, rgba(255, 250, 230, 0.95) 0%, rgba(255, 230, 160, 0.5) 35%, transparent 70%);
+    opacity: 0;
+    transition: opacity 1s ease 0.15s;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#paradise-splash.is-open .splash-light-beam {
+    opacity: 1;
+}
+
+.splash-door-frame {
     position: relative;
     z-index: 2;
-    align-self: center;
-    margin-bottom: 32px;
-    color: #f0e6dc;
+    width: min(46vw, 380px);
+    height: min(58vh, 520px);
+    margin-bottom: 8vh;
+    perspective: 1800px;
+}
+
+.splash-sign {
+    position: absolute;
+    top: -54px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    white-space: nowrap;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1rem, 2.6vw, 1.5rem);
+    letter-spacing: 3px;
+    color: var(--color-gold-neon);
+    text-shadow:
+        0 0 6px rgba(255, 223, 153, 0.9),
+        0 0 18px rgba(255, 223, 153, 0.7),
+        0 0 40px rgba(255, 200, 100, 0.5);
+    margin: 0;
+}
+
+.splash-arch {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, var(--color-burgundy-door) 0%, var(--color-burgundy-door-dark) 100%);
+    border: 4px solid var(--color-gold);
+    border-radius: 50% 50% 6px 6px / 26% 26% 0 0;
+    overflow: hidden;
+    box-shadow: 0 40px 90px rgba(30, 5, 10, 0.45);
+}
+
+.door-leaf {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--color-burgundy-door) 0%, var(--color-burgundy-door-dark) 100%);
+    transition: transform 1.3s cubic-bezier(0.65, 0, 0.35, 1);
+    transform-style: preserve-3d;
+}
+
+.door-leaf--left {
+    left: 0;
+    transform-origin: left center;
+    border-right: 1px solid rgba(197, 168, 128, 0.6);
+}
+
+.door-leaf--right {
+    right: 0;
+    transform-origin: right center;
+    border-left: 1px solid rgba(197, 168, 128, 0.6);
+}
+
+#paradise-splash.is-open .door-leaf--left {
+    transform: rotateY(-100deg);
+}
+
+#paradise-splash.is-open .door-leaf--right {
+    transform: rotateY(100deg);
+}
+
+.door-leaf__moulding {
+    position: absolute;
+    inset: 8% 12%;
+    border: 2px solid var(--color-gold);
+}
+
+.door-leaf__handle {
+    position: absolute;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff2cf, var(--color-gold) 70%);
+    box-shadow: 0 0 6px rgba(197, 168, 128, 0.8);
+}
+
+.door-leaf--left .door-leaf__handle {
+    right: 14%;
+}
+
+.door-leaf--right .door-leaf__handle {
+    left: 14%;
+}
+
+.splash-skip-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--color-burgundy-deep);
+    color: var(--color-burgundy-deep);
     font-family: monospace;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     letter-spacing: 1px;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(240, 230, 220, 0.4);
-    padding-bottom: 2px;
+    padding: 8px 14px;
+    cursor: pointer;
 }
 
 @media (max-width: 640px) {
-    .hero-nav {
-        padding: 18px 6vw;
+    .splash-door-frame {
+        width: 68vw;
+        height: 46vh;
+        margin-bottom: 4vh;
     }
 
-    .hero-nav__links {
-        gap: 12px;
-        font-size: 0.65rem;
+    .splash-staircase {
+        width: 88vw;
+        height: 28%;
     }
 
-    .hero-nav__brand {
-        font-size: 0.65rem;
+    .splash-sign {
+        top: -40px;
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
     }
 }
 
