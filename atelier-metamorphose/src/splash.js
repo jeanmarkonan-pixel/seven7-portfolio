@@ -1,19 +1,23 @@
 // ============================================================================
-// Arche Céleste — orchestration de l'intro CSS : déclenche l'ouverture de la
-// porte après un court délai, puis masque l'overlay pour laisser place au
-// site (scène principale Three.js gérée séparément par src/main.js).
+// Arche Céleste — orchestration de l'intro : initialise la scène 3D dédiée
+// (src/splash-scene.js), joue l'animation d'ouverture après un court délai,
+// puis masque l'overlay et libère les ressources GPU de cette scène pour
+// laisser la scène principale (src/main.js) prendre le relais.
 // ============================================================================
+
+import { createSplashScene } from './splash-scene.js';
 
 const SESSION_KEY = 'atelier-splash-seen';
 
 const splash = document.querySelector('#paradise-splash');
 const skipButton = document.querySelector('#skip-intro');
+const splashCanvas = document.querySelector('#canvas-splash');
 
-const AUTO_START_DELAY_MS = 700; // avant que la porte ne commence à s'ouvrir
-const DOOR_OPEN_DURATION_MS = 1800; // doit correspondre à la transition CSS .door-inner-panel
-const FADE_OUT_DURATION_MS = 600;
+const AUTO_START_DELAY_MS = 900; // avant que l'animation d'ouverture ne se déclenche seule
+const FADE_OUT_DURATION_MS = 500;
 
 let timers = [];
+let scene = null;
 
 function clearTimers() {
   timers.forEach((id) => clearTimeout(id));
@@ -34,6 +38,10 @@ function finishSplash() {
   unlockBodyScroll();
   setTimeout(() => {
     splash.hidden = true;
+    if (scene) {
+      scene.dispose(); // libère la scène 3D de l'intro, plus jamais rejouée
+      scene = null;
+    }
   }, FADE_OUT_DURATION_MS);
 }
 
@@ -41,16 +49,27 @@ function playIntro() {
   sessionStorage.setItem(SESSION_KEY, 'true');
   lockBodyScroll();
 
+  scene = createSplashScene(splashCanvas);
+  scene.start();
+
+  window.addEventListener('resize', handleResize);
+
   timers.push(
     setTimeout(() => {
-      splash.classList.add('is-opening');
-      timers.push(setTimeout(finishSplash, DOOR_OPEN_DURATION_MS));
+      scene.playEnterAnimation(() => {
+        finishSplash();
+      });
     }, AUTO_START_DELAY_MS)
   );
 }
 
+function handleResize() {
+  if (scene) scene.resize();
+}
+
 function skipIntro() {
   sessionStorage.setItem(SESSION_KEY, 'true');
+  window.removeEventListener('resize', handleResize);
   finishSplash();
 }
 
