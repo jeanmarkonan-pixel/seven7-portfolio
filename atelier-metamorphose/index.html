@@ -10,30 +10,14 @@
     <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-    <!-- Arche Céleste : séquence d'accueil auto-jouée en CSS (nébuleuse
-         bleue, arche bordeaux, porte entrouverte à l'intérieur chaleureux,
-         enseigne néon, escalier), masque le site tant qu'elle n'est pas
-         terminée. -->
+    <!-- Arche Céleste : image d'accueil plein écran (public/door-intro.png),
+         zoom immersif à travers la porte au bout de 1,5s ou au clic, masque
+         le site tant qu'elle n'est pas terminée. -->
     <div id="paradise-splash">
-        <button type="button" id="skip-intro" class="splash-skip-btn">Passer l'animation</button>
-        <div class="scene-container">
-            <div class="clouds-bg"></div>
-            <div class="portal-wrapper">
-                <div class="arch-frame">
-                    <p class="neon-sign">Atelier<br>Métamorphose</p>
-                    <div class="door-interior">
-                        <div class="door-leaf">
-                            <div class="door-handle"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="stairs">
-                    <div class="step step-1"></div>
-                    <div class="step step-2"></div>
-                    <div class="step step-3"></div>
-                    <div class="step step-4"></div>
-                    <div class="step step-5"></div>
-                </div>
+        <button type="button" id="skip-intro" class="splash-skip-btn">Passer l'intro</button>
+        <div id="splash-portal" class="splash-portal">
+            <div class="neon-overlay">
+                <p class="neon-text">Atelier<br>Métamorphose</p>
             </div>
         </div>
     </div>

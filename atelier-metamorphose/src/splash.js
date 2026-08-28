@@ -1,6 +1,7 @@
 // ============================================================================
-// Arche Céleste — orchestration de l'intro CSS : déclenche l'ouverture de la
-// porte après un court délai, puis masque l'overlay pour laisser place au
+// Arche Céleste — orchestration de l'intro : image plein écran (voir
+// public/door-intro.png), zoom immersif à travers la porte déclenché
+// automatiquement après un court délai ou au clic/tap, puis fondu vers le
 // site (scène principale Three.js gérée séparément par src/main.js).
 // ============================================================================
 
@@ -8,12 +9,14 @@ const SESSION_KEY = 'atelier-splash-seen';
 
 const splash = document.querySelector('#paradise-splash');
 const skipButton = document.querySelector('#skip-intro');
+const portal = document.querySelector('#splash-portal');
 
-const AUTO_START_DELAY_MS = 700; // avant que la porte ne commence à s'ouvrir
-const DOOR_OPEN_DURATION_MS = 1800; // doit correspondre à la transition CSS .door-leaf
+const AUTO_OPEN_DELAY_MS = 1500; // avant que le zoom ne se déclenche seul
+const ZOOM_DURATION_MS = 1600; // doit correspondre à la transition CSS .splash-portal
 const FADE_OUT_DURATION_MS = 600;
 
 let timers = [];
+let hasOpened = false;
 
 function clearTimers() {
   timers.forEach((id) => clearTimeout(id));
@@ -37,21 +40,25 @@ function finishSplash() {
   }, FADE_OUT_DURATION_MS);
 }
 
-function playIntro() {
-  sessionStorage.setItem(SESSION_KEY, 'true');
-  lockBodyScroll();
-
-  timers.push(
-    setTimeout(() => {
-      splash.classList.add('is-opening');
-      timers.push(setTimeout(finishSplash, DOOR_OPEN_DURATION_MS));
-    }, AUTO_START_DELAY_MS)
-  );
+function openPortal() {
+  if (hasOpened) return;
+  hasOpened = true;
+  clearTimers();
+  splash.classList.add('is-opening');
+  timers.push(setTimeout(finishSplash, ZOOM_DURATION_MS));
 }
 
 function skipIntro() {
   sessionStorage.setItem(SESSION_KEY, 'true');
   finishSplash();
+}
+
+function playIntro() {
+  sessionStorage.setItem(SESSION_KEY, 'true');
+  lockBodyScroll();
+
+  portal.addEventListener('click', openPortal);
+  timers.push(setTimeout(openPortal, AUTO_OPEN_DELAY_MS));
 }
 
 if (sessionStorage.getItem(SESSION_KEY)) {
