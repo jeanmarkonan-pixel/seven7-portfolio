@@ -10,15 +10,31 @@
     <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-    <!-- Arche Céleste : séquence d'accueil auto-jouée en Three.js (arche
-         bordeaux extrudée, porte entrouverte, nébuleuse de nuages en
-         dodécaèdres, parallaxe souris), masque le site tant qu'elle n'est
-         pas terminée. Canvas dédié, indépendant de la scène principale. -->
+    <!-- Arche Céleste : séquence d'accueil auto-jouée en CSS (nébuleuse
+         bleue, arche bordeaux, porte entrouverte à l'intérieur chaleureux,
+         enseigne néon, escalier), masque le site tant qu'elle n'est pas
+         terminée. -->
     <div id="paradise-splash">
         <button type="button" id="skip-intro" class="splash-skip-btn">Passer l'animation</button>
-        <canvas id="canvas-splash"></canvas>
-        <div class="neon-overlay">
-            <p class="neon-text">Atelier<br>Métamorphose</p>
+        <div class="scene-container">
+            <div class="clouds-bg"></div>
+            <div class="portal-wrapper">
+                <div class="arch-frame">
+                    <p class="neon-sign">Atelier<br>Métamorphose</p>
+                    <div class="door-interior">
+                        <div class="door-leaf">
+                            <div class="door-handle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stairs">
+                    <div class="step step-1"></div>
+                    <div class="step step-2"></div>
+                    <div class="step step-3"></div>
+                    <div class="step step-4"></div>
+                    <div class="step step-5"></div>
+                </div>
+            </div>
         </div>
     </div>
 
