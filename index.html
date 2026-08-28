@@ -118,6 +118,20 @@ section { position:relative; z-index:1; }
 .skill-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
 .skill-tag { padding:6px 12px; background:rgba(79,110,247,0.06); border:1px solid rgba(79,110,247,0.12); border-radius:6px; font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.5px; }
 
+/* AI STACK (locked skills & plugins showcase) */
+.ai-stack { padding:100px 24px; max-width:1200px; margin:0 auto; }
+.ai-stack-note { font-size:14px; color:var(--text-muted); max-width:640px; margin:-24px 0 44px; line-height:1.7; }
+.ai-stack-category { margin-bottom:36px; }
+.ai-stack-category:last-child { margin-bottom:0; }
+.ai-stack-category-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:2px; color:var(--text-secondary); margin-bottom:14px; }
+.ai-stack-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
+.ai-stack-item { position:relative; background:var(--bg-card); border:1px solid var(--border); border-radius:14px; padding:16px 18px; transition:all 0.3s; cursor:default; }
+.ai-stack-item:hover { border-color:var(--border-hover); }
+.ai-stack-item-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px; }
+.ai-stack-name { font-size:13px; font-weight:700; color:#fff; font-family:'JetBrains Mono',monospace; letter-spacing:-0.2px; }
+.ai-stack-lock { font-size:13px; opacity:0.55; flex-shrink:0; }
+.ai-stack-desc { font-size:12.5px; color:var(--text-secondary); line-height:1.5; }
+
 /* PROJECTS */
 .projects { padding:100px 24px; max-width:1200px; margin:0 auto; }
 .projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:28px; }
@@ -945,6 +959,7 @@ body.light-mode .player-volume-slider {
         <div class="nav-links">
             <a href="#services" data-i18n="nav_services">Services</a>
             <a href="#skills" data-i18n="nav_skills">Compétences</a>
+            <a href="#ai-stack" data-i18n="nav_stack">Stack IA</a>
             <a href="#projects" data-i18n="nav_projects">Projets</a>
             <a href="#media" data-i18n="nav_media">Média</a>
             <a href="#about" data-i18n="nav_about">À propos</a>
@@ -1113,6 +1128,78 @@ body.light-mode .player-volume-slider {
             <div class="skill-header"><span class="skill-name" data-i18n="skill_audit">Audit & Conformité</span><span class="skill-level">85%</span></div>
             <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div>
             <div class="skill-tags"><span class="skill-tag">Audit Externe</span><span class="skill-tag">Normes Comptables</span><span class="skill-tag">Reporting</span><span class="skill-tag">Automatisation</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- AI STACK -->
+<section class="ai-stack" id="ai-stack">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="stack_label">Stack IA</div>
+        <h2 class="section-title" data-i18n="stack_title">Compétences & plugins Claude Code</h2>
+    </div>
+    <p class="ai-stack-note reveal" data-i18n="stack_note">Les outils IA que j'utilise au quotidien dans mon workflow — affichés ici à titre indicatif, verrouillés : non activables depuis le portfolio.</p>
+
+    <div class="ai-stack-category reveal">
+        <div class="ai-stack-category-title" data-i18n="stack_cat_dev">Développement & qualité</div>
+        <div class="ai-stack-grid">
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">code-review</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_code_review">Revue de code automatisée</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">simplify</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_simplify">Simplification & refactoring</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">security-review</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_security_review">Audit de sécurité du code</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">run</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_run">Lancement & test d'apps en direct</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">init</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_init">Documentation de projet</div></div>
+        </div>
+    </div>
+
+    <div class="ai-stack-category reveal">
+        <div class="ai-stack-category-title" data-i18n="stack_cat_auto">Automatisation & configuration</div>
+        <div class="ai-stack-grid">
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">session-start-hook</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_session_hook">Hooks de démarrage de session</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">update-config</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_update_config">Configuration avancée</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">keybindings-help</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_keybindings">Raccourcis clavier personnalisés</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">fewer-permission-prompts</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_permissions">Automatisation des permissions</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">loop</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_loop">Tâches récurrentes programmées</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">claude-api</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_claude_api">Intégration API Claude</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">skill-creator</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_skill_creator">Création de compétences IA</div></div>
+        </div>
+    </div>
+
+    <div class="ai-stack-category reveal">
+        <div class="ai-stack-category-title" data-i18n="stack_cat_design">Design & visuel</div>
+        <div class="ai-stack-grid">
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">design</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_design">Maquettes & canvas visuels</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">dataviz</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_dataviz">Graphiques & dashboards</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">artifact-design</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_artifact_design">Design d'interfaces</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">artifact-diagramming</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_artifact_diagram">Diagrammes techniques</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">artifact-capabilities</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_artifact_capabilities">Applications interactives</div></div>
+        </div>
+    </div>
+
+    <div class="ai-stack-category reveal">
+        <div class="ai-stack-category-title" data-i18n="stack_cat_docs">Documents & bureautique</div>
+        <div class="ai-stack-grid">
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">docx</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_docx">Documents Word</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">pdf</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_pdf">Édition & fusion de PDF</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">pptx</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_pptx">Présentations PowerPoint</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">xlsx</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_xlsx">Tableurs Excel</div></div>
+        </div>
+    </div>
+
+    <div class="ai-stack-category reveal">
+        <div class="ai-stack-category-title" data-i18n="stack_cat_productivity">Productivité</div>
+        <div class="ai-stack-grid">
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">morning</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_morning">Brief quotidien automatisé</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">import-memory</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_import_memory">Import de mémoire IA</div></div>
+        </div>
+    </div>
+
+    <div class="ai-stack-category reveal">
+        <div class="ai-stack-category-title" data-i18n="stack_cat_plugins">Plugins & intégrations connectées</div>
+        <div class="ai-stack-grid">
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">GitHub</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_github">Dépôts, pull requests & CI</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">Figma</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_figma">Design & prototypage</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">Gmail</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_gmail">Gestion des emails</div></div>
+            <div class="ai-stack-item"><div class="ai-stack-item-head"><span class="ai-stack-name">Claude Code Remote</span><span class="ai-stack-lock">🔒</span></div><div class="ai-stack-desc" data-i18n="stack_ccr">Sessions cloud & agents</div></div>
         </div>
     </div>
 </section>
@@ -1687,6 +1774,7 @@ const translations = {
         intro_enter: "Cliquez pour entrer",
         nav_services: "Services",
         nav_skills: "Compétences",
+        nav_stack: "Stack IA",
         nav_projects: "Projets",
         nav_media: "Média",
         nav_about: "À propos",
@@ -1755,6 +1843,42 @@ const translations = {
         skill_design: "UI/UX Design",
         skill_tools: "Outils & Workflow",
         skill_audit: "Audit & Conformité",
+        stack_label: "Stack IA",
+        stack_title: "Compétences & plugins Claude Code",
+        stack_note: "Les outils IA que j'utilise au quotidien dans mon workflow — affichés ici à titre indicatif, verrouillés : non activables depuis le portfolio.",
+        stack_cat_dev: "Développement & qualité",
+        stack_cat_auto: "Automatisation & configuration",
+        stack_cat_design: "Design & visuel",
+        stack_cat_docs: "Documents & bureautique",
+        stack_cat_productivity: "Productivité",
+        stack_cat_plugins: "Plugins & intégrations connectées",
+        stack_code_review: "Revue de code automatisée",
+        stack_simplify: "Simplification & refactoring",
+        stack_security_review: "Audit de sécurité du code",
+        stack_run: "Lancement & test d'apps en direct",
+        stack_init: "Documentation de projet",
+        stack_session_hook: "Hooks de démarrage de session",
+        stack_update_config: "Configuration avancée",
+        stack_keybindings: "Raccourcis clavier personnalisés",
+        stack_permissions: "Automatisation des permissions",
+        stack_loop: "Tâches récurrentes programmées",
+        stack_claude_api: "Intégration API Claude",
+        stack_skill_creator: "Création de compétences IA",
+        stack_design: "Maquettes & canvas visuels",
+        stack_dataviz: "Graphiques & dashboards",
+        stack_artifact_design: "Design d'interfaces",
+        stack_artifact_diagram: "Diagrammes techniques",
+        stack_artifact_capabilities: "Applications interactives",
+        stack_docx: "Documents Word",
+        stack_pdf: "Édition & fusion de PDF",
+        stack_pptx: "Présentations PowerPoint",
+        stack_xlsx: "Tableurs Excel",
+        stack_morning: "Brief quotidien automatisé",
+        stack_import_memory: "Import de mémoire IA",
+        stack_github: "Dépôts, pull requests & CI",
+        stack_figma: "Design & prototypage",
+        stack_gmail: "Gestion des emails",
+        stack_ccr: "Sessions cloud & agents",
         projects_label: "Projets",
         projects_title: "Ce que j'ai construit",
         proj_1_desc: "Outil d'audit externe automatisé. Programme détaillé conforme au référentiel de mission : suivi des cycles d'audit, procédures, documents requis et statuts en temps réel. Interface professionnelle pour cabinets d'audit.",
@@ -1809,6 +1933,7 @@ const translations = {
         intro_enter: "Click to enter",
         nav_services: "Services",
         nav_skills: "Skills",
+        nav_stack: "AI Stack",
         nav_projects: "Projects",
         nav_media: "Media",
         nav_about: "About",
@@ -1877,6 +2002,42 @@ const translations = {
         skill_design: "UI/UX Design",
         skill_tools: "Tools & Workflow",
         skill_audit: "Audit & Compliance",
+        stack_label: "AI Stack",
+        stack_title: "Claude Code Skills & Plugins",
+        stack_note: "The AI tools I use daily in my workflow — shown here for reference, locked: not usable from the portfolio.",
+        stack_cat_dev: "Development & quality",
+        stack_cat_auto: "Automation & configuration",
+        stack_cat_design: "Design & visual",
+        stack_cat_docs: "Documents & office",
+        stack_cat_productivity: "Productivity",
+        stack_cat_plugins: "Plugins & connected integrations",
+        stack_code_review: "Automated code review",
+        stack_simplify: "Simplification & refactoring",
+        stack_security_review: "Code security audit",
+        stack_run: "Live app launch & testing",
+        stack_init: "Project documentation",
+        stack_session_hook: "Session startup hooks",
+        stack_update_config: "Advanced configuration",
+        stack_keybindings: "Custom keybindings",
+        stack_permissions: "Permission automation",
+        stack_loop: "Scheduled recurring tasks",
+        stack_claude_api: "Claude API integration",
+        stack_skill_creator: "AI skill creation",
+        stack_design: "Visual mockups & canvas",
+        stack_dataviz: "Charts & dashboards",
+        stack_artifact_design: "Interface design",
+        stack_artifact_diagram: "Technical diagrams",
+        stack_artifact_capabilities: "Interactive web apps",
+        stack_docx: "Word documents",
+        stack_pdf: "PDF editing & merging",
+        stack_pptx: "PowerPoint decks",
+        stack_xlsx: "Excel spreadsheets",
+        stack_morning: "Automated daily brief",
+        stack_import_memory: "AI memory import",
+        stack_github: "Repos, pull requests & CI",
+        stack_figma: "Design & prototyping",
+        stack_gmail: "Email management",
+        stack_ccr: "Cloud sessions & agents",
         projects_label: "Projects",
         projects_title: "What I've built",
         proj_1_desc: "Automated external audit tool. Detailed program compliant with the mission framework: audit cycle tracking, procedures, required documents and real-time status. Professional interface for audit firms.",
