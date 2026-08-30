@@ -462,280 +462,8 @@ body, body * {
 }
 
 
-/* ===== PLAYER AUDIO/VIDEO ===== */
-.media-section {
-    padding: 100px 24px;
-    max-width: 900px;
-    margin: 0 auto;
-}
-.player-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    overflow: hidden;
-    position: relative;
-    transition: all 0.4s;
-}
-.player-card:hover {
-    border-color: var(--border-hover);
-    box-shadow: 0 30px 80px rgba(79,110,247,0.08);
-}
-.player-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-tertiary));
-    opacity: 0;
-    transition: opacity 0.4s;
-}
-.player-card:hover::before { opacity: 1; }
-.player-screen {
-    position: relative;
-    aspect-ratio: 16/9;
-    background: linear-gradient(135deg, #0a0a10, #15151c, #08080c);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-body.light-mode .player-screen {
-    background: linear-gradient(135deg, #e8e8f0, #f0f0f5, #e0e0e8);
-}
-.player-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-}
-.player-video.active { display: block; }
-.player-visualizer {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    opacity: 0;
-    transition: opacity 0.4s;
-}
-.player-visualizer.active { opacity: 1; }
-.viz-bar {
-    width: 6px;
-    background: linear-gradient(180deg, var(--accent), var(--accent-tertiary));
-    border-radius: 3px;
-    animation: vizDance 0.8s ease-in-out infinite alternate;
-}
-.viz-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
-.viz-bar:nth-child(2) { height: 40px; animation-delay: 0.1s; }
-.viz-bar:nth-child(3) { height: 60px; animation-delay: 0.2s; }
-.viz-bar:nth-child(4) { height: 35px; animation-delay: 0.15s; }
-.viz-bar:nth-child(5) { height: 50px; animation-delay: 0.05s; }
-.viz-bar:nth-child(6) { height: 30px; animation-delay: 0.25s; }
-.viz-bar:nth-child(7) { height: 45px; animation-delay: 0.1s; }
-@keyframes vizDance {
-    0% { transform: scaleY(0.4); opacity: 0.6; }
-    100% { transform: scaleY(1); opacity: 1; }
-}
-.player-placeholder {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 40px;
-}
-.player-placeholder-icon {
-    font-size: 64px;
-    margin-bottom: 16px;
-    opacity: 0.3;
-}
-.player-placeholder-text {
-    font-size: 14px;
-    font-weight: 600;
-}
-.player-controls {
-    padding: 24px 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.player-progress-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.player-time {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    min-width: 42px;
-    text-align: center;
-}
-.player-progress-bg {
-    flex: 1;
-    height: 6px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 3px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-body.light-mode .player-progress-bg {
-    background: rgba(0,0,0,0.08);
-}
-.player-progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--accent), var(--accent-tertiary));
-    border-radius: 3px;
-    transition: width 0.1s linear;
-    position: relative;
-}
-.player-progress-fill::after {
-    content: '';
-    position: absolute;
-    right: -6px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(79,110,247,0.5);
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-.player-progress-bg:hover .player-progress-fill::after { opacity: 1; }
-.player-buttons-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-}
-.player-main-btns {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-.player-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 10px;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-}
-.player-btn:hover {
-    color: var(--accent);
-    background: rgba(79,110,247,0.08);
-}
-.player-btn.play {
-    width: 52px;
-    height: 52px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-tertiary));
-    color: #fff;
-    font-size: 24px;
-    border-radius: 50%;
-    box-shadow: 0 4px 20px rgba(79,110,247,0.3);
-}
-.player-btn.play:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 30px rgba(79,110,247,0.4);
-    color: #fff;
-}
-.player-volume-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.player-volume-slider {
-    width: 80px;
-    height: 4px;
-    -webkit-appearance: none;
-    appearance: none;
-    background: rgba(255,255,255,0.08);
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
-}
-body.light-mode .player-volume-slider {
-    background: rgba(0,0,0,0.1);
-}
-.player-volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    background: var(--accent);
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 8px rgba(79,110,247,0.4);
-}
-.player-volume-slider::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    background: var(--accent);
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 0 8px rgba(79,110,247,0.4);
-}
-.player-source-row {
-    display: flex;
-    gap: 10px;
-    padding: 0 28px 24px;
-}
-.player-source-btn {
-    flex: 1;
-    padding: 12px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-family: 'Inter', sans-serif;
-    text-align: center;
-}
-.player-source-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: rgba(79,110,247,0.05);
-}
-.player-source-btn input[type="file"] {
-    display: none;
-}
-.player-source-input {
-    flex: 1;
-    padding: 12px 16px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    color: var(--text);
-    font-size: 13px;
-    font-family: 'Inter', sans-serif;
-    outline: none;
-    transition: all 0.3s;
-}
-.player-source-input:focus {
-    border-color: var(--accent);
-    background: rgba(79,110,247,0.04);
-}
-.player-source-input::placeholder {
-    color: var(--text-muted);
-}
-
 /* RESPONSIVE */
-@media (max-width:900px) { .hero { grid-template-columns:1fr; text-align:center; padding-top:120px; } .hero-left { max-width:100%; } .hero-cta { justify-content:center; } .hero-right { display:none; } nav { padding:16px 24px; } .nav-links { display:none; } .nav-right { gap:12px; } .about-stats { gap:40px; } .contact-grid { grid-template-columns:1fr; } .services, .skills, .ai-stack, .projects, .about, .media-section { padding-top:56px; padding-bottom:56px; } .contact { padding-top:56px; padding-bottom:72px; } .section-title { margin-bottom:32px; } .services-grid, .skills-grid, .projects-grid { gap:16px; } }
+@media (max-width:900px) { .hero { grid-template-columns:1fr; text-align:center; padding-top:120px; } .hero-left { max-width:100%; } .hero-cta { justify-content:center; } .hero-right { display:none; } nav { padding:16px 24px; } .nav-links { display:none; } .nav-right { gap:12px; } .about-stats { gap:40px; } .contact-grid { grid-template-columns:1fr; } .services, .ai-stack, .projects, .about { padding-top:56px; padding-bottom:56px; } .contact { padding-top:56px; padding-bottom:72px; } .section-title { margin-bottom:32px; } .services-grid, .projects-grid { gap:16px; } }
 @media (max-width:600px) { .projects-grid, .services-grid, .skills-grid { grid-template-columns:1fr; } .timeline { padding-left:28px; } .timeline-dot { left:-32px; } .intro-logo { letter-spacing:6px; } }
 
 /* ===== FORMULAIRE DE CONTACT ===== */
@@ -912,7 +640,6 @@ body.light-mode .player-volume-slider {
             <a href="#services" data-i18n="nav_services">Services</a>
             <a href="#ai-stack" data-i18n="nav_stack">Stack IA</a>
             <a href="#projects" data-i18n="nav_projects">Projets</a>
-            <a href="#media" data-i18n="nav_media">Média</a>
             <a href="#about" data-i18n="nav_about">À propos</a>
             <a href="#contact" data-i18n="nav_contact">Contact</a>
         </div>
@@ -935,7 +662,6 @@ body.light-mode .player-volume-slider {
     <a href="#services" data-i18n="nav_services" onclick="toggleMobileNav()">Services</a>
     <a href="#ai-stack" data-i18n="nav_stack" onclick="toggleMobileNav()">Stack IA</a>
     <a href="#projects" data-i18n="nav_projects" onclick="toggleMobileNav()">Projets</a>
-    <a href="#media" data-i18n="nav_media" onclick="toggleMobileNav()">Média</a>
     <a href="#about" data-i18n="nav_about" onclick="toggleMobileNav()">À propos</a>
     <a href="#contact" data-i18n="nav_contact" onclick="toggleMobileNav()">Contact</a>
 </div>
@@ -1214,59 +940,6 @@ body.light-mode .player-volume-slider {
 </section>
 
 <!-- MEDIA PLAYER -->
-<section class="media-section" id="media">
-    <div class="section-header reveal">
-        <div class="section-label" data-i18n="media_label">Média</div>
-        <h2 class="section-title" data-i18n="media_title">Lecteur Audio & Vidéo</h2>
-    </div>
-    <div class="player-card reveal">
-        <div class="player-screen" id="playerScreen">
-            <video class="player-video" id="playerVideo" playsinline></video>
-            <div class="player-visualizer" id="playerVisualizer">
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-            </div>
-            <div class="player-placeholder" id="playerPlaceholder">
-                <div class="player-placeholder-icon">🎵</div>
-                <div class="player-placeholder-text" data-i18n="player_placeholder">Chargez un fichier audio ou vidéo</div>
-            </div>
-        </div>
-        <div class="player-controls">
-            <div class="player-progress-row">
-                <span class="player-time" id="playerCurrentTime">0:00</span>
-                <div class="player-progress-bg" id="playerProgressBg" onclick="seekPlayer(event)">
-                    <div class="player-progress-fill" id="playerProgressFill"></div>
-                </div>
-                <span class="player-time" id="playerTotalTime">0:00</span>
-            </div>
-            <div class="player-buttons-row">
-                <div class="player-main-btns">
-                    <button class="player-btn" onclick="skipPlayer(-10)" title="-10s">⏮</button>
-                    <button class="player-btn play" id="playerPlayBtn" onclick="togglePlay()">▶</button>
-                    <button class="player-btn" onclick="skipPlayer(10)" title="+10s">⏭</button>
-                </div>
-                <div class="player-volume-row">
-                    <button class="player-btn" id="playerMuteBtn" onclick="toggleMute()">🔊</button>
-                    <input type="range" class="player-volume-slider" id="playerVolume" min="0" max="100" value="80" oninput="setVolume(this.value)">
-                </div>
-            </div>
-        </div>
-        <div class="player-source-row">
-            <label class="player-source-btn">
-                <span>📁</span> <span data-i18n="player_file">Fichier</span>
-                <input type="file" id="playerFileInput" accept="audio/*,video/*" onchange="loadFile(event)">
-            </label>
-            <input type="text" class="player-source-input" id="playerUrlInput" placeholder="URL YouTube, MP3, MP4..." data-i18n-placeholder="player_url_ph" onkeydown="if(event.key==='Enter')loadUrl()">
-            <button class="player-source-btn" onclick="loadUrl()" data-i18n="player_load">Charger</button>
-        </div>
-    </div>
-</section>
-
 <!-- ABOUT -->
 <section class="about" id="about">
     <div class="section-header reveal">
@@ -1551,130 +1224,6 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// ===== PLAYER AUDIO/VIDEO =====
-let playerMedia = null;
-let playerIsPlaying = false;
-let playerIsVideo = false;
-let playerUpdateInterval = null;
-
-function initPlayer() {
-    playerMedia = document.getElementById('playerVideo');
-    playerMedia.addEventListener('ended', () => {
-        playerIsPlaying = false;
-        updatePlayBtn();
-        document.getElementById('playerVisualizer').classList.remove('active');
-    });
-    playerMedia.addEventListener('timeupdate', updateProgress);
-    playerMedia.addEventListener('loadedmetadata', () => {
-        document.getElementById('playerTotalTime').textContent = formatTime(playerMedia.duration);
-    });
-}
-
-function loadFile(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    loadMedia(url, file.type.startsWith('video'));
-}
-
-function loadUrl() {
-    const input = document.getElementById('playerUrlInput');
-    const url = input.value.trim();
-    if (!url) return;
-    // Detecte si c'est une video par l'extension
-    const isVideo = /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url);
-    loadMedia(url, isVideo);
-}
-
-function loadMedia(url, isVideo) {
-    playerIsVideo = isVideo;
-    playerMedia.src = url;
-    playerMedia.load();
-
-    document.getElementById('playerPlaceholder').style.display = 'none';
-
-    if (isVideo) {
-        playerMedia.style.display = 'block';
-        document.getElementById('playerVisualizer').classList.remove('active');
-    } else {
-        playerMedia.style.display = 'none';
-        document.getElementById('playerVisualizer').classList.add('active');
-    }
-
-    togglePlay();
-}
-
-function togglePlay() {
-    if (!playerMedia.src) {
-        alert(currentLang === 'fr' ? "Chargez d'abord un fichier audio ou vidéo !" : "Load an audio or video file first!");
-        return;
-    }
-
-    if (playerIsPlaying) {
-        playerMedia.pause();
-        playerIsPlaying = false;
-        document.getElementById('playerVisualizer').classList.remove('active');
-    } else {
-        playerMedia.play().catch(() => {});
-        playerIsPlaying = true;
-        if (!playerIsVideo) {
-            document.getElementById('playerVisualizer').classList.add('active');
-        }
-    }
-    updatePlayBtn();
-}
-
-function updatePlayBtn() {
-    document.getElementById('playerPlayBtn').textContent = playerIsPlaying ? '⏸' : '▶';
-}
-
-function updateProgress() {
-    if (!playerMedia.duration) return;
-    const pct = (playerMedia.currentTime / playerMedia.duration) * 100;
-    document.getElementById('playerProgressFill').style.width = pct + '%';
-    document.getElementById('playerCurrentTime').textContent = formatTime(playerMedia.currentTime);
-}
-
-function seekPlayer(event) {
-    if (!playerMedia.duration) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    const pct = (event.clientX - rect.left) / rect.width;
-    playerMedia.currentTime = pct * playerMedia.duration;
-}
-
-function skipPlayer(seconds) {
-    if (!playerMedia.src) return;
-    playerMedia.currentTime = Math.max(0, Math.min(playerMedia.duration || Infinity, playerMedia.currentTime + seconds));
-}
-
-function setVolume(val) {
-    if (playerMedia) {
-        playerMedia.volume = val / 100;
-        playerMedia.muted = false;
-        document.getElementById('playerMuteBtn').textContent = val == 0 ? '🔇' : '🔊';
-    }
-}
-
-function toggleMute() {
-    if (!playerMedia) return;
-    playerMedia.muted = !playerMedia.muted;
-    document.getElementById('playerMuteBtn').textContent = playerMedia.muted ? '🔇' : '🔊';
-    if (playerMedia.muted) {
-        document.getElementById('playerVolume').value = 0;
-    } else {
-        document.getElementById('playerVolume').value = (playerMedia.volume * 100) || 80;
-    }
-}
-
-function formatTime(sec) {
-    if (!sec || isNaN(sec)) return '0:00';
-    const m = Math.floor(sec / 60);
-    const s = Math.floor(sec % 60);
-    return m + ':' + s.toString().padStart(2, '0');
-}
-
-initPlayer();
-
 // ===== TRANSLATIONS =====
 const translations = {
     fr: {
@@ -1683,15 +1232,8 @@ const translations = {
         nav_services: "Services",
         nav_stack: "Stack IA",
         nav_projects: "Projets",
-        nav_media: "Média",
         nav_about: "À propos",
         nav_contact: "Contact",
-        media_label: "Média",
-        media_title: "Lecteur Audio & Vidéo",
-        player_placeholder: "Chargez un fichier audio ou vidéo",
-        player_file: "Fichier",
-        player_url_ph: "URL YouTube, MP3, MP4...",
-        player_load: "Charger",
         hero_badge: "Vibecoder & Développeur Web",
         hero_title_1: "L'IA au service",
         hero_title_2: "de votre performance métier",
@@ -1847,15 +1389,8 @@ const translations = {
         nav_services: "Services",
         nav_stack: "AI Stack",
         nav_projects: "Projects",
-        nav_media: "Media",
         nav_about: "About",
         nav_contact: "Contact",
-        media_label: "Media",
-        media_title: "Audio & Video Player",
-        player_placeholder: "Load an audio or video file",
-        player_file: "File",
-        player_url_ph: "YouTube, MP3, MP4 URL...",
-        player_load: "Load",
         hero_badge: "Vibecoder & Web Developer",
         hero_title_1: "AI serving",
         hero_title_2: "your business performance",
