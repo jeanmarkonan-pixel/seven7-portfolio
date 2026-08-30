@@ -1147,14 +1147,14 @@ body.light-mode .player-volume-slider {
                 </div>
             </div>
         </div>
-        <div class="project-card featured reveal reveal-delay-1" onclick="window.open('https://github.com/jeanmarkonan-pixel/seven7-portfolio/tree/claude/atelier-metamorphose-phase1-q5fwik/atelier-metamorphose','_blank')">
+        <div class="project-card featured reveal reveal-delay-1" style="cursor:default;">
             <div class="project-thumb"><div class="project-icon">🪞</div></div>
             <div class="project-info">
                 <div class="project-meta"><span class="project-tag featured" data-i18n="proj_featured">⭐ Mis en avant</span><span class="project-tag">Three.js</span><span class="project-tag">3D</span></div>
                 <h3>Atelier // Métamorphose</h3>
                 <p data-i18n="proj_metamorphose_desc">Boutique 3D immersive en temps réel avec essayage virtuel de produits, portail d'entrée animé et expérience brutaliste organique. Prototype phase 1.</p>
                 <div class="project-footer">
-                    <a href="https://github.com/jeanmarkonan-pixel/seven7-portfolio/tree/claude/atelier-metamorphose-phase1-q5fwik/atelier-metamorphose" target="_blank" class="project-link" data-i18n="proj_github">Voir sur GitHub →</a>
+                    <span class="project-link" style="color:var(--text-muted);cursor:not-allowed;" data-i18n="proj_locked">🔒 Accès verrouillé</span>
                     <div class="project-status dev"><div class="status-dot"></div><span data-i18n="proj_dev">En développement</span></div>
                 </div>
             </div>
@@ -1794,6 +1794,7 @@ const translations = {
         proj_featured: "⭐ Mis en avant",
         proj_hydra_desc: "Plateforme SaaS de gestion multi-activités pour PME en Côte d'Ivoire, hébergée sur Firebase — stock, ventes et suivi d'activité centralisés.",
         proj_metamorphose_desc: "Boutique 3D immersive en temps réel avec essayage virtuel de produits, portail d'entrée animé et expérience brutaliste organique. Prototype phase 1.",
+        proj_locked: "🔒 Accès verrouillé",
         proj_1_desc: "Outil d'audit externe automatisé. Programme détaillé conforme au référentiel de mission : suivi des cycles d'audit, procédures, documents requis et statuts en temps réel. Interface professionnelle pour cabinets d'audit.",
         proj_2_desc: "Architecture backend modulaire pour les applications SEVEN7. API REST, gestion d'authentification, base de données Firebase et structure scalable pour les futurs projets.",
         proj_3_desc: "Ce portfolio que vous consultez actuellement. Design audacieux, animations fluides, traduction FR/EN, mockup d'écran animé et système de contact intégré. 100% codé avec l'aide de l'IA.",
@@ -1957,6 +1958,7 @@ const translations = {
         proj_featured: "⭐ Featured",
         proj_hydra_desc: "Multi-activity management SaaS platform for SMEs in Côte d'Ivoire, hosted on Firebase — centralized stock, sales and activity tracking.",
         proj_metamorphose_desc: "Immersive real-time 3D boutique with virtual product try-on, animated entry portal and organic brutalist experience. Phase 1 prototype.",
+        proj_locked: "🔒 Access locked",
         proj_1_desc: "Automated external audit tool. Detailed program compliant with the mission framework: audit cycle tracking, procedures, required documents and real-time status. Professional interface for audit firms.",
         proj_2_desc: "Modular backend architecture for SEVEN7 applications. REST API, authentication management, Firebase database and scalable structure for future projects.",
         proj_3_desc: "This portfolio you are currently viewing. Bold design, smooth animations, FR/EN translation, animated screen mockup and integrated contact system. 100% coded with the help of AI.",
