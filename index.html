@@ -1780,7 +1780,8 @@ setLang = function(lang) {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(28, cssW / cssH, 0.1, 100);
-    camera.position.set(0, 0, 6);
+    camera.position.set(0.7, 0.35, 3);
+    camera.lookAt(0, 0, 0);
 
     const planeW = 3.6, planeH = planeW * (cssH / cssW);
     const segX = 48, segY = 10;
@@ -1813,9 +1814,9 @@ setLang = function(lang) {
     }
 
     // Contrôle en temps réel : window.seven7LogoWindForce (ex. dans la console : seven7LogoWindForce = 0.3)
-    window.seven7LogoWindForce = 0.11;
-    const waveFrequency = 2.4;
-    const waveSpeed = 1.4;
+    window.seven7LogoWindForce = 0.2;
+    const waveFrequency = 2.8;
+    const waveSpeed = 1.5;
     const noiseScale = 1.6;
     const noiseSpeed = 0.6;
 
