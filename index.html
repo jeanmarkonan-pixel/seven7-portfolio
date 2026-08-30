@@ -155,6 +155,8 @@ section { position:relative; z-index:1; }
 .project-info { padding:28px; flex:1; display:flex; flex-direction:column; }
 .project-meta { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
 .project-tag { padding:4px 10px; background:rgba(79,110,247,0.08); border:1px solid rgba(79,110,247,0.15); border-radius:6px; font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.5px; }
+.project-tag.featured { background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.3); color:var(--accent-warm); }
+.project-card.featured { border-color:rgba(245,158,11,0.35); box-shadow:0 0 0 1px rgba(245,158,11,0.12); }
 .project-info h3 { font-size:20px; font-weight:800; margin:0 0 10px; color:#fff; }
 .project-info p { color:var(--text-secondary); font-size:14px; line-height:1.7; margin:0 0 20px; flex:1; }
 .project-footer { display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
@@ -1133,7 +1135,31 @@ body.light-mode .player-volume-slider {
         <h2 class="section-title" data-i18n="projects_title">Ce que j'ai construit</h2>
     </div>
     <div class="projects-grid">
-        <div class="project-card reveal" onclick="window.open('https://seven7-audit.web.app/','_blank')">
+        <div class="project-card featured reveal" onclick="window.open('https://ma-gestion-ci.web.app/','_blank')">
+            <div class="project-thumb"><div class="project-icon">🐙</div></div>
+            <div class="project-info">
+                <div class="project-meta"><span class="project-tag featured" data-i18n="proj_featured">⭐ Mis en avant</span><span class="project-tag">Firebase</span><span class="project-tag">SaaS</span></div>
+                <h3>SEVEN7 Hydra</h3>
+                <p data-i18n="proj_hydra_desc">Plateforme SaaS de gestion multi-activités pour PME en Côte d'Ivoire, hébergée sur Firebase — stock, ventes et suivi d'activité centralisés.</p>
+                <div class="project-footer">
+                    <a href="https://ma-gestion-ci.web.app/" target="_blank" class="project-link" data-i18n="proj_link">Voir le site →</a>
+                    <div class="project-status"><div class="status-dot"></div><span data-i18n="proj_live">En ligne</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="project-card featured reveal reveal-delay-1" onclick="window.open('https://github.com/jeanmarkonan-pixel/seven7-portfolio/tree/claude/atelier-metamorphose-phase1-q5fwik/atelier-metamorphose','_blank')">
+            <div class="project-thumb"><div class="project-icon">🪞</div></div>
+            <div class="project-info">
+                <div class="project-meta"><span class="project-tag featured" data-i18n="proj_featured">⭐ Mis en avant</span><span class="project-tag">Three.js</span><span class="project-tag">3D</span></div>
+                <h3>Atelier // Métamorphose</h3>
+                <p data-i18n="proj_metamorphose_desc">Boutique 3D immersive en temps réel avec essayage virtuel de produits, portail d'entrée animé et expérience brutaliste organique. Prototype phase 1.</p>
+                <div class="project-footer">
+                    <a href="https://github.com/jeanmarkonan-pixel/seven7-portfolio/tree/claude/atelier-metamorphose-phase1-q5fwik/atelier-metamorphose" target="_blank" class="project-link" data-i18n="proj_github">Voir sur GitHub →</a>
+                    <div class="project-status dev"><div class="status-dot"></div><span data-i18n="proj_dev">En développement</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="project-card reveal reveal-delay-2" onclick="window.open('https://seven7-audit.web.app/','_blank')">
             <div class="project-thumb"><div class="project-icon">🔍</div></div>
             <div class="project-info">
                 <div class="project-meta"><span class="project-tag">Firebase</span><span class="project-tag">JavaScript</span><span class="project-tag">Audit</span></div>
@@ -1145,7 +1171,7 @@ body.light-mode .player-volume-slider {
                 </div>
             </div>
         </div>
-        <div class="project-card reveal reveal-delay-1" onclick="window.open('https://github.com/jeanmarkonan-pixel/seven7-backend','_blank')">
+        <div class="project-card reveal reveal-delay-3" onclick="window.open('https://github.com/jeanmarkonan-pixel/seven7-backend','_blank')">
             <div class="project-thumb"><div class="project-icon">⚙️</div></div>
             <div class="project-info">
                 <div class="project-meta"><span class="project-tag">Node.js</span><span class="project-tag">API</span><span class="project-tag">Backend</span></div>
@@ -1157,7 +1183,7 @@ body.light-mode .player-volume-slider {
                 </div>
             </div>
         </div>
-        <div class="project-card reveal reveal-delay-2">
+        <div class="project-card reveal reveal-delay-4">
             <div class="project-thumb"><div class="project-icon">🚀</div></div>
             <div class="project-info">
                 <div class="project-meta"><span class="project-tag">Portfolio</span><span class="project-tag">HTML/CSS/JS</span><span class="project-tag">Vibecoding</span></div>
@@ -1765,6 +1791,9 @@ const translations = {
         stack_secteurs_link: "Voir la marketplace sur GitHub →",
         projects_label: "Projets",
         projects_title: "Ce que j'ai construit",
+        proj_featured: "⭐ Mis en avant",
+        proj_hydra_desc: "Plateforme SaaS de gestion multi-activités pour PME en Côte d'Ivoire, hébergée sur Firebase — stock, ventes et suivi d'activité centralisés.",
+        proj_metamorphose_desc: "Boutique 3D immersive en temps réel avec essayage virtuel de produits, portail d'entrée animé et expérience brutaliste organique. Prototype phase 1.",
         proj_1_desc: "Outil d'audit externe automatisé. Programme détaillé conforme au référentiel de mission : suivi des cycles d'audit, procédures, documents requis et statuts en temps réel. Interface professionnelle pour cabinets d'audit.",
         proj_2_desc: "Architecture backend modulaire pour les applications SEVEN7. API REST, gestion d'authentification, base de données Firebase et structure scalable pour les futurs projets.",
         proj_3_desc: "Ce portfolio que vous consultez actuellement. Design audacieux, animations fluides, traduction FR/EN, mockup d'écran animé et système de contact intégré. 100% codé avec l'aide de l'IA.",
@@ -1925,6 +1954,9 @@ const translations = {
         stack_secteurs_link: "View the marketplace on GitHub →",
         projects_label: "Projects",
         projects_title: "What I've built",
+        proj_featured: "⭐ Featured",
+        proj_hydra_desc: "Multi-activity management SaaS platform for SMEs in Côte d'Ivoire, hosted on Firebase — centralized stock, sales and activity tracking.",
+        proj_metamorphose_desc: "Immersive real-time 3D boutique with virtual product try-on, animated entry portal and organic brutalist experience. Phase 1 prototype.",
         proj_1_desc: "Automated external audit tool. Detailed program compliant with the mission framework: audit cycle tracking, procedures, required documents and real-time status. Professional interface for audit firms.",
         proj_2_desc: "Modular backend architecture for SEVEN7 applications. REST API, authentication management, Firebase database and scalable structure for future projects.",
         proj_3_desc: "This portfolio you are currently viewing. Bold design, smooth animations, FR/EN translation, animated screen mockup and integrated contact system. 100% coded with the help of AI.",
