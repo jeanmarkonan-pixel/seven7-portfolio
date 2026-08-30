@@ -165,6 +165,9 @@ section { position:relative; z-index:1; }
 .project-card:hover::before { opacity:1; }
 .project-thumb { height:200px; background:linear-gradient(135deg,#0a0a10 0%,#11111a 50%,#050508 100%); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
 .project-thumb::after { content:''; position:absolute; width:250px; height:250px; background:radial-gradient(circle,rgba(6,182,212,0.1) 0%,transparent 60%); animation:pulse-glow 5s ease-in-out infinite; }
+.project-thumb.has-image::after { display:none; }
+.project-thumb.has-image img { width:100%; height:100%; object-fit:cover; object-position:top; transition:transform 0.5s ease; }
+.project-card:hover .project-thumb.has-image img { transform:scale(1.06); }
 @keyframes pulse-glow { 0%,100%{transform:scale(1);opacity:0.3;} 50%{transform:scale(1.4);opacity:0.6;} }
 .project-icon { font-size:52px; z-index:1; filter:drop-shadow(0 0 24px rgba(6,182,212,0.3)); transition:transform 0.4s; }
 .project-card:hover .project-icon { transform:scale(1.1) rotate(-5deg); }
@@ -965,7 +968,7 @@ body, body * {
     </div>
     <div class="projects-grid">
         <div class="project-card featured reveal" onclick="window.open('https://ma-gestion-ci.web.app/','_blank')">
-            <div class="project-thumb"><div class="project-icon">🐙</div></div>
+            <div class="project-thumb has-image"><img src="assets/project-hydra.jpg" alt="Interface de SEVEN7 Hydra" loading="lazy"></div>
             <div class="project-info">
                 <div class="project-meta"><span class="project-tag featured" data-i18n="proj_featured">⭐ Mis en avant</span><span class="project-tag">Firebase</span><span class="project-tag">SaaS</span></div>
                 <h3>SEVEN7 Hydra</h3>
@@ -977,7 +980,7 @@ body, body * {
             </div>
         </div>
         <div class="project-card featured reveal reveal-delay-1" style="cursor:default;">
-            <div class="project-thumb"><div class="project-icon">🪞</div></div>
+            <div class="project-thumb has-image"><img src="assets/project-metamorphose.jpg" alt="Interface d'Atelier // Métamorphose" loading="lazy"></div>
             <div class="project-info">
                 <div class="project-meta"><span class="project-tag featured" data-i18n="proj_featured">⭐ Mis en avant</span><span class="project-tag">Three.js</span><span class="project-tag">3D</span></div>
                 <h3>Atelier // Métamorphose</h3>
@@ -989,7 +992,7 @@ body, body * {
             </div>
         </div>
         <div class="project-card reveal reveal-delay-2" onclick="window.open('https://seven7-audit.web.app/','_blank')">
-            <div class="project-thumb"><div class="project-icon">🔍</div></div>
+            <div class="project-thumb has-image"><img src="assets/project-audit.jpg" alt="Interface de SEVEN7 Audit" loading="lazy"></div>
             <div class="project-info">
                 <div class="project-meta"><span class="project-tag">Firebase</span><span class="project-tag">JavaScript</span><span class="project-tag">Audit</span></div>
                 <h3>SEVEN7 Audit</h3>
