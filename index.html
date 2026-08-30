@@ -35,6 +35,8 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
 nav { display:flex; justify-content:space-between; align-items:center; padding:18px 48px; position:fixed; top:0; left:0; right:0; background:rgba(3,3,5,0.85); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); z-index:1000; border-bottom:1px solid var(--border); opacity:0; transform:translateY(-20px); animation:navReveal 0.8s ease 3s forwards; }
 @keyframes navReveal { to{opacity:1;transform:translateY(0);} }
 .logo { font-size:22px; font-weight:900; letter-spacing:5px; color:#fff; display:flex; align-items:center; gap:10px; }
+.logo-wind-canvas { display:none; width:136px; height:30px; }
+.logo-wind-canvas.is-active { display:block; }
 .logo-icon { width:38px; height:38px; background:linear-gradient(135deg,var(--accent),var(--accent-tertiary)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:900; color:#fff; box-shadow:0 0 20px rgba(79,110,247,0.3); }
 .nav-right { display:flex; align-items:center; gap:32px; }
 .nav-links { display:flex; gap:28px; }
@@ -634,7 +636,11 @@ body, body * {
 <div class="bg-orb orb-3"></div>
 
 <nav>
-    <div class="logo"><div class="logo-icon">7</div>SEVEN7</div>
+    <div class="logo" aria-label="SEVEN7">
+        <div class="logo-icon" aria-hidden="true">7</div>
+        <span id="logoWordFallback" class="logo-word" aria-hidden="true">SEVEN7</span>
+        <canvas id="logoWindCanvas" class="logo-wind-canvas" aria-hidden="true"></canvas>
+    </div>
     <div class="nav-right">
         <div class="nav-links">
             <a href="#services" data-i18n="nav_services">Services</a>
@@ -1712,5 +1718,144 @@ setLang = function(lang) {
         </div>
     </div>
 </div>
+
+<!-- LOGO WIND EFFECT (Three.js, bruit procédural sur grille texturée) -->
+<script type="module">
+(async () => {
+    const canvas = document.getElementById('logoWindCanvas');
+    const fallback = document.getElementById('logoWordFallback');
+    if (!canvas || !fallback || !window.WebGLRenderingContext) return;
+
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let THREE;
+    try {
+        THREE = await import('https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js');
+    } catch (e) {
+        return; // Three.js indisponible (réseau, bloqueur…) : le texte SEVEN7 en CSS reste affiché.
+    }
+
+    // --- Texture texte "SEVEN7" (rendue en 2D, appliquée sur la grille 3D) ---
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const cssW = 136, cssH = 30;
+    const texScale = 4;
+    const texCanvas = document.createElement('canvas');
+    texCanvas.width = cssW * texScale;
+    texCanvas.height = cssH * texScale;
+    const tctx = texCanvas.getContext('2d');
+
+    if (document.fonts && document.fonts.load) {
+        try { await document.fonts.load(`900 ${texCanvas.height}px Inter`); } catch (e) {}
+    }
+
+    tctx.clearRect(0, 0, texCanvas.width, texCanvas.height);
+    tctx.fillStyle = '#ffffff';
+    tctx.textBaseline = 'middle';
+    const fontPx = texCanvas.height * 0.72;
+    tctx.font = `900 ${fontPx}px 'Inter', sans-serif`;
+    const text = 'SEVEN7';
+    const letterSpacing = fontPx * 0.09;
+    const widths = [...text].map(ch => tctx.measureText(ch).width);
+    const totalW = widths.reduce((a, w) => a + w + letterSpacing, 0) - letterSpacing;
+    let cx = (texCanvas.width - totalW) / 2;
+    const cy = texCanvas.height / 2;
+    for (let i = 0; i < text.length; i++) {
+        tctx.fillText(text[i], cx, cy);
+        cx += widths[i] + letterSpacing;
+    }
+
+    const texture = new THREE.CanvasTexture(texCanvas);
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+
+    // --- Scène Three.js minimale (grille = PlaneGeometry subdivisée) ---
+    let renderer;
+    try {
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    } catch (e) {
+        return;
+    }
+    renderer.setPixelRatio(DPR);
+    renderer.setSize(cssW, cssH, false);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(28, cssW / cssH, 0.1, 100);
+    camera.position.set(0, 0, 6);
+
+    const planeW = 3.6, planeH = planeW * (cssH / cssW);
+    const segX = 48, segY = 10;
+    const geometry = new THREE.PlaneGeometry(planeW, planeH, segX, segY);
+    const material = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    const basePositions = geometry.attributes.position.array.slice();
+
+    // --- Bruit procédural (pseudo-Perlin) : hash trigonométrique + interpolation bilinéaire ---
+    function hash(x, y) {
+        const s = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+        return s - Math.floor(s);
+    }
+    function smoothNoise(x, y) {
+        const xi = Math.floor(x), yi = Math.floor(y);
+        const xf = x - xi, yf = y - yi;
+        const u = xf * xf * (3 - 2 * xf);
+        const v = yf * yf * (3 - 2 * yf);
+        const h00 = hash(xi, yi), h10 = hash(xi + 1, yi);
+        const h01 = hash(xi, yi + 1), h11 = hash(xi + 1, yi + 1);
+        const top = h00 + u * (h10 - h00);
+        const bottom = h01 + u * (h11 - h01);
+        return top + v * (bottom - top); // [0,1]
+    }
+
+    // Contrôle en temps réel : window.seven7LogoWindForce (ex. dans la console : seven7LogoWindForce = 0.3)
+    window.seven7LogoWindForce = 0.11;
+    const waveFrequency = 2.4;
+    const waveSpeed = 1.4;
+    const noiseScale = 1.6;
+    const noiseSpeed = 0.6;
+
+    const clock = new THREE.Clock();
+    let raf = null;
+
+    function render() {
+        const t = clock.getElapsedTime();
+        const pos = geometry.attributes.position;
+        const arr = pos.array;
+        const windForce = window.seven7LogoWindForce;
+        for (let i = 0; i < arr.length; i += 3) {
+            const x = basePositions[i];
+            const y = basePositions[i + 1];
+            const mainWave = Math.sin(x * waveFrequency + t * waveSpeed);
+            const turbulence = smoothNoise(x * noiseScale + t * noiseSpeed, y * noiseScale) * 2 - 1;
+            arr[i + 2] = (mainWave + turbulence) * windForce;
+        }
+        pos.needsUpdate = true;
+        renderer.render(scene, camera);
+    }
+
+    function animate() {
+        raf = requestAnimationFrame(animate);
+        render();
+    }
+
+    canvas.classList.add('is-active');
+    fallback.style.display = 'none';
+
+    if (reduceMotion) {
+        render();
+    } else {
+        animate();
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && raf) { cancelAnimationFrame(raf); raf = null; }
+            else if (!document.hidden && !raf) { animate(); }
+        });
+    }
+})();
+</script>
 </body>
 </html>
