@@ -209,6 +209,9 @@ section { position:relative; z-index:1; }
 .contact-value { font-size:15px; color:#fff; font-weight:700; }
 .contact-arrow { color:var(--text-muted); transition:all 0.3s; font-size:18px; }
 .contact-card:hover .contact-arrow { color:var(--accent); transform:translateX(4px); }
+.contact-card.locked { opacity:0.55; }
+.contact-card.locked:hover { transform:none; box-shadow:none; border-color:var(--border); }
+.contact-card.locked:hover .contact-arrow { color:var(--text-muted); transform:none; }
 
 /* FOOTER */
 footer { text-align:center; padding:40px 24px; color:var(--text-muted); font-size:13px; border-top:1px solid rgba(255,255,255,0.02); position:relative; z-index:1; }
@@ -1096,14 +1099,14 @@ body, body * {
                 </div>
                 <div class="contact-arrow">→</div>
             </a>
-            <a href="https://github.com/jeanmarkonan-pixel/seven7-backend" target="_blank" class="contact-card">
+            <div class="contact-card locked" style="cursor:not-allowed;">
                 <div class="contact-icon">⚡</div>
                 <div class="contact-info">
                     <div class="contact-label">GitHub</div>
                     <div class="contact-value">seven7-backend</div>
                 </div>
-                <div class="contact-arrow">→</div>
-            </a>
+                <div class="contact-arrow">🔒</div>
+            </div>
         </div>
         <div class="contact-form-col">
             <form id="contactForm" onsubmit="handleSubmit(event)">
