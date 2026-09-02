@@ -1,0 +1,19 @@
+# Secrets
+.env
+.env.*
+*.key
+*.pem
+secrets.*
+
+# IDE
+.idea/
+.vscode/
+.DS_Store
+
+# Logs
+*.log
+
+# Dependencies (au cas où un jour un build est ajouté)
+node_modules/
+dist/
+build/
