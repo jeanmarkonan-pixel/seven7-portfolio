@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATELIER // MÉTAMORPHOSE - Prototype v1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<body id="top">
+    <!-- Arche Céleste : image d'accueil plein écran (public/door-intro.png),
+         zoom immersif à travers la porte au bout de 1,5s ou au clic, masque
+         le site tant qu'elle n'est pas terminée. -->
+    <div id="paradise-splash">
+        <button type="button" id="skip-intro" class="splash-skip-btn">Passer l'intro</button>
+        <div id="splash-stage" class="splash-stage">
+            <div id="splash-portal" class="splash-portal"></div>
+        </div>
+        <div class="neon-overlay">
+            <p class="neon-text">Atelier<br>Métamorphose</p>
+        </div>
+    </div>
+
+    <canvas id="canvas-metamorphose"></canvas>
+
+    <!-- Navigation principale : logo, lien vers la collection, panier -->
+    <header id="site-nav">
+        <div class="nav-inner">
+            <a href="#top" class="nav-brand">Atelier <span>//</span> Métamorphose</a>
+            <nav class="nav-links" aria-label="Navigation principale">
+                <a href="#catalogue">La Collection</a>
+                <button type="button" id="nav-cart-btn" class="nav-cart-btn" aria-label="Ouvrir le panier">
+                    Panier
+                    <span id="nav-cart-badge" class="nav-cart-badge" hidden>0</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Panneau de contrôle de la scène 3D -->
+    <div id="ui-container">
+        <div class="control-group">
+            <label for="wind-slider">Force du Vent</label>
+            <input type="range" id="wind-slider" min="0" max="5" step="0.1" value="1">
+        </div>
+    </div>
+
+    <!-- Contenu de scrollytelling : le scroll pilote la caméra 3D en arrière-plan -->
+    <main id="scroll-content">
+        <section class="story-section" data-story-index="0">
+            <h2>ATELIER</h2>
+            <p>Une boutique 3D temps réel, où le béton brut rencontre la fluidité du tissu.</p>
+        </section>
+
+        <section class="story-section" data-story-index="1">
+            <h2>// MÉTAMORPHOSE</h2>
+            <p>Le monolithe de béton, témoin silencieux, ancre la scène dans le brutalisme.</p>
+        </section>
+
+        <section class="story-section" data-story-index="2">
+            <h2>LE TISSU VIVANT</h2>
+            <p>Chaque rafale de vent redessine le drapé — une matière qui respire.</p>
+        </section>
+
+        <section class="story-section story-section--final" data-story-index="3">
+            <h2>EXPLOREZ</h2>
+            <p>Faites pivoter la pièce librement.</p>
+        </section>
+    </main>
+
+    <!-- Catalogue : recherche, fiches produits, panier -->
+    <section id="catalogue">
+        <div class="catalogue__intro">
+            <h2>LA COLLECTION</h2>
+            <p>Des pièces façonnées comme le tissu de notre scène : brutes, vivantes, sur mesure.</p>
+        </div>
+        <div class="catalogue__header">
+            <input
+                type="search"
+                id="product-search"
+                class="catalogue__search"
+                placeholder="Rechercher une pièce..."
+                aria-label="Rechercher un produit"
+            >
+        </div>
+
+        <div id="product-grid" class="product-grid"></div>
+        <p id="no-results" class="catalogue__no-results" hidden>Aucune pièce ne correspond à votre recherche.</p>
+    </section>
+
+    <!-- Bouton panier flottant -->
+    <button type="button" id="cart-toggle" aria-label="Ouvrir le panier">
+        PANIER
+        <span id="cart-badge" hidden>0</span>
+    </button>
+
+    <!-- Drawer panier -->
+    <div id="cart-overlay"></div>
+    <aside id="cart-drawer" aria-label="Panier">
+        <div class="cart-drawer__header">
+            <h3>Votre panier</h3>
+            <button type="button" id="cart-close" aria-label="Fermer le panier">✕</button>
+        </div>
+
+        <div id="cart-items" class="cart-drawer__items"></div>
+        <p id="cart-empty" class="cart-drawer__empty">Votre panier est vide.</p>
+
+        <div class="cart-drawer__footer">
+            <div class="cart-drawer__total">
+                <span>Total</span>
+                <span id="cart-total">0 FCFA</span>
+            </div>
+            <button type="button" id="whatsapp-checkout" class="btn-primary" disabled>
+                Finaliser ma commande sur WhatsApp
+            </button>
+        </div>
+    </aside>
+
+    <!-- Modale détails produit / guide des tailles -->
+    <div id="product-modal-overlay"></div>
+    <div id="product-modal" role="dialog" aria-modal="true" aria-label="Détails du produit">
+        <button type="button" id="product-modal-close" aria-label="Fermer">✕</button>
+        <div id="product-modal-body"></div>
+    </div>
+
+    <script type="module" src="./src/splash.js"></script>
+    <script type="module" src="./src/main.js"></script>
+    <script type="module" src="./src/catalogue.js"></script>
+</body>
+</html>

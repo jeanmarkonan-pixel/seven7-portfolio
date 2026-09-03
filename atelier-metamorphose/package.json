@@ -1,0 +1,17 @@
+{
+  "name": "atelier-metamorphose",
+  "version": "0.1.0",
+  "description": "ATELIER // MÉTAMORPHOSE — Phase 1 : boutique 3D temps réel, brutalisme organique.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}
