@@ -187,7 +187,7 @@ check_honeypots() {
         status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "${domain}${endpoint}" 2>/dev/null || echo "000")
 
         if [ "$status" != "404" ] && [ "$status" != "403" ]; then
-            ((triggered++))
+            triggered=$((triggered + 1))
             alert "WARNING" "Honeypot touché: ${endpoint} → $status" "$domain"
         fi
     done
@@ -296,28 +296,30 @@ scan_all() {
 
         if [ "$status" != "200" ] && [ "$status" != "301" ] && [ "$status" != "308" ]; then
             alert "CRITICAL" "HTTP $status" "$domain"
-            ((total_errors++))
+            total_errors=$((total_errors + 1))
             continue
         fi
 
         if [ "$response_time" -gt "$THRESHOLD_RESPONSE_TIME" ]; then
             alert "WARNING" "Temps de réponse lent: ${response_time}ms" "$domain"
-            ((total_warnings++))
+            total_warnings=$((total_warnings + 1))
         fi
 
         # 2. Headers
         if ! check_headers "$domain"; then
-            ((total_errors++))
+            total_errors=$((total_errors + 1))
         fi
 
         # 3. Honeypots
-        if check_honeypots "$domain"; then
-            ((total_warnings += $?))
+        local honeypot_count=0
+        if ! check_honeypots "$domain"; then
+            honeypot_count=$?
         fi
+        total_warnings=$((total_warnings + honeypot_count))
 
         # 4. Firebase config
         if ! check_firebase_config "$domain"; then
-            ((total_errors++))
+            total_errors=$((total_errors + 1))
         fi
 
         # 5. SSL
@@ -330,7 +332,7 @@ scan_all() {
         xss_test=$(curl -s --max-time 5 "${domain}/?q=<script>test</script>" 2>/dev/null | grep -c "<script>test</script>" || echo "0")
         if [ "$xss_test" -gt 0 ]; then
             alert "CRITICAL" "XSS réfléchi possible!" "$domain"
-            ((total_errors++))
+            total_errors=$((total_errors + 1))
         fi
     done
 
