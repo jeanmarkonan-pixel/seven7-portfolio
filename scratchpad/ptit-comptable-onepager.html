@@ -1,0 +1,310 @@
+<title>P'tit Comptable.S7</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ink-deep:#0C1626;
+  --ink:#152238;
+  --ink-light:#2C4A72;
+  --paper:#F8F6EF;
+  --paper-deep:#EFEBDD;
+  --rule:#DCD5C0;
+  --text:#1A2A42;
+  --text-soft:#5C6C86;
+  --card:#FFFFFF;
+  --gold:#B8862F;
+  --gold-soft:#D9BE7A;
+  --green:#1E7A5C;
+  --green-soft:#E7F3EC;
+  --red:#B3392E;
+  --font-display:'Fraunces', Georgia, serif;
+  --font-body:'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono:'IBM Plex Mono', 'Courier New', monospace;
+  color-scheme: light;
+}
+/* Page à identité assumée (registre comptable) : un seul monde visuel, clair, volontaire —
+   pas de bascule sombre, un carnet de compte ne devient pas noir la nuit. Toutes les couleurs
+   sont déclarées explicitement ci-dessus et utilisées via ces tokens, jamais en dur. */
+*{box-sizing:border-box;}
+html,body{margin:0;background:var(--paper-deep);}
+body{font-family:var(--font-body);color:var(--text);-webkit-font-smoothing:antialiased;}
+img,svg{max-width:100%;display:block;}
+::selection{background:var(--gold-soft);color:var(--ink-deep);}
+h1,h2,h3{text-wrap:balance;margin:0;}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums;}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px;}
+a{color:inherit;}
+
+/* ================= HERO / masthead ================= */
+.hero{background:radial-gradient(120% 160% at 15% -10%, var(--ink-light) 0%, var(--ink) 46%, var(--ink-deep) 100%);color:#fff;padding:64px 0 84px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;inset:auto 0 0 0;height:70px;background:
+  repeating-linear-gradient(90deg, transparent 0 118px, rgba(217,190,122,.14) 118px 119px);
+  pointer-events:none;}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);display:inline-flex;align-items:center;gap:10px;}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--gold-soft);display:inline-block;}
+.hero h1{font-family:var(--font-display);font-weight:700;font-size:clamp(38px,6vw,64px);line-height:1.02;margin:18px 0 0;color:#fff;}
+.hero h1 em{font-style:normal;color:var(--gold-soft);}
+.hero p.lede{font-size:17px;line-height:1.6;color:#C7D2E4;max-width:520px;margin:22px 0 0;}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px;}
+.btn{font-family:var(--font-body);font-weight:600;font-size:14.5px;padding:13px 24px;border-radius:8px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:transform .12s,box-shadow .15s;}
+.btn:hover{transform:translateY(-1px);}
+.btn-gold{background:var(--gold);color:var(--ink-deep);box-shadow:0 10px 24px -12px rgba(184,134,47,.6);}
+.btn-ghost{background:rgba(255,255,255,.06);color:#fff;border-color:rgba(255,255,255,.28);}
+
+/* mini balance à 3 paires de colonnes, dans le hero — le vrai objet du logiciel comme motif */
+.hero-ledger{margin-top:46px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:18px 20px 14px;backdrop-filter:blur(2px);}
+.hl-caption{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#93A4C2;margin-bottom:12px;}
+.hl-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.hl-table th{font-family:var(--font-mono);font-weight:500;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:#8FA0BA;text-align:right;padding:0 0 8px;white-space:nowrap;}
+.hl-table th:first-child,.hl-table td:first-child{text-align:left;}
+.hl-table th.grp{border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:5px;}
+.hl-table td{padding:6px 0;color:#DCE4F0;border-top:1px solid rgba(255,255,255,.09);white-space:nowrap;}
+.hl-table td.num{font-family:var(--font-mono);text-align:right;}
+.hl-table tr:first-child td{border-top:none;}
+.hl-table td.acct{color:#93A4C2;font-family:var(--font-mono);}
+
+/* ================= SECTION frame ================= */
+section{padding:64px 0;}
+.section-head{max-width:600px;margin:0 0 40px;}
+.k{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 10px;}
+.section-head h2{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.4vw,34px);color:var(--ink);}
+.section-head p{font-size:15px;line-height:1.65;color:var(--text-soft);margin:14px 0 0;}
+
+/* ================= promesse (3 colonnes) ================= */
+.promesse{background:var(--paper);}
+.promesse-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:12px;overflow:hidden;}
+.promesse-cell{background:var(--card);padding:26px 24px;}
+.promesse-cell .n{font-family:var(--font-mono);font-size:12px;color:var(--gold);margin-bottom:10px;}
+.promesse-cell h3{font-family:var(--font-display);font-size:19px;font-weight:600;color:var(--ink);}
+.promesse-cell p{font-size:13.5px;color:var(--text-soft);line-height:1.6;margin:10px 0 0;}
+@media (max-width:760px){.promesse-grid{grid-template-columns:1fr;}}
+
+/* ================= fonctionnalités (registre) ================= */
+.features{background:var(--paper-deep);}
+.ledger-block{background:var(--card);border:1px solid var(--rule);border-radius:12px;overflow:hidden;box-shadow:0 20px 40px -30px rgba(21,34,56,.4);}
+.ledger-row{display:grid;grid-template-columns:210px 1fr;border-top:1px solid var(--rule);}
+.ledger-row:first-child{border-top:none;}
+.ledger-row .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);padding:22px 22px;background:var(--paper);border-right:1px solid var(--rule);}
+.ledger-row .content{padding:22px 24px;}
+.ledger-row .content h4{font-family:var(--font-body);font-weight:600;font-size:15.5px;color:var(--ink);margin:0 0 6px;}
+.ledger-row .content p{font-size:13.5px;color:var(--text-soft);line-height:1.65;margin:0;}
+.ledger-row .content code{font-family:var(--font-mono);font-size:12px;background:var(--paper);border:1px solid var(--rule);padding:1px 6px;border-radius:4px;color:var(--ink);}
+@media (max-width:640px){.ledger-row{grid-template-columns:1fr;}.ledger-row .lbl{border-right:none;border-bottom:1px solid var(--rule);}}
+
+/* ================= avant / après ================= */
+.compare{background:var(--paper);}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.compare-card{border-radius:12px;padding:26px 24px;}
+.compare-card.avant{background:#FBEFE3;border:1px solid #EBD3AE;}
+.compare-card.apres{background:var(--green-soft);border:1px solid #BFE1D0;}
+.compare-card .tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;display:block;}
+.compare-card.avant .tag{color:#8A5A20;}
+.compare-card.apres .tag{color:var(--green);}
+.compare-card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px;}
+.compare-card li{font-size:13.5px;line-height:1.5;padding-left:22px;position:relative;color:var(--text);}
+.compare-card.avant li::before{content:'—';position:absolute;left:0;color:#8A5A20;}
+.compare-card.apres li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700;}
+@media (max-width:640px){.compare-grid{grid-template-columns:1fr;}}
+
+/* ================= licences ================= */
+.licences{background:var(--paper-deep);}
+.lic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.lic-card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:28px 26px;}
+.lic-card h3{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--ink);margin-top:14px;}
+.lic-card .stamp{display:inline-block;font-family:var(--font-mono);font-weight:700;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;border:2px solid currentColor;border-radius:6px;padding:4px 10px;transform:rotate(-4deg);}
+.lic-card.duree .stamp{color:var(--gold);}
+.lic-card.vie .stamp{color:var(--green);}
+.lic-card p{font-size:13.5px;color:var(--text-soft);line-height:1.6;margin:12px 0 0;}
+@media (max-width:640px){.lic-grid{grid-template-columns:1fr;}}
+
+/* ================= CTA / tampon ================= */
+.cta{background:var(--ink-deep);color:#fff;text-align:center;padding:76px 0;position:relative;overflow:hidden;}
+.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 0%, rgba(184,134,47,.16), transparent 70%);}
+.cta .stamp-final{display:inline-block;font-family:var(--font-mono);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--green-soft, #8FD9BB);border:3px solid #8FD9BB;border-radius:10px;padding:12px 26px;transform:rotate(-3deg);margin-bottom:26px;}
+.cta h2{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,4vw,38px);color:#fff;position:relative;}
+.cta p{color:#AEBBD2;font-size:15px;margin:16px auto 0;max-width:440px;line-height:1.6;position:relative;}
+.cta .hero-cta{justify-content:center;position:relative;margin-top:32px;}
+
+footer{background:var(--ink-deep);color:#7A8AA8;font-family:var(--font-mono);font-size:11.5px;text-align:center;padding:22px 0 30px;border-top:1px solid rgba(255,255,255,.08);}
+</style>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Comptabilité SYSCOHADA révisé</span>
+    <h1>Le registre qui tient<br>ses comptes <em>tout seul</em>.</h1>
+    <p class="lede">P'tit Comptable.S7 lit vos factures FNE, tient votre plan comptable, et produit votre Bilan et votre Compte de résultat — sans tableur, sans ressaisie, conforme à l'Acte uniforme OHADA.</p>
+    <div class="hero-cta">
+      <a class="btn btn-gold" href="#">Démarrer l'essai gratuit</a>
+      <a class="btn btn-ghost" href="#fonctionnement">Voir comment ça marche</a>
+    </div>
+
+    <div class="hero-ledger">
+      <div class="hl-caption">Balance générale — extrait</div>
+      <table class="hl-table">
+        <tr>
+          <th></th>
+          <th class="grp" colspan="2">Ouverture</th>
+          <th class="grp" colspan="2">Mouvements</th>
+          <th class="grp" colspan="2">Clôture</th>
+        </tr>
+        <tr>
+          <th></th><th>Débit</th><th>Crédit</th><th>Débit</th><th>Crédit</th><th>Débit</th><th>Crédit</th>
+        </tr>
+        <tr>
+          <td>Banques <span class="acct">521100</span></td>
+          <td class="num">4 200 000</td><td class="num">—</td>
+          <td class="num">6 070 000</td><td class="num">2 360 000</td>
+          <td class="num mono" style="color:#fff;">7 910 000</td><td class="num">—</td>
+        </tr>
+        <tr>
+          <td>Clients <span class="acct">411000</span></td>
+          <td class="num">1 770 000</td><td class="num">—</td>
+          <td class="num">—</td><td class="num">1 770 000</td>
+          <td class="num">—</td><td class="num">—</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<section class="promesse">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="k">Pourquoi P'tit Comptable</p>
+      <h2>Trois choses qui vous prennent trois heures par mois, réglées en trois clics.</h2>
+    </div>
+    <div class="promesse-grid">
+      <div class="promesse-cell">
+        <div class="n">01</div>
+        <h3>Lire la facture</h3>
+        <p>PDF FNE ou facture ordinaire, photo ou scan : montants, taux, tiers et numéro sont extraits automatiquement — ou lus par IA sur les formats atypiques.</p>
+      </div>
+      <div class="promesse-cell">
+        <div class="n">02</div>
+        <h3>Passer l'écriture</h3>
+        <p>Le journal, le compte, l'axe achat/vente sont proposés avant vous. Vous vérifiez, vous complétez, vous enregistrez.</p>
+      </div>
+      <div class="promesse-cell">
+        <div class="n">03</div>
+        <h3>Éditer les états</h3>
+        <p>Balance, Bilan et Compte de résultat système normal se recalculent à chaque écriture — jamais un tableur à reconstruire en fin de mois.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="fonctionnement">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="k">Ce qui est dans le registre</p>
+      <h2>Pensé pour un cabinet, pas pour une startup fintech.</h2>
+    </div>
+    <div class="ledger-block">
+      <div class="ledger-row">
+        <div class="lbl">Import</div>
+        <div class="content">
+          <h4>Factures FNE et factures ordinaires</h4>
+          <p>Lecture automatique du PDF (montants, TVA, tiers, régime fiscal) — avec repli sur lecture par IA pour un format inhabituel, manuscrit, ou étranger.</p>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <div class="lbl">Plan comptable</div>
+        <div class="content">
+          <h4>Plan SYSCOHADA révisé complet, ou le vôtre</h4>
+          <p>Chaque dossier peut importer son propre plan comptable depuis Excel — les comptes déjà mouvementés sont automatiquement préservés.</p>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <div class="lbl">États financiers</div>
+        <div class="content">
+          <h4>Balance à colonnes, Bilan, Compte de résultat</h4>
+          <p>Balance à trois paires de colonnes (<code>ouverture</code> · <code>mouvements</code> · <code>clôture</code>), Bilan et Compte de résultat système normal, générés sans ressaisie.</p>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <div class="lbl">Multi-dossier</div>
+        <div class="content">
+          <h4>Un cabinet, autant de dossiers clients qu'il faut</h4>
+          <p>Aucune limite au nombre de comptabilités gérées depuis un même compte — chaque dossier reste étanche des autres.</p>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <div class="lbl">Paie &amp; immobilisations</div>
+        <div class="content">
+          <h4>Bulletins de salaire et tableau d'amortissement</h4>
+          <p>Paramètres de paie propres au dossier, immobilisations avec dotations aux amortissements générées automatiquement.</p>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <div class="lbl">Sécurité</div>
+        <div class="content">
+          <h4>Chaque dossier cloisonné, chiffré, isolé</h4>
+          <p>Données hébergées sur Firebase, règles d'accès strictes par utilisateur — le dossier d'un client n'est jamais visible d'un autre compte.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="compare">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="k">Avant / après</p>
+      <h2>Ce que remplace un dossier tenu dans P'tit Comptable.</h2>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card avant">
+        <span class="tag">Sans</span>
+        <ul>
+          <li>Ressaisir chaque facture ligne par ligne dans un tableur</li>
+          <li>Recalculer la balance à la main après chaque correction</li>
+          <li>Reconstruire le Bilan en fin d'exercice, poste par poste</li>
+          <li>Un fichier Excel par client, à sauvegarder soi-même</li>
+        </ul>
+      </div>
+      <div class="compare-card apres">
+        <span class="tag">Avec P'tit Comptable</span>
+        <ul>
+          <li>La facture PDF pré-remplit l'écriture, vous vérifiez et validez</li>
+          <li>La balance se met à jour à l'enregistrement de chaque écriture</li>
+          <li>Bilan et Compte de résultat s'actualisent en continu</li>
+          <li>Un dossier par client, sauvegardé automatiquement</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="licences">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="k">Accès</p>
+      <h2>Une licence par client, à votre façon.</h2>
+      <p>Essai gratuit ou licence à durée déterminée pour démarrer, licence à vie quand la relation est installée — décidé au cas par cas, jamais imposé par palier.</p>
+    </div>
+    <div class="lic-grid">
+      <div class="lic-card duree">
+        <span class="stamp">Durée déterminée</span>
+        <h3>Pour démarrer, ou pour un abonnement suivi</h3>
+        <p>Essai gratuit ou licence payante avec date de renouvellement — le dossier reste accessible jusqu'à l'échéance choisie, les données jamais perdues à l'expiration.</p>
+      </div>
+      <div class="lic-card vie">
+        <span class="stamp">À vie</span>
+        <h3>Pour une relation installée</h3>
+        <p>Aucune date d'expiration. Le dossier reste ouvert tant que vous n'en décidez pas autrement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <div class="wrap">
+    <span class="stamp-final">Balance équilibrée</span>
+    <h2>Votre prochaine clôture, sans tableur.</h2>
+    <p>Un dossier vierge, votre plan comptable, votre première facture importée — en moins de dix minutes.</p>
+    <div class="hero-cta">
+      <a class="btn btn-gold" href="#">Démarrer l'essai gratuit</a>
+    </div>
+  </div>
+</div>
+
+<footer>P'TIT COMPTABLE.S7 — COMPTABILITÉ SYSCOHADA RÉVISÉ · CÔTE D'IVOIRE</footer>
