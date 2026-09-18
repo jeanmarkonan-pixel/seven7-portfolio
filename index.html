@@ -48,6 +48,19 @@
   "sameAs": ["https://github.com/seven7-backend"]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Combien coûte un site web ?", "acceptedAnswer": { "@type": "Answer", "text": "Chaque projet est unique : le tarif dépend de vos besoins. Après un premier échange gratuit, un devis détaillé et sans engagement est envoyé sous 48h." } },
+    { "@type": "Question", "name": "Quels sont les délais de livraison ?", "acceptedAnswer": { "@type": "Answer", "text": "Un site vitrine ou portfolio est livré en 3 à 5 jours ouvrés. Les applications web et outils métier nécessitent 2 à 4 semaines selon la complexité." } },
+    { "@type": "Question", "name": "L'hébergement et la mise en ligne sont-ils inclus ?", "acceptedAnswer": { "@type": "Answer", "text": "Oui : hébergement, nom de domaine, certificat SSL (https) et mise en ligne sont pris en charge." } },
+    { "@type": "Question", "name": "Puis-je modifier mon site moi-même après la livraison ?", "acceptedAnswer": { "@type": "Answer", "text": "Oui, une courte formation est incluse à la livraison. L'offre Maintenance & Support couvre aussi mises à jour, corrections et évolutions." } },
+    { "@type": "Question", "name": "Travaillez-vous avec des clients hors de Côte d'Ivoire ?", "acceptedAnswer": { "@type": "Answer", "text": "Oui, à distance avec des clients en Afrique de l'Ouest, en Europe et ailleurs, par appel vidéo, WhatsApp ou email." } }
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -236,6 +249,31 @@ section { position:relative; z-index:1; }
 
 /* ABOUT */
 .about { padding:100px 24px; max-width:800px; margin:0 auto; text-align:center; }
+
+/* TESTIMONIALS */
+.testimonials { padding:100px 24px; max-width:1200px; margin:0 auto; }
+.testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; }
+.testimonial-card { background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:32px 28px; position:relative; transition:all 0.4s cubic-bezier(0.4,0,0.2,1); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+.testimonial-card::before { content:'\201C'; position:absolute; top:12px; right:24px; font-size:80px; font-family:Georgia,serif; color:var(--accent); opacity:0.15; line-height:1; pointer-events:none; }
+.testimonial-card:hover { border-color:var(--border-hover); transform:translateY(-6px); box-shadow:0 25px 70px rgba(6,182,212,0.15); }
+.testimonial-text { font-size:15px; color:var(--text-secondary); line-height:1.8; margin-bottom:24px; font-style:italic; }
+.testimonial-author { display:flex; align-items:center; gap:14px; }
+.testimonial-avatar { width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-tertiary)); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:17px; color:#fff; flex-shrink:0; }
+.testimonial-name { font-size:14px; font-weight:700; color:#fff; }
+.testimonial-role { font-size:12px; color:var(--text-muted); margin-top:2px; }
+.testimonial-stars { color:var(--accent-warm); font-size:13px; letter-spacing:2px; margin-bottom:14px; }
+
+/* FAQ */
+.faq { padding:100px 24px; max-width:800px; margin:0 auto; }
+.faq-item { border:1px solid var(--border); border-radius:14px; background:var(--bg-card); margin-bottom:12px; overflow:hidden; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+.faq-item:last-child { margin-bottom:0; }
+.faq-question { list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 24px; font-size:15px; font-weight:700; color:#fff; transition:color 0.3s; }
+.faq-question::-webkit-details-marker { display:none; }
+.faq-question:hover { color:var(--accent); }
+.faq-chevron { flex-shrink:0; color:var(--text-muted); transition:transform 0.3s ease; }
+.faq-item[open] .faq-chevron { transform:rotate(180deg); }
+.faq-item[open] .faq-question { border-bottom:1px solid var(--border); color:var(--accent); }
+.faq-answer { padding:18px 24px 22px; font-size:14px; color:var(--text-secondary); line-height:1.8; }
 .about-text { font-size:18px; color:var(--text-secondary); line-height:1.9; font-weight:400; }
 .about-text strong { color:var(--accent); font-weight:700; }
 .about-stats { display:flex; justify-content:center; gap:56px; margin-top:56px; flex-wrap:wrap; }
@@ -1120,6 +1158,78 @@ body, body * {
     </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="testi_label">Témoignages</div>
+        <h2 class="section-title" data-i18n="testi_title">Ce qu'ils en disent</h2>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text" data-i18n="testi_1_text">Jean Mark a transformé notre façon de travailler. L'outil d'audit qu'il a développé nous fait gagner un temps précieux sur chaque mission. Professionnel, réactif et force de proposition.</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">KD</div>
+                <div>
+                    <div class="testimonial-name" data-i18n="testi_1_name">Kouadio D.</div>
+                    <div class="testimonial-role" data-i18n="testi_1_role">Expert-comptable, Cabinet d'audit — Abidjan</div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text" data-i18n="testi_2_text">Un site livré en quelques jours, moderne et parfaitement adapté à mobile. Mes clients me complimentent régulièrement sur notre image en ligne. Je recommande vivement SEVEN7.</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">AM</div>
+                <div>
+                    <div class="testimonial-name" data-i18n="testi_2_name">Aïcha M.</div>
+                    <div class="testimonial-role" data-i18n="testi_2_role">Gérante, Commerce & Distribution — Cocody</div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-3">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text" data-i18n="testi_3_text">La formation IA a changé mon quotidien : rédaction de rapports, formules Excel, exploitation de documents... Tout est plus rapide, sans jamais exposer les données de mes clients.</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">YT</div>
+                <div>
+                    <div class="testimonial-name" data-i18n="testi_3_name">Yao T.</div>
+                    <div class="testimonial-role" data-i18n="testi_3_role">Auditeur financier — Plateau</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+    <div class="section-header reveal">
+        <div class="section-label" data-i18n="faq_label">FAQ</div>
+        <h2 class="section-title" data-i18n="faq_title">Questions fréquentes</h2>
+    </div>
+<!-- FAQ_ITEMS -->
+    <details class="faq-item reveal">
+        <summary class="faq-question"><span data-i18n="faq_1_q">Combien coûte un site web ?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="faq-answer" data-i18n="faq_1_a">Chaque projet est unique : le tarif dépend de vos besoins (nombre de pages, fonctionnalités, design sur-mesure). Après un premier échange gratuit, je vous envoie un devis détaillé et sans engagement sous 48h.</div>
+    </details>
+    <details class="faq-item reveal">
+        <summary class="faq-question"><span data-i18n="faq_2_q">Quels sont les délais de livraison ?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="faq-answer" data-i18n="faq_2_a">Un site vitrine ou portfolio est livré en 3 à 5 jours ouvrés. Les applications web et outils métier nécessitent généralement 2 à 4 semaines selon la complexité. Un calendrier précis est défini ensemble dès le démarrage.</div>
+    </details>
+    <details class="faq-item reveal">
+        <summary class="faq-question"><span data-i18n="faq_3_q">L'hébergement et la mise en ligne sont-ils inclus ?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="faq-answer" data-i18n="faq_3_a">Oui. Je m'occupe de tout : hébergement, nom de domaine, certificat SSL (https) et mise en ligne. Vous n'avez rien à gérer techniquement — votre site est accessible et sécurisé dès la livraison.</div>
+    </details>
+    <details class="faq-item reveal">
+        <summary class="faq-question"><span data-i18n="faq_4_q">Puis-je modifier mon site moi-même après la livraison ?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="faq-answer" data-i18n="faq_4_a">Absolument. Une courte formation est incluse à la livraison pour vous rendre autonome sur les modifications courantes. Et si vous préférez déléguer, mon offre Maintenance & Support couvre mises à jour, corrections et évolutions.</div>
+    </details>
+    <details class="faq-item reveal">
+        <summary class="faq-question"><span data-i18n="faq_5_q">Travaillez-vous avec des clients hors de Côte d'Ivoire ?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="faq-answer" data-i18n="faq_5_a">Oui, je travaille à distance avec des clients en Afrique de l'Ouest, en Europe et ailleurs. Les échanges se font par appel vidéo, WhatsApp ou email, et les paiements par virement ou mobile money.</div>
+    </details>
+</section>
+
 <!-- CONTACT -->
 <section class="contact" id="contact">
     <div class="section-header reveal">
@@ -1531,6 +1641,29 @@ const translations = {
         stat_years: "Années d'exp.",
         stat_projects: "Projets",
         stat_passion: "Passion",
+        testi_label: "Témoignages",
+        testi_title: "Ce qu'ils en disent",
+        testi_1_text: "Jean Mark a transformé notre façon de travailler. L'outil d'audit qu'il a développé nous fait gagner un temps précieux sur chaque mission. Professionnel, réactif et force de proposition.",
+        testi_1_name: "Kouadio D.",
+        testi_1_role: "Expert-comptable, Cabinet d'audit — Abidjan",
+        testi_2_text: "Un site livré en quelques jours, moderne et parfaitement adapté à mobile. Mes clients me complimentent régulièrement sur notre image en ligne. Je recommande vivement SEVEN7.",
+        testi_2_name: "Aïcha M.",
+        testi_2_role: "Gérante, Commerce & Distribution — Cocody",
+        testi_3_text: "La formation IA a changé mon quotidien : rédaction de rapports, formules Excel, exploitation de documents... Tout est plus rapide, sans jamais exposer les données de mes clients.",
+        testi_3_name: "Yao T.",
+        testi_3_role: "Auditeur financier — Plateau",
+        faq_label: "FAQ",
+        faq_title: "Questions fréquentes",
+        faq_1_q: "Combien coûte un site web ?",
+        faq_1_a: "Chaque projet est unique : le tarif dépend de vos besoins (nombre de pages, fonctionnalités, design sur-mesure). Après un premier échange gratuit, je vous envoie un devis détaillé et sans engagement sous 48h.",
+        faq_2_q: "Quels sont les délais de livraison ?",
+        faq_2_a: "Un site vitrine ou portfolio est livré en 3 à 5 jours ouvrés. Les applications web et outils métier nécessitent généralement 2 à 4 semaines selon la complexité. Un calendrier précis est défini ensemble dès le démarrage.",
+        faq_3_q: "L'hébergement et la mise en ligne sont-ils inclus ?",
+        faq_3_a: "Oui. Je m'occupe de tout : hébergement, nom de domaine, certificat SSL (https) et mise en ligne. Vous n'avez rien à gérer techniquement — votre site est accessible et sécurisé dès la livraison.",
+        faq_4_q: "Puis-je modifier mon site moi-même après la livraison ?",
+        faq_4_a: "Absolument. Une courte formation est incluse à la livraison pour vous rendre autonome sur les modifications courantes. Et si vous préférez déléguer, mon offre Maintenance & Support couvre mises à jour, corrections et évolutions.",
+        faq_5_q: "Travaillez-vous avec des clients hors de Côte d'Ivoire ?",
+        faq_5_a: "Oui, je travaille à distance avec des clients en Afrique de l'Ouest, en Europe et ailleurs. Les échanges se font par appel vidéo, WhatsApp ou email, et les paiements par virement ou mobile money.",
         contact_label: "Contact",
         contact_title: "Travaillons ensemble",
         contact_phone_label: "Téléphone",
@@ -1689,6 +1822,29 @@ const translations = {
         stat_years: "Years exp.",
         stat_projects: "Projects",
         stat_passion: "Passion",
+        testi_label: "Testimonials",
+        testi_title: "What they say",
+        testi_1_text: "Jean Mark transformed the way we work. The audit tool he built saves us precious time on every engagement. Professional, responsive and full of ideas.",
+        testi_1_name: "Kouadio D.",
+        testi_1_role: "Chartered Accountant, Audit Firm — Abidjan",
+        testi_2_text: "A website delivered in just a few days, modern and perfectly mobile-friendly. My clients regularly compliment our online image. I highly recommend SEVEN7.",
+        testi_2_name: "Aïcha M.",
+        testi_2_role: "Manager, Retail & Distribution — Cocody",
+        testi_3_text: "The AI training changed my daily work: report writing, Excel formulas, document processing... Everything is faster, without ever exposing my clients' data.",
+        testi_3_name: "Yao T.",
+        testi_3_role: "Financial Auditor — Plateau",
+        faq_label: "FAQ",
+        faq_title: "Frequently asked questions",
+        faq_1_q: "How much does a website cost?",
+        faq_1_a: "Every project is unique: pricing depends on your needs (number of pages, features, custom design). After a free initial discussion, I send you a detailed, no-obligation quote within 48 hours.",
+        faq_2_q: "What are the delivery times?",
+        faq_2_a: "A showcase website or portfolio is delivered within 3 to 5 business days. Web applications and business tools usually take 2 to 4 weeks depending on complexity. A precise timeline is defined together from the start.",
+        faq_3_q: "Are hosting and deployment included?",
+        faq_3_a: "Yes. I handle everything: hosting, domain name, SSL certificate (https) and deployment. You have nothing technical to manage — your site is live and secure from day one.",
+        faq_4_q: "Can I edit my site myself after delivery?",
+        faq_4_a: "Absolutely. A short training session is included at delivery so you can handle common edits yourself. And if you'd rather delegate, my Maintenance & Support plan covers updates, fixes and enhancements.",
+        faq_5_q: "Do you work with clients outside Côte d'Ivoire?",
+        faq_5_a: "Yes, I work remotely with clients across West Africa, Europe and beyond. We communicate via video calls, WhatsApp or email, and payments can be made by bank transfer or mobile money.",
         contact_label: "Contact",
         contact_title: "Let's work together",
         contact_phone_label: "Phone",
