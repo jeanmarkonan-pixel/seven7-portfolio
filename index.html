@@ -3,7 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SEVEN7 — Portfolio</title>
+<title>SEVEN7 — Vibecoder & Développeur Web | Sites, Apps & IA sur-mesure</title>
+<meta name="description" content="SEVEN7 — Jean Mark, vibecoder & développeur web en Côte d'Ivoire. Création de sites vitrines, applications web, outils d'audit digital et intégration de l'IA dans vos processus métier. Devis sur demande.">
+<meta name="keywords" content="développeur web, vibecoder, Côte d'Ivoire, Abidjan, création site web, application web, automatisation IA, outil audit digital, Firebase, freelance">
+<meta name="author" content="Jean Mark — SEVEN7">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://seven7-portfolio-site.vercel.app/">
+<meta name="theme-color" content="#030712">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://seven7-portfolio-site.vercel.app/">
+<meta property="og:title" content="SEVEN7 — Vibecoder & Développeur Web">
+<meta property="og:description" content="L'IA au service de votre performance métier : sites vitrines, applications web, outils d'audit et automatisation sur-mesure.">
+<meta property="og:image" content="https://seven7-portfolio-site.vercel.app/assets/avatar.jpg">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="SEVEN7">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SEVEN7 — Vibecoder & Développeur Web">
+<meta name="twitter:description" content="L'IA au service de votre performance métier : sites vitrines, applications web, outils d'audit et automatisation sur-mesure.">
+<meta name="twitter:image" content="https://seven7-portfolio-site.vercel.app/assets/avatar.jpg">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/avatar.jpg">
+
+<!-- Données structurées JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "SEVEN7",
+  "url": "https://seven7-portfolio-site.vercel.app/",
+  "image": "https://seven7-portfolio-site.vercel.app/assets/avatar.jpg",
+  "description": "Vibecoder & développeur web : création de sites vitrines, applications web, outils d'audit digital et intégration de l'IA dans les processus métier.",
+  "email": "jeanmarkonan@gmail.com",
+  "telephone": "+2250789746930",
+  "address": { "@type": "PostalAddress", "addressCountry": "CI" },
+  "founder": { "@type": "Person", "name": "Jean Mark", "jobTitle": "Vibecoder & Développeur Web" },
+  "priceRange": "Sur devis",
+  "sameAs": ["https://github.com/seven7-backend"]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -1736,6 +1781,13 @@ window.addEventListener('scroll', () => {
 // 2. Crée un formulaire, copie l'ID (ex: xnqevqdb)
 // 3. Remplace ci-dessous
 const FORMSPREE_ID = "YOUR_FORMSPREE_ID";
+const CONTACT_EMAIL = "jeanmarkonan@gmail.com";
+
+// Libellés lisibles des sujets (alignés sur les options du select)
+const SUBJECT_LABELS = {
+    fr: { site: "Site Web / Portfolio", audit: "Outil d'Audit Digital", app: "Application Web", design: "UI/UX & Prototypage", vibecoding: "Vibecoding / IA", maintenance: "Maintenance & Support", other: "Autre" },
+    en: { site: "Website / Portfolio", audit: "Digital Audit Tool", app: "Web Application", design: "UI/UX & Prototyping", vibecoding: "Vibecoding / AI", maintenance: "Maintenance & Support", other: "Other" }
+};
 
 function handleSubmit(e) {
     e.preventDefault();
@@ -1747,15 +1799,30 @@ function handleSubmit(e) {
     btn.innerHTML = '<span>⏳</span> ' + (currentLang === 'fr' ? 'Envoi...' : 'Sending...');
     btn.disabled = true;
 
-    // Si l'ID n'est pas configuré, afficher une alerte
+    // Fallback : si Formspree n'est pas configuré, ouvrir le client mail pré-rempli
     if (FORMSPREE_ID === "YOUR_FORMSPREE_ID") {
+        const subjectLabel = SUBJECT_LABELS[currentLang][form.subject.value] || form.subject.value;
+        const mailSubject = "[SEVEN7] " + subjectLabel + " — " + form.name.value;
+        const lines = [
+            "Nom / Name : " + form.name.value,
+            "Email : " + form.email.value,
+            form.phone.value ? "Téléphone / Phone : " + form.phone.value : null,
+            "Sujet / Subject : " + subjectLabel,
+            "",
+            form.message.value
+        ].filter(Boolean);
+        window.location.href = "mailto:" + CONTACT_EMAIL
+            + "?subject=" + encodeURIComponent(mailSubject)
+            + "&body=" + encodeURIComponent(lines.join("\n"));
+        form.style.display = 'none';
+        success.style.display = 'block';
         setTimeout(() => {
-            alert(currentLang === 'fr' 
-                ? "⚠️ Configure ton ID Formspree dans le code JS (ligne avec YOUR_FORMSPREE_ID)" 
-                : "⚠️ Configure your Formspree ID in the JS code (line with YOUR_FORMSPREE_ID)");
+            form.reset();
+            form.style.display = 'block';
+            success.style.display = 'none';
             btn.innerHTML = originalText;
             btn.disabled = false;
-        }, 500);
+        }, 5000);
         return;
     }
 
