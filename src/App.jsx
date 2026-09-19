@@ -10,6 +10,9 @@ import MagneticFooter from './components/sections/MagneticFooter'
 import { useLenis } from './hooks/useLenis'
 import { useMouse } from './hooks/useMouse'
 import { LanguageProvider, useLanguage } from './hooks/useLanguage'
+import { SeasonProvider } from './hooks/useSeason'
+import SeasonOverlay from './components/ui/SeasonOverlay'
+import SeasonSwitcher from './components/ui/SeasonSwitcher'
 
 // Code-splitting : la scène WebGL (Three.js) est chargée en chunk séparé
 const HeroScene = lazy(() => import('./components/canvas/HeroScene'))
@@ -31,6 +34,10 @@ function Shell() {
       <Nav visible={loaded} scrollTo={scrollTo} lang={lang} toggleLang={toggleLang} />
       <Cursor />
 
+      {/* Ambiance saisonnière : pluie de particules + sélecteur flottant */}
+      <SeasonOverlay enabled={loaded} />
+      <SeasonSwitcher visible={loaded} />
+
       {/* Scène 3D en fond fixe (chargée après le shell) + loupe optique */}
       <Suspense fallback={null}>
         <HeroScene mouse={mouse} lens />
@@ -50,7 +57,9 @@ function Shell() {
 export default function App() {
   return (
     <LanguageProvider>
-      <Shell />
+      <SeasonProvider>
+        <Shell />
+      </SeasonProvider>
     </LanguageProvider>
   )
 }
