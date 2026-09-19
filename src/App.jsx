@@ -22,7 +22,7 @@ const HeroScene = lazy(() => import('./components/canvas/HeroScene'))
 function Shell() {
   const [loaded, setLoaded] = useState(false)
   const mouse = useMouse()
-  const { scrollTo } = useLenis()
+  const { scrollTo, stop, start } = useLenis()
   const { lang, toggleLang } = useLanguage()
 
   const handlePreloaderComplete = useCallback(() => setLoaded(true), [])
@@ -52,7 +52,7 @@ function Shell() {
         <div className="relative overflow-hidden bg-abyss">
           <ParadiseAurora />
           <Services visible={loaded} />
-          <Showcase />
+          <Showcase lenisStop={stop} lenisStart={start} />
           <Lab visible={loaded} />
           <MagneticFooter />
         </div>

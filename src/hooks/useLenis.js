@@ -56,5 +56,10 @@ export function useLenis() {
     lenisRef.current?.scrollTo(target, { offset: 0, duration: 1.6 })
   }, [])
 
-  return { lenisRef, scrollTo }
+  // Utilisés pour geler le scroll pendant une modale (étude de cas) sans
+  // perdre la position, contrairement à un simple overflow:hidden sur le body.
+  const stop = useCallback(() => lenisRef.current?.stop(), [])
+  const start = useCallback(() => lenisRef.current?.start(), [])
+
+  return { lenisRef, scrollTo, stop, start }
 }

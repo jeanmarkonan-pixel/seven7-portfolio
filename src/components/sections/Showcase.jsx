@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MoveHorizontal } from 'lucide-react'
 import ProjectCard from '../canvas/ProjectCard'
+import CaseStudyModal from './CaseStudyModal'
 import { PROJECTS } from '../../data/projects'
 import { useLanguage } from '../../hooks/useLanguage'
 
@@ -17,7 +18,7 @@ const FOCUS_SPAN = 0.62 // fraction de la largeur d'écran sur laquelle la mise 
  * reculent en flou/désaturation/échelle réduite selon leur distance,
  * avec un compteur odomètre + une piste de progression à pastilles.
  */
-export default function Showcase() {
+export default function Showcase({ lenisStop, lenisStart }) {
   const sectionRef = useRef(null)
   const trackRef = useRef(null)
   const progressRef = useRef(null)
@@ -26,6 +27,14 @@ export default function Showcase() {
   const activeIndexRef = useRef(0)
   const { lang } = useLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
+  const [caseStudy, setCaseStudy] = useState(null)
+
+  const closeCaseStudy = useCallback(() => setCaseStudy(null), [])
+
+  useEffect(() => {
+    if (caseStudy) lenisStop?.()
+    else lenisStart?.()
+  }, [caseStudy, lenisStop, lenisStart])
 
   const registerCard = useCallback((i) => (el) => {
     cardRefs.current[i] = el
@@ -102,6 +111,7 @@ export default function Showcase() {
   }, [])
 
   return (
+    <>
     <section ref={sectionRef} className="relative overflow-hidden" id="work">
       <div className="flex min-h-screen flex-col justify-center py-24">
         {/* En-tête */}
@@ -159,7 +169,14 @@ export default function Showcase() {
         {/* Piste horizontale */}
         <div ref={trackRef} className="flex gap-10 px-6 will-change-transform md:px-16">
           {PROJECTS.map((project, i) => (
-            <ProjectCard key={project.variant} ref={registerCard(i)} project={project} index={i} lang={lang} />
+            <ProjectCard
+              key={project.variant}
+              ref={registerCard(i)}
+              project={project}
+              index={i}
+              lang={lang}
+              onOpenCaseStudy={setCaseStudy}
+            />
           ))}
 
           {/* Carte finale CTA */}
@@ -186,5 +203,7 @@ export default function Showcase() {
         </div>
       </div>
     </section>
+    <CaseStudyModal project={caseStudy} onClose={closeCaseStudy} />
+    </>
   )
 }

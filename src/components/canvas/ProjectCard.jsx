@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import gsap from 'gsap'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { liquidVertexShader, liquidFragmentShader, generateProjectTexture } from '../shaders/liquid'
-import { ArrowUpRight, Sparkles } from 'lucide-react'
+import { ArrowUpRight, Sparkles, FileText } from 'lucide-react'
 
 const ARROW_SPRING = { stiffness: 300, damping: 20, mass: 0.4 }
 const ARROW_PULL = 12
@@ -59,7 +59,7 @@ function LiquidPlane({ texture, hoverState, mouseUv }) {
  * pilotée par le parent (Showcase) directement sur le nœud DOM transmis
  * via `ref`, pour rester performante pendant le scroll épinglé.
  */
-function ProjectCard({ project, index, lang }, ref) {
+function ProjectCard({ project, index, lang, onOpenCaseStudy }, ref) {
   const hoverState = useRef(false)
   const mouseUv = useRef(new THREE.Vector2(0.5, 0.5))
   const cardRef = useRef(null)
@@ -126,6 +126,14 @@ function ProjectCard({ project, index, lang }, ref) {
   const onClick = useCallback(() => {
     if (project.url) window.open(project.url, '_blank', 'noopener,noreferrer')
   }, [project.url])
+
+  const onCaseStudyClick = useCallback(
+    (e) => {
+      e.stopPropagation()
+      onOpenCaseStudy?.(project)
+    },
+    [onOpenCaseStudy, project]
+  )
 
   const isLive = project.status === 'live'
   const statusLabel = isLive
@@ -198,6 +206,17 @@ function ProjectCard({ project, index, lang }, ref) {
           <p className="mt-2 max-w-md font-serif text-sm italic leading-relaxed text-titanium/50">
             {project.desc[lang]}
           </p>
+          {project.caseStudy && (
+            <button
+              type="button"
+              onClick={onCaseStudyClick}
+              className="group/cs relative z-10 mt-4 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-accent-400 transition-colors hover:text-accent-500"
+            >
+              <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
+              {lang === 'fr' ? "Voir l'étude de cas" : 'View case study'}
+              <span className="h-px w-4 bg-accent-400 transition-all duration-300 group-hover/cs:w-6" />
+            </button>
+          )}
         </div>
         <motion.div
           style={{ x: arrowSx, y: arrowSy }}
