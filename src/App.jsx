@@ -7,6 +7,7 @@ import Services from './components/sections/Services'
 import Showcase from './components/sections/Showcase'
 import Method from './components/sections/Method'
 import Lab from './components/sections/Lab'
+import ProjectFinder from './components/sections/ProjectFinder'
 import MagneticFooter from './components/sections/MagneticFooter'
 import { useLenis } from './hooks/useLenis'
 import { useMouse } from './hooks/useMouse'
@@ -56,6 +57,7 @@ function Shell() {
           <Showcase lenisStop={stop} lenisStart={start} />
           <Method />
           <Lab visible={loaded} />
+          <ProjectFinder />
           <MagneticFooter />
         </div>
       </main>
