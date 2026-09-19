@@ -4,8 +4,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import WindField from './WindField'
 import SlicedPlanes from './SlicedPlanes'
-import { FirePlane, EmberField } from './FireWorld'
-import BlackHole from './BlackHole'
+import PrismCore from './PrismCore'
 import SparkBurst from './SparkBurst'
 import CompositePass from './CompositePass'
 
@@ -66,8 +65,8 @@ function WorldOrchestrator({ scrollRef, heroVis, fireVis, holeVis }) {
 
 /**
  * HeroScene — Canvas WebGL global multi-dimensions :
- *  Cristal (vent/particules) → Solar Core (flammes/braises) → Singularité.
- * Post-traitement unique : loupe + shockwave + heat haze + vignette.
+ *  Cristal (vent/particules) → [Zone 2 en attente] → Singularité.
+ * Post-traitement unique : loupe + shockwave + vignette.
  */
 export default function HeroScene({ mouse }) {
   const scrollRef = useRef(0)
@@ -124,26 +123,20 @@ export default function HeroScene({ mouse }) {
           <WindField mouse={mouse} visibleRef={heroVis} />
         </group>
 
-        {/* Zone 2 — Solar Core : flammes FBM + braises */}
-        <group position={[0, -26, -2]}>
-          <FirePlane visibleRef={fireVis} mouse={mouse} />
-          <EmberField visibleRef={fireVis} />
-        </group>
+        {/* Zone 2 — Solar Core : en attente (ancien FireWorld retiré, remplacement Monolith à venir) */}
 
-        {/* Zone 3 — Singularité : trou noir au CTA */}
+        {/* Zone 3 — Singularité : trou noir prismatique au CTA */}
         <group position={[0, -58, -3]}>
-          <BlackHole visibleRef={holeVis} />
+          <PrismCore visibleRef={holeVis} />
         </group>
 
         {/* Clic magique : éclats de particules physiques */}
         <SparkBurst clickQueue={clickQueue} />
 
-        {/* Passe finale : loupe + shockwave + heat haze + vignette */}
+        {/* Passe finale : loupe + shockwave + vignette */}
         <CompositePass
           mouse={mouse}
           clickQueue={clickQueue}
-          fireVisibleRef={fireVis}
-          fireAnchor={[0.5, 0.30]}
         />
       </Canvas>
     </div>
