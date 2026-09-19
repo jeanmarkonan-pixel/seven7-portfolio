@@ -109,6 +109,7 @@ export const particleVertexShader = /* glsl */ `
 export const particleFragmentShader = /* glsl */ `
   uniform vec3 uColorA;   // titane
   uniform vec3 uColorB;   // holographique cyan
+  uniform float uVisibility;  // fondu de zone (scroll)
 
   varying float vAlpha;
   varying float vDistort;
@@ -120,6 +121,6 @@ export const particleFragmentShader = /* glsl */ `
     strength = pow(strength, 1.8);
 
     vec3 color = mix(uColorA, uColorB, clamp(vDistort * 2.4, 0.0, 1.0));
-    gl_FragColor = vec4(color, strength * vAlpha);
+    gl_FragColor = vec4(color, strength * vAlpha * uVisibility);
   }
 `

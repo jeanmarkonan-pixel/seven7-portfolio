@@ -7,6 +7,7 @@ import { ArrowUpRight } from 'lucide-react'
 
 function LiquidPlane({ texture, hoverState, mouseUv }) {
   const materialRef = useRef()
+  const hoverRef = useRef(false)
 
   const uniforms = useMemo(
     () => ({
@@ -23,18 +24,15 @@ function LiquidPlane({ texture, hoverState, mouseUv }) {
     const u = materialRef.current.uniforms
     u.uTime.value = state.clock.elapsedTime
     u.uMouse.value.copy(mouseUv.current)
-  })
-
-  // Transition douce de l'intensité via GSAP
-  useEffect(() => {
-    if (!materialRef.current) return
-    const u = materialRef.current.uniforms.uIntensity
-    const tween = gsap.to(u, {
-      value: hoverState.current ? 1 : 0,
-      duration: hoverState.current ? 0.7 : 1.0,
-      ease: 'power3.out',
-    })
-    return () => tween.kill()
+    // Transition d'intensité à chaque changement d'état de survol
+    if (hoverRef.current !== hoverState.current) {
+      hoverRef.current = hoverState.current
+      gsap.to(u.uIntensity, {
+        value: hoverRef.current ? 1 : 0,
+        duration: hoverRef.current ? 0.7 : 1.0,
+        ease: 'power3.out',
+      })
+    }
   })
 
   return (

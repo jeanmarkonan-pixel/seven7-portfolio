@@ -9,8 +9,9 @@ const COUNT_MOBILE = 9000
 /**
  * WindField — nappe de particules GPU réactive à la vélocité de la souris.
  * Simule des rafales de vent : poussée directionnelle + tourbillon.
+ * visibleRef : fondu d'opacité de la zone cristal (piloté par le scroll).
  */
-export default function WindField({ mouse }) {
+export default function WindField({ mouse, visibleRef }) {
   const pointsRef = useRef()
   const materialRef = useRef()
   const { viewport } = useThree()
@@ -48,6 +49,7 @@ export default function WindField({ mouse }) {
       uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
       uColorA: { value: new THREE.Color('#EDEDED') },
       uColorB: { value: new THREE.Color('#67E8F9') },
+      uVisibility: { value: 1 },
     }),
     []
   )
@@ -67,6 +69,9 @@ export default function WindField({ mouse }) {
     u.uMouse.value.set(mouse.current.x, mouse.current.y)
     u.uVelocity.value.set(mouse.current.vx, -mouse.current.vy)
     u.uSpeed.value = mouse.current.speed
+    if (visibleRef) {
+      u.uVisibility.value += (visibleRef.current - u.uVisibility.value) * 0.07
+    }
   })
 
   return (
