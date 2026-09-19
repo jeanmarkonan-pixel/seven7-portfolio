@@ -145,7 +145,7 @@ export function generateProjectTexture(variant, width = 1024, height = 640) {
 
   // Typographie du visuel
   ctx.fillStyle = '#ffffff'
-  ctx.font = `900 ${Math.floor(width * 0.085)}px Archivo, sans-serif`
+  ctx.font = `900 ${Math.floor(width * 0.085)}px Clash Display, sans-serif`
   ctx.textBaseline = 'alphabetic'
   ctx.fillText(p.label, width * 0.06, height * 0.82)
   ctx.fillStyle = p.accent
@@ -154,7 +154,7 @@ export function generateProjectTexture(variant, width = 1024, height = 640) {
 
   // Monogramme
   ctx.fillStyle = '#ffffff22'
-  ctx.font = `900 ${Math.floor(width * 0.3)}px Archivo, sans-serif`
+  ctx.font = `900 ${Math.floor(width * 0.3)}px Clash Display, sans-serif`
   ctx.textAlign = 'right'
   ctx.fillText('7', width * 0.97, height * 0.52)
   ctx.textAlign = 'left'

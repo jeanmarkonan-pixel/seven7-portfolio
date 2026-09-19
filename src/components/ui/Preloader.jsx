@@ -97,7 +97,6 @@ export default function Preloader({ onComplete }) {
         <div
           ref={counterRef}
           className="font-grotesk text-[clamp(80px,18vw,200px)] font-black leading-none text-titanium tabular-nums"
-          style={{ fontVariationSettings: '"wdth" 125' }}
         >
           {String(progress).padStart(3, '0')}
           <span className="text-[0.25em] align-top text-titanium/40">%</span>

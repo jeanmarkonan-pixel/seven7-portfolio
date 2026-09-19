@@ -25,7 +25,8 @@ export default {
         surface2: 'rgb(var(--surface2-rgb) / <alpha-value>)',
       },
       fontFamily: {
-        grotesk: ['"Archivo Expanded"', 'Archivo', 'sans-serif'],
+        grotesk: ['"Clash Display"', 'sans-serif'],
+        sans: ['"General Sans"', 'sans-serif'],
         serif: ['"Cormorant Garamond"', 'serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },

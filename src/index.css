@@ -40,7 +40,7 @@ html.lenis body {
 body {
   background: rgb(var(--abyss-rgb));
   color: rgb(var(--titanium-rgb));
-  font-family: 'Archivo', sans-serif;
+  font-family: 'General Sans', sans-serif;
   overflow-x: hidden;
   transition: background-color 0.6s ease, color 0.6s ease;
 }
@@ -108,10 +108,9 @@ body {
   90% { transform: translate(-3%, 7%); }
 }
 
-/* Typographie grotesk étendue */
+/* Typographie d'affichage : géométrique, dense, signature visuelle du site */
 .font-grotesk {
-  font-family: 'Archivo', sans-serif;
-  font-stretch: 125%;
+  font-family: 'Clash Display', sans-serif;
 }
 
 /* ── Services : bordure lumineuse qui suit le curseur ── */
