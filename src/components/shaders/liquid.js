@@ -87,6 +87,12 @@ export function generateProjectTexture(variant, width = 1024, height = 640) {
   const ctx = canvas.getContext('2d')
 
   const palettes = {
+    comptable: { bg1: '#04140b', bg2: '#0d3320', accent: '#34d399', accent2: '#fbbf24', label: "P'TIT COMPTABLE", sub: 'Comptabilité SYSCOHADA' },
+    audit: { bg1: '#0a0a1a', bg2: '#1e1e4a', accent: '#818cf8', accent2: '#67e8f9', label: 'SEVEN7 AUDIT', sub: 'Audit externe automatisé' },
+    hydra: { bg1: '#12041a', bg2: '#3b0d4a', accent: '#c084fc', accent2: '#67e8f9', label: 'HYDRA', sub: 'SaaS de gestion PME' },
+    metamorphose: { bg1: '#140a04', bg2: '#3d2410', accent: '#fb923c', accent2: '#f5d78e', label: 'MÉTAMORPHOSE', sub: 'Boutique 3D immersive' },
+    formation: { bg1: '#040d14', bg2: '#0c2a3d', accent: '#38bdf8', accent2: '#a5f3fc', label: 'FORMATION IA', sub: 'Comptabilité · Audit · Finance' },
+    backend: { bg1: '#0d0d0d', bg2: '#262626', accent: '#a3a3a3', accent2: '#67e8f9', label: 'BACKEND', sub: 'API REST · Firebase' },
     cola: { bg1: '#1a0505', bg2: '#4a0e0e', accent: '#ff2d2d', accent2: '#ffb3a7', label: 'COCA-COLA', sub: 'Liquid Experience' },
     nike: { bg1: '#050510', bg2: '#101038', accent: '#7df9ff', accent2: '#b76bff', label: 'NIKE', sub: 'Cyber Velocity' },
     aether: { bg1: '#04080c', bg2: '#0c2233', accent: '#67e8f9', accent2: '#ffffff', label: 'AETHER', sub: 'Spatial OS' },

@@ -52,19 +52,27 @@ function LiquidPlane({ texture, hoverState, mouseUv }) {
 
 /**
  * ProjectCard — visuel WebGL avec distorsion liquide au survol + tilt 3D.
- * Chaque carte possède son propre petit canvas (ratio 4/2.5).
+ * Utilise la vraie capture du projet (image) quand disponible,
+ * sinon un visuel procédural à la palette signature.
+ * Cliquable si le projet a une URL.
  */
-export default function ProjectCard({ project, index }) {
+export default function ProjectCard({ project, index, lang }) {
   const hoverState = useRef(false)
   const mouseUv = useRef(new THREE.Vector2(0.5, 0.5))
   const cardRef = useRef(null)
 
   const texture = useMemo(() => {
-    const tex = new THREE.CanvasTexture(generateProjectTexture(project.variant))
+    let tex
+    if (project.image) {
+      tex = new THREE.TextureLoader().load(project.image)
+      tex.crossOrigin = 'anonymous'
+    } else {
+      tex = new THREE.CanvasTexture(generateProjectTexture(project.variant))
+    }
     tex.colorSpace = THREE.SRGBColorSpace
     tex.minFilter = THREE.LinearFilter
     return tex
-  }, [project.variant])
+  }, [project.variant, project.image])
 
   useEffect(() => () => texture.dispose(), [texture])
 
@@ -90,15 +98,25 @@ export default function ProjectCard({ project, index }) {
     })
   }, [])
 
+  const onClick = useCallback(() => {
+    if (project.url) window.open(project.url, '_blank', 'noopener,noreferrer')
+  }, [project.url])
+
+  const isLive = project.status === 'live'
+  const statusLabel = isLive
+    ? (lang === 'fr' ? 'En ligne' : 'Live')
+    : (lang === 'fr' ? 'En développement' : 'In development')
+
   return (
     <article
       ref={cardRef}
-      className="project-card group relative w-[82vw] max-w-[720px] flex-shrink-0 will-change-transform md:w-[58vw]"
+      className={`project-card group relative w-[82vw] max-w-[720px] flex-shrink-0 will-change-transform md:w-[58vw] ${project.url ? 'cursor-pointer' : 'cursor-default'}`}
       style={{ transformStyle: 'preserve-3d', perspective: '900px' }}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       onMouseMove={onMove}
-      data-cursor-label="Voir"
+      onClick={onClick}
+      data-cursor-label={project.url ? (lang === 'fr' ? 'Voir' : 'View') : undefined}
     >
       <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-abyss">
         <Canvas
@@ -114,6 +132,12 @@ export default function ProjectCard({ project, index }) {
         <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           style={{ background: 'radial-gradient(600px circle at 50% 0%, rgba(103,232,249,0.08), transparent 60%)' }}
         />
+
+        {/* Badge statut */}
+        <div className="absolute right-4 top-4 flex items-center gap-2 rounded-full border border-white/15 bg-abyss/60 px-3 py-1.5 backdrop-blur-md">
+          <span className={`h-1.5 w-1.5 rounded-full ${isLive ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]'}`} />
+          <span className="font-mono text-[10px] uppercase tracking-widest text-titanium/80">{statusLabel}</span>
+        </div>
       </div>
 
       {/* Méta projet */}
@@ -123,18 +147,20 @@ export default function ProjectCard({ project, index }) {
             <span className="font-mono text-[10px] text-cyan-200/60">
               {String(index + 1).padStart(2, '0')}
             </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-titanium/40">
-              {project.category}
-            </span>
+            {project.tags.map((tag) => (
+              <span key={tag} className="rounded border border-white/10 bg-white/[0.04] px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-titanium/50">
+                {tag}
+              </span>
+            ))}
           </div>
           <h3 className="font-grotesk text-2xl font-extrabold tracking-tight text-titanium md:text-3xl">
             {project.title}
           </h3>
           <p className="mt-2 max-w-md font-serif text-sm italic leading-relaxed text-titanium/50">
-            {project.description}
+            {project.desc[lang]}
           </p>
         </div>
-        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-white/15 text-titanium/60 transition-all duration-300 group-hover:border-cyan-200/50 group-hover:text-cyan-200">
+        <div className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${project.url ? 'border-white/15 text-titanium/60 group-hover:border-cyan-200/50 group-hover:text-cyan-200' : 'border-white/5 text-titanium/20'}`}>
           <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
         </div>
       </div>

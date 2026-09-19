@@ -3,19 +3,22 @@ import Preloader from './components/ui/Preloader'
 import Cursor from './components/ui/Cursor'
 import Nav from './components/ui/Nav'
 import Hero from './components/sections/Hero'
+import Services from './components/sections/Services'
 import Showcase from './components/sections/Showcase'
 import Lab from './components/sections/Lab'
 import MagneticFooter from './components/sections/MagneticFooter'
 import { useLenis } from './hooks/useLenis'
 import { useMouse } from './hooks/useMouse'
+import { LanguageProvider, useLanguage } from './hooks/useLanguage'
 
 // Code-splitting : la scène WebGL (Three.js) est chargée en chunk séparé
 const HeroScene = lazy(() => import('./components/canvas/HeroScene'))
 
-export default function App() {
+function Shell() {
   const [loaded, setLoaded] = useState(false)
   const mouse = useMouse()
   const { scrollTo } = useLenis()
+  const { lang, toggleLang } = useLanguage()
 
   const handlePreloaderComplete = useCallback(() => setLoaded(true), [])
 
@@ -25,7 +28,7 @@ export default function App() {
       <div className="film-grain" aria-hidden="true" />
 
       {!loaded && <Preloader onComplete={handlePreloaderComplete} />}
-      <Nav visible={loaded} scrollTo={scrollTo} />
+      <Nav visible={loaded} scrollTo={scrollTo} lang={lang} toggleLang={toggleLang} />
       <Cursor />
 
       {/* Scène 3D en fond fixe (chargée après le shell) + loupe optique */}
@@ -35,10 +38,19 @@ export default function App() {
 
       <main className="relative">
         <Hero visible={loaded} />
+        <Services visible={loaded} />
         <Showcase />
         <Lab visible={loaded} />
         <MagneticFooter />
       </main>
     </>
+  )
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <Shell />
+    </LanguageProvider>
   )
 }
