@@ -1,49 +1,200 @@
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Globe, ClipboardCheck, AppWindow, PenTool, Sparkles, Wrench, Check } from 'lucide-react'
+import { useState, useCallback } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { Globe, ClipboardCheck, AppWindow } from 'lucide-react'
 import { SERVICES } from '../../data/services'
 import { useLanguage } from '../../hooks/useLanguage'
+import ServicePanelVisual from './ServicePanelVisual'
+import MagneticCTA from './MagneticCTA'
 
-gsap.registerPlugin(ScrollTrigger)
+const ICONS = { Globe, ClipboardCheck, AppWindow }
+const PANEL_SPRING = { type: 'spring', stiffness: 260, damping: 22, mass: 0.9 }
+const NUMBER_SPRING = { type: 'spring', stiffness: 200, damping: 18 }
 
-const ICONS = { Globe, ClipboardCheck, AppWindow, PenTool, Sparkles, Wrench }
+const contentVariants = {
+  closed: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
+  open: { transition: { staggerChildren: 0.07, delayChildren: 0.12 } },
+}
+const itemVariants = {
+  closed: { opacity: 0, y: 14, filter: 'blur(2px)' },
+  open: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+}
+
+function widthFor(index, activeIndex) {
+  if (activeIndex === null) return '33.3333%'
+  if (activeIndex === index) return '55%'
+  return '22.5%'
+}
+
+/** Inclinaison 3.5D : le panneau actif fait face, les autres basculent en éventail. */
+function tiltFor(index, activeIndex) {
+  if (activeIndex === null || activeIndex === index) return 0
+  return index < activeIndex ? 10 : -10
+}
 
 /**
- * Services — grille des 6 offres réelles SEVEN7, révélées au scroll.
+ * Panel — un pilier de service. Largeur + tilt 3D pilotés par le parent
+ * (desktop), pleine largeur + hauteur animée en accordéon sur mobile.
+ */
+function Panel({ service, index, activeIndex, onEnter, onLeave, onToggle, lang, isMobile, reduceMotion }) {
+  const [offset, setOffset] = useState({ x: 0, y: 0 })
+  const Icon = ICONS[service.icon] || Globe
+  const content = service[lang]
+  const isActive = activeIndex === index
+  const isDimmed = !isMobile && activeIndex !== null && !isActive
+  const num = String(index + 1).padStart(2, '0')
+
+  const handleMouseMove = useCallback((e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const px = ((e.clientX - rect.left) / rect.width) * 100
+    const py = ((e.clientY - rect.top) / rect.height) * 100
+    e.currentTarget.style.setProperty('--mx', `${px}%`)
+    e.currentTarget.style.setProperty('--my', `${py}%`)
+    setOffset({ x: px / 100 - 0.5, y: py / 100 - 0.5 })
+  }, [])
+
+  const interactiveAnimate = isMobile || reduceMotion
+    ? undefined
+    : {
+        width: widthFor(index, activeIndex),
+        rotateY: tiltFor(index, activeIndex),
+        scale: isActive ? 1.02 : activeIndex !== null ? 0.96 : 1,
+      }
+  const staticWidth = !isMobile && reduceMotion ? widthFor(index, activeIndex) : undefined
+
+  return (
+    <motion.div
+      initial={reduceMotion ? false : { opacity: 0, rotateX: -12 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, rotateX: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      animate={interactiveAnimate}
+      transition={{
+        opacity: { duration: 0.7, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] },
+        rotateX: { duration: 0.7, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] },
+        width: PANEL_SPRING,
+        rotateY: PANEL_SPRING,
+        scale: PANEL_SPRING,
+      }}
+      whileTap={{ scale: 0.985 }}
+      className={`pulse-panel group relative flex flex-col overflow-hidden rounded-3xl border p-8 transition-colors duration-500 md:p-10 ${
+        isMobile ? '' : 'min-h-[650px]'
+      } ${isActive ? 'border-cyan-200/40 bg-[#0d1014] is-active' : 'border-white/10 bg-[#0b0c10]'} ${
+        isDimmed ? 'opacity-70' : ''
+      }`}
+      onMouseEnter={!isMobile ? () => onEnter(index) : undefined}
+      onMouseLeave={!isMobile ? onLeave : undefined}
+      onFocus={!isMobile ? () => onEnter(index) : undefined}
+      onBlur={!isMobile ? onLeave : undefined}
+      onMouseMove={handleMouseMove}
+      onClick={isMobile ? () => onToggle(index) : undefined}
+      tabIndex={0}
+      style={staticWidth ? { width: staticWidth } : undefined}
+    >
+      {/* Halo/wireframe/graph/matrix — visuel abstrait révélé au hover, en mouvement continu */}
+      <ServicePanelVisual type={service.visual} offset={offset} active={isActive} />
+
+      {/* Bordure lumineuse réactive au curseur */}
+      <span className="glow-border" aria-hidden="true" />
+
+      {/* Numéro géant en filigrane — respire et se décale à l'activation */}
+      <motion.span
+        className="pointer-events-none absolute -right-2 -top-6 select-none font-mono text-[7rem] font-black leading-none text-white/[0.06] md:text-[9rem]"
+        aria-hidden="true"
+        animate={{
+          scale: isActive ? 1.12 : 1,
+          opacity: isActive ? 0.13 : 0.06,
+          x: isActive ? -14 : 0,
+        }}
+        transition={NUMBER_SPRING}
+      >
+        {num}
+      </motion.span>
+
+      {/* Header */}
+      <div className="relative z-10 mb-8 flex items-center justify-between">
+        <motion.div
+          className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md"
+          animate={{ rotate: isActive ? 360 : 0, scale: isActive ? 1.08 : 1 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Icon className="h-6 w-6 text-cyan-200" strokeWidth={1.5} />
+        </motion.div>
+        <motion.span
+          animate={{ scale: isActive ? 1.06 : 1 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 16 }}
+          className="inline-flex items-center gap-2 rounded-full border border-cyan-200/25 bg-cyan-200/[0.04] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-200/90"
+        >
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-75" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan-300" />
+          </span>
+          [ {service.status[lang]} ]
+        </motion.span>
+      </div>
+
+      {/* Titre — toujours visible */}
+      <h3 className="relative z-10 font-grotesk text-2xl font-extrabold leading-tight tracking-tight text-titanium md:text-[1.7rem]">
+        {num}. {content.title}
+      </h3>
+
+      {/* Corps révélé à l'expansion — cascade en stagger */}
+      <motion.div
+        variants={contentVariants}
+        initial="closed"
+        animate={isActive ? 'open' : 'closed'}
+        style={{ height: isActive ? 'auto' : 0 }}
+        className="overflow-hidden"
+      >
+        <motion.p variants={itemVariants} className="relative z-10 mb-6 mt-4 max-w-md text-sm leading-relaxed text-titanium/55">
+          {content.desc}
+        </motion.p>
+
+        <div className="relative z-10 mb-8 flex flex-wrap gap-2">
+          {content.tags.map((tag) => (
+            <motion.span
+              key={tag}
+              variants={itemVariants}
+              whileHover={{ scale: 1.06 }}
+              className="rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-titanium/60 backdrop-blur-md transition-colors duration-300 hover:border-cyan-200/40 hover:text-cyan-100 hover:shadow-[0_0_16px_rgba(0,242,254,0.2)]"
+            >
+              {tag}
+            </motion.span>
+          ))}
+        </div>
+
+        <motion.div variants={itemVariants}>
+          <MagneticCTA
+            label={lang === 'fr' ? 'Lancer le projet' : 'Start the project'}
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+          />
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+/**
+ * Services — Accordéon Spatial Interactif : 3 piliers d'offre en panneaux
+ * kinétiques 3.5D (desktop) / accordéon vertical (mobile).
  */
 export default function Services({ visible }) {
-  const gridRef = useRef(null)
   const { lang } = useLanguage()
+  const [activeIndex, setActiveIndex] = useState(null)
+  const [mobileActive, setMobileActive] = useState(null)
+  const reduceMotion = useReducedMotion()
 
-  useEffect(() => {
-    if (!visible || !gridRef.current) return
-    const cards = gridRef.current.querySelectorAll('.service-card')
-    const tween = gsap.fromTo(
-      cards,
-      { y: 60, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.9,
-        ease: 'power3.out',
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: 'top 80%',
-          once: true,
-        },
-      }
-    )
-    return () => {
-      tween.scrollTrigger?.kill()
-      tween.kill()
-    }
-  }, [visible])
+  const handleToggleMobile = useCallback((i) => {
+    setMobileActive((cur) => (cur === i ? null : i))
+  }, [])
 
   return (
     <section className="relative px-6 py-32 md:px-16" id="services">
-      <div className="mb-16 flex items-end justify-between">
+      <motion.div
+        initial={visible ? { opacity: 0, y: 30 } : false}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="mb-16 flex items-end justify-between"
+      >
         <div>
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.5em] text-cyan-200/70">
             {lang === 'fr' ? 'Ce que je propose' : 'What I offer'}
@@ -53,48 +204,41 @@ export default function Services({ visible }) {
           </h2>
         </div>
         <span className="hidden font-mono text-xs text-titanium/30 md:block">
-          06 — {lang === 'fr' ? 'Offres' : 'Offers'}
+          03 — {lang === 'fr' ? 'Offres' : 'Offers'}
         </span>
+      </motion.div>
+
+      {/* Desktop : panneaux kinétiques 3.5D */}
+      <div className="hidden gap-4 md:flex" style={{ perspective: 1800 }}>
+        {SERVICES.map((service, i) => (
+          <Panel
+            key={service.icon}
+            service={service}
+            index={i}
+            activeIndex={activeIndex}
+            onEnter={setActiveIndex}
+            onLeave={() => setActiveIndex(null)}
+            lang={lang}
+            isMobile={false}
+            reduceMotion={reduceMotion}
+          />
+        ))}
       </div>
 
-      <div ref={gridRef} className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {SERVICES.map((service) => {
-          const Icon = ICONS[service.icon] || Globe
-          const content = service[lang]
-          return (
-            <div
-              key={service.icon}
-              className="service-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-cyan-200/40 hover:bg-white/[0.04]"
-            >
-              {/* Liseré supérieur au hover */}
-              <div className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-cyan-300 to-violet-500 transition-transform duration-500 group-hover:scale-x-100" />
-
-              <div className="mb-6 flex h-13 w-13 items-center justify-center rounded-xl border border-cyan-200/20 bg-cyan-200/[0.06] p-3 text-cyan-200">
-                <Icon className="h-6 w-6" strokeWidth={1.5} />
-              </div>
-
-              <h3 className="mb-3 font-grotesk text-xl font-extrabold tracking-tight text-titanium">
-                {content.title}
-              </h3>
-              <p className="mb-6 text-sm leading-relaxed text-titanium/50">
-                {content.desc}
-              </p>
-
-              <ul className="mb-6 flex flex-col gap-2">
-                {content.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2.5 text-xs text-titanium/40">
-                    <Check className="h-3 w-3 flex-shrink-0 text-cyan-200/70" strokeWidth={2.5} />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <span className="inline-block rounded-full border border-violet-400/40 bg-violet-400/[0.06] px-4 py-1.5 font-mono text-xs text-cyan-200/90">
-                {lang === 'fr' ? 'Devis sur demande' : 'Quote on request'}
-              </span>
-            </div>
-          )
-        })}
+      {/* Mobile : accordéon vertical */}
+      <div className="flex flex-col gap-4 md:hidden">
+        {SERVICES.map((service, i) => (
+          <Panel
+            key={service.icon}
+            service={service}
+            index={i}
+            activeIndex={mobileActive}
+            onToggle={handleToggleMobile}
+            lang={lang}
+            isMobile
+            reduceMotion={reduceMotion}
+          />
+        ))}
       </div>
     </section>
   )
