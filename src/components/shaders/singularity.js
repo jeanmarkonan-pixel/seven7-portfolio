@@ -1,10 +1,11 @@
 /**
- * Shaders — Singularité gravitationnelle (trou noir) + éclats d'énergie.
+ * Shaders — Singularité prismatique (footer) + éclats de cristal au clic.
+ * Direction : Liquid Glass & Kinetic Prism. Zéro flamme.
  */
 
-/* ── Trou noir : disque d'accrétion + lentille gravitationnelle ── */
+/* ── Prisme gravitationnel : anneaux concentriques irisés + vortex de verre ── */
 
-export const blackHoleVertexShader = /* glsl */ `
+export const prismVertexShader = /* glsl */ `
 varying vec2 vUv;
 void main() {
   vUv = uv;
@@ -12,7 +13,7 @@ void main() {
 }
 `
 
-export const blackHoleFragmentShader = /* glsl */ `
+export const prismFragmentShader = /* glsl */ `
 uniform float uTime;
 uniform float uIntensity;
 
@@ -25,10 +26,10 @@ float noise(vec2 p){
   return mix(mix(hash(i), hash(i+vec2(1,0)), u.x),
              mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), u.x), u.y);
 }
-float fbm(vec2 p){
-  float v = 0.0; float a = 0.5;
-  for (int i = 0; i < 4; i++) { v += a * noise(p); p = p * 2.1 + 3.7; a *= 0.5; }
-  return v;
+
+// Iridescence prismatique : palette arc-en-ciel froide
+vec3 iris(float t) {
+  return 0.5 + 0.5 * cos(6.28318 * (t + vec3(0.0, 0.33, 0.67)));
 }
 
 void main() {
@@ -36,31 +37,31 @@ void main() {
   float r = length(p);
   float angle = atan(p.y, p.x);
 
-  // Rotation différentielle : le centre tourne plus vite (disque d'accrétion)
-  float swirl = angle + uTime * (0.25 + 0.9 * exp(-r * 2.6));
-  float disk = fbm(vec2(cos(swirl), sin(swirl)) * 2.4 + r * 5.0 - uTime * 0.35);
+  // Vortex de verre : rotation différentielle
+  float swirl = angle + uTime * (0.18 + 0.7 * exp(-r * 2.2));
+  float bands = sin(r * 26.0 - uTime * 1.4 + swirl * 2.0) * 0.5 + 0.5;
+  float facets = noise(vec2(swirl * 3.0, r * 9.0 - uTime * 0.4));
 
-  // Anneau d'accrétion incandescent
-  float ring = smoothstep(0.42, 0.30, r) * smoothstep(0.16, 0.26, r);
-  vec3 ringColor = mix(vec3(1.0, 0.45, 0.1), vec3(0.65, 0.85, 1.0), disk);
-  vec3 color = ringColor * ring * (0.8 + disk * 1.4);
+  // Anneaux prismatiques irisés
+  float ring = smoothstep(0.85, 0.25, r) * smoothstep(0.08, 0.22, r);
+  vec3 color = iris(facets * 0.8 + r * 1.6 - uTime * 0.08) * ring * (0.35 + bands * 0.65);
 
-  // Halo externe décroissant
-  color += vec3(0.35, 0.2, 0.6) * exp(-r * 2.6) * 0.5;
+  // Cœur : lentille de verre sombre avec liseré lumineux
+  float core = smoothstep(0.16, 0.10, r);
+  color *= 1.0 - core * 0.85;
+  float coreRim = smoothstep(0.17, 0.14, r) * smoothstep(0.11, 0.14, r);
+  color += iris(uTime * 0.15) * coreRim * 2.2;
 
-  // Horizon des événements : noir absolu + photon sphere
-  float hole = smoothstep(0.185, 0.145, r);
-  color *= 1.0 - hole;
-  float photonRing = smoothstep(0.205, 0.185, r) * smoothstep(0.165, 0.185, r);
-  color += vec3(0.85, 0.95, 1.0) * photonRing * 1.8;
+  // Halo froid externe
+  color += vec3(0.35, 0.55, 0.85) * exp(-r * 3.0) * 0.35;
 
-  float alpha = clamp((ring * 1.2 + exp(-r * 2.4) * 0.5 + photonRing), 0.0, 1.0) * uIntensity;
+  float alpha = clamp((ring * 0.9 + exp(-r * 2.6) * 0.4 + coreRim), 0.0, 1.0) * uIntensity;
   if (alpha < 0.004) discard;
   gl_FragColor = vec4(color * uIntensity, alpha);
 }
 `
 
-/* ── Spark Burst : éclat de particules au clic (physique : vélocité + friction + gravité) ── */
+/* ── Crystal Burst : éclats prismatiques au clic (vélocité + friction + gravité) ── */
 
 export const sparkVertexShader = /* glsl */ `
 uniform float uTime;
@@ -72,16 +73,17 @@ attribute float aBirth;
 attribute float aSize;
 
 varying float vLife;
+varying float vHue;
 
 void main() {
   float age = uTime - aBirth;
-  float life = clamp(age / 0.9, 0.0, 1.0);   // durée de vie 0.9s
+  float life = clamp(age / 0.9, 0.0, 1.0);
   vLife = life;
+  vHue = fract(aSize * 3.7);
 
-  // Physique : position = origine + v*t (avec friction), gravité vers le bas
   float friction = 1.0 - exp(-age * 3.2);
   vec3 pos = aOrigin + aVelocity * friction * 0.55;
-  pos.y -= 2.2 * age * age;                   // gravité
+  pos.y -= 2.2 * age * age;
 
   vec4 mv = modelViewMatrix * vec4(pos, 1.0);
   gl_Position = projectionMatrix * mv;
@@ -93,15 +95,21 @@ void main() {
 
 export const sparkFragmentShader = /* glsl */ `
 varying float vLife;
+varying float vHue;
+
+vec3 iris(float t) {
+  return 0.5 + 0.5 * cos(6.28318 * (t + vec3(0.0, 0.33, 0.67)));
+}
 
 void main() {
   if (vLife >= 1.0) discard;
   float d = distance(gl_PointCoord, vec2(0.5));
   float disc = 1.0 - smoothstep(0.0, 0.5, d);
   disc = pow(disc, 2.0);
-  vec3 color = mix(vec3(1.0, 0.95, 0.75), vec3(0.4, 0.8, 1.0), vLife);
+  // Cristal blanc → teinte prismatique en fin de vie
+  vec3 color = mix(vec3(1.0), iris(vHue + vLife * 0.6), vLife * 0.85);
   float alpha = disc * (1.0 - vLife) * (1.0 - vLife);
   if (alpha < 0.004) discard;
-  gl_FragColor = vec4(color * 2.0, alpha);
+  gl_FragColor = vec4(color * 1.9, alpha);
 }
 `

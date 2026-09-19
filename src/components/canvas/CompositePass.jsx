@@ -5,12 +5,12 @@ import { compositeVertexShader, compositeFragmentShader } from '../shaders/compo
 
 /**
  * CompositePass — passe fullscreen finale.
- * Rend la scène dans une texture puis applique : loupe optique (bulge x1.4
- * + split RGB), ondes de choc au clic (2 slots recyclés) et heat haze.
+ * Rend la scène dans une texture puis applique : loupe optique (bulge x1.5
+ * + split RGB) et ondes prismatiques au clic (2 slots recyclés).
  *
  * clickQueue : ref mutable [{x, y, time}] en coordonnées NDC.
  */
-export default function CompositePass({ mouse, clickQueue, fireAnchor = [0.5, 0.28], fireVisibleRef }) {
+export default function CompositePass({ mouse, clickQueue }) {
   const { gl, scene, camera, size } = useThree()
   const shockSlot = useRef(0)
   const elapsedRef = useRef(0)
@@ -33,13 +33,11 @@ export default function CompositePass({ mouse, clickQueue, fireAnchor = [0.5, 0.
       uAspect: { value: size.width / size.height },
       uLensCenter: { value: new THREE.Vector2(0.5, 0.5) },
       uLensRadius: { value: 0.17 },
-      uZoom: { value: 1.4 },
+      uZoom: { value: 1.5 },
       uShockA: { value: new THREE.Vector4(0, 0, -10, 0) },
       uShockB: { value: new THREE.Vector4(0, 0, -10, 0) },
-      uFireVisibility: { value: 0 },
-      uFireAnchor: { value: new THREE.Vector2(...fireAnchor) },
     }),
-    [renderTarget, size, fireAnchor] // eslint-disable-line react-hooks/exhaustive-deps
+    [renderTarget, size] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const quad = useMemo(() => {
@@ -89,11 +87,6 @@ export default function CompositePass({ mouse, clickQueue, fireAnchor = [0.5, 0.
       const slot = shockSlot.current % 2 === 0 ? u.uShockA : u.uShockB
       slot.value.set((click.x + 1) / 2, (click.y + 1) / 2, state.clock.elapsedTime, 1)
       shockSlot.current++
-    }
-
-    // Heat haze suit la visibilité du feu
-    if (fireVisibleRef) {
-      u.uFireVisibility.value += (fireVisibleRef.current - u.uFireVisibility.value) * 0.06
     }
 
     // Passe 1 : scène → texture
