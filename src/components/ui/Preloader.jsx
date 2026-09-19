@@ -102,9 +102,9 @@ export default function Preloader({ onComplete }) {
           {String(progress).padStart(3, '0')}
           <span className="text-[0.25em] align-top text-titanium/40">%</span>
         </div>
-        <div className="h-px w-48 bg-white/10 overflow-hidden">
+        <div className="h-px w-48 bg-titanium/10 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-cyan-300 to-violet-500 transition-[width] duration-100"
+            className="h-full bg-gradient-to-r from-accent-300 to-cascade-2 transition-[width] duration-100"
             style={{ width: `${progress}%` }}
           />
         </div>

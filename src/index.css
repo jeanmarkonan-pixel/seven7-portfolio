@@ -2,8 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Thème : "tableau blanc" chaleureux par défaut, sombre en option ──
+   abyss = fond de page, titanium = texte/traits — les deux tailwind.config.js
+   les résout via rgb(var(--x-rgb) / <alpha-value>), donc bg-abyss, text-titanium,
+   border-titanium/10 etc. s'adaptent automatiquement au thème sans toucher
+   chaque composant. accent/accent2/accent3 forment la "cascade" orange→corail→or. */
 :root {
+  color-scheme: light;
+  --abyss-rgb: 250 248 244;
+  --titanium-rgb: 23 20 16;
+  --accent-rgb: 251 146 60;
+  --accent2-rgb: 244 63 94;
+  --accent3-rgb: 250 204 21;
+  --surface-rgb: 255 255 255;
+  --surface2-rgb: 253 244 232;
+}
+
+/* Sans le préfixe :root pour pouvoir aussi servir de portée locale
+   (voir Hero, qui reste sombre en permanence pour sa scène 3D cosmique). */
+[data-theme='dark'] {
   color-scheme: dark;
+  --abyss-rgb: 8 8 8;
+  --titanium-rgb: 237 237 237;
+  --surface-rgb: 11 12 16;
+  --surface2-rgb: 13 16 20;
 }
 
 html.lenis,
@@ -16,10 +38,11 @@ html.lenis body {
 }
 
 body {
-  background: #080808;
-  color: #ededed;
+  background: rgb(var(--abyss-rgb));
+  color: rgb(var(--titanium-rgb));
   font-family: 'Archivo', sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.6s ease, color 0.6s ease;
 }
 
 @media (pointer: fine) {
@@ -32,34 +55,34 @@ body {
 }
 
 ::selection {
-  background: rgba(103, 232, 249, 0.28);
-  color: #ffffff;
+  background: rgba(var(--accent-rgb), 0.3);
+  color: rgb(var(--titanium-rgb));
 }
 
 /* ── Curseur : état lentille (loupe) ── */
 .cursor-lens {
   width: 110px !important;
   height: 110px !important;
-  border-color: rgba(237, 237, 237, 0.7) !important;
+  border-color: rgba(var(--titanium-rgb), 0.5) !important;
   background: radial-gradient(
     circle at 32% 30%,
-    rgba(255, 255, 255, 0.14),
-    rgba(255, 255, 255, 0.03) 55%,
+    rgba(var(--titanium-rgb), 0.14),
+    rgba(var(--titanium-rgb), 0.03) 55%,
     transparent 75%
   );
   backdrop-filter: blur(1px) saturate(1.4) contrast(1.08);
   box-shadow:
-    inset 0 0 24px rgba(103, 232, 249, 0.18),
-    inset 4px 4px 12px rgba(255, 255, 255, 0.08),
-    0 0 40px rgba(103, 232, 249, 0.12);
+    inset 0 0 24px rgba(var(--accent-rgb), 0.22),
+    inset 4px 4px 12px rgba(var(--titanium-rgb), 0.08),
+    0 0 40px rgba(var(--accent-rgb), 0.15);
 }
 
 /* ── Curseur : état label ── */
 .cursor-label {
   width: 76px !important;
   height: 76px !important;
-  background: #ededed !important;
-  border-color: #ededed !important;
+  background: rgb(var(--titanium-rgb)) !important;
+  border-color: rgb(var(--titanium-rgb)) !important;
 }
 .cursor-label span {
   opacity: 1 !important;
@@ -101,7 +124,7 @@ body {
   transition: opacity 0.4s ease;
   background: radial-gradient(
     220px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(0, 242, 254, 0.55),
+    rgba(var(--accent-rgb), 0.6),
     transparent 65%
   );
   -webkit-mask:
@@ -132,12 +155,33 @@ body {
 }
 
 @keyframes panel-halo {
-  0%, 100% { box-shadow: 0 0 0 rgba(0, 242, 254, 0); }
-  50% { box-shadow: 0 0 60px -10px rgba(0, 242, 254, 0.25); }
+  0%, 100% { box-shadow: 0 0 0 rgba(var(--accent-rgb), 0); }
+  50% { box-shadow: 0 0 60px -10px rgba(var(--accent-rgb), 0.3); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pulse-panel.is-active {
+    animation: none;
+  }
+}
+
+/* ── Cascade de couleurs "paradis" : nappe de lumière chaude qui dérive lentement ── */
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  will-change: transform;
+  animation: aurora-drift 26s ease-in-out infinite;
+}
+
+@keyframes aurora-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4%, 6%) scale(1.12); }
+  66% { transform: translate(-5%, -3%) scale(0.94); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob {
     animation: none;
   }
 }

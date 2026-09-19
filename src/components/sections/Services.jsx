@@ -77,7 +77,7 @@ function Panel({ service, index, activeIndex, onEnter, onLeave, onToggle, lang, 
       whileTap={{ scale: 0.985 }}
       className={`pulse-panel group relative flex flex-col overflow-hidden rounded-3xl border p-8 transition-colors duration-500 md:p-10 ${
         isMobile ? '' : 'min-h-[650px]'
-      } ${isActive ? 'border-cyan-200/40 bg-[#0d1014] is-active' : 'border-white/10 bg-[#0b0c10]'} ${
+      } ${isActive ? 'border-accent-400/40 bg-surface2 is-active' : 'border-titanium/10 bg-surface'} ${
         isDimmed ? 'opacity-70' : ''
       }`}
       onMouseEnter={!isMobile ? () => onEnter(index) : undefined}
@@ -97,7 +97,7 @@ function Panel({ service, index, activeIndex, onEnter, onLeave, onToggle, lang, 
 
       {/* Numéro géant en filigrane — respire et se décale à l'activation */}
       <motion.span
-        className="pointer-events-none absolute -right-2 -top-6 select-none font-mono text-[7rem] font-black leading-none text-white/[0.06] md:text-[9rem]"
+        className="pointer-events-none absolute -right-2 -top-6 select-none font-mono text-[7rem] font-black leading-none text-titanium/[0.06] md:text-[9rem]"
         aria-hidden="true"
         animate={{
           scale: isActive ? 1.12 : 1,
@@ -112,20 +112,20 @@ function Panel({ service, index, activeIndex, onEnter, onLeave, onToggle, lang, 
       {/* Header */}
       <div className="relative z-10 mb-8 flex items-center justify-between">
         <motion.div
-          className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md"
+          className="flex h-14 w-14 items-center justify-center rounded-2xl border border-titanium/10 bg-titanium/[0.04] backdrop-blur-md"
           animate={{ rotate: isActive ? 360 : 0, scale: isActive ? 1.08 : 1 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <Icon className="h-6 w-6 text-cyan-200" strokeWidth={1.5} />
+          <Icon className="h-6 w-6 text-accent-400" strokeWidth={1.5} />
         </motion.div>
         <motion.span
           animate={{ scale: isActive ? 1.06 : 1 }}
           transition={{ type: 'spring', stiffness: 400, damping: 16 }}
-          className="inline-flex items-center gap-2 rounded-full border border-cyan-200/25 bg-cyan-200/[0.04] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-200/90"
+          className="inline-flex items-center gap-2 rounded-full border border-accent-400/25 bg-accent-400/[0.04] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-accent-400/90"
         >
           <span className="relative flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-75" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan-300" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-300 opacity-75" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent-300" />
           </span>
           [ {service.status[lang]} ]
         </motion.span>
@@ -154,7 +154,7 @@ function Panel({ service, index, activeIndex, onEnter, onLeave, onToggle, lang, 
               key={tag}
               variants={itemVariants}
               whileHover={{ scale: 1.06 }}
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-titanium/60 backdrop-blur-md transition-colors duration-300 hover:border-cyan-200/40 hover:text-cyan-100 hover:shadow-[0_0_16px_rgba(0,242,254,0.2)]"
+              className="rounded-full border border-titanium/10 bg-titanium/[0.03] px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-titanium/60 backdrop-blur-md transition-colors duration-300 hover:border-accent-400/40 hover:text-accent-100 hover:shadow-[0_0_16px_rgba(251,146,60,0.2)]"
             >
               {tag}
             </motion.span>
@@ -196,7 +196,7 @@ export default function Services({ visible }) {
         className="mb-16 flex items-end justify-between"
       >
         <div>
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.5em] text-cyan-200/70">
+          <p className="mb-4 font-mono text-xs uppercase tracking-[0.5em] text-accent-400/70">
             {lang === 'fr' ? 'Ce que je propose' : 'What I offer'}
           </p>
           <h2 className="font-grotesk text-[clamp(36px,7vw,88px)] font-black leading-none tracking-tight text-titanium">

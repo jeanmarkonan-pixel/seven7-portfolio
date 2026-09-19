@@ -69,8 +69,8 @@ export const liquidFragmentShader = /* glsl */ `
     float b = texture2D(uTexture, distortedUv - vec2(ca, 0.0)).b;
     vec3 color = vec3(r, g, b);
 
-    // Voile holographique subtil qui suit la souris
-    color += vec3(0.10, 0.22, 0.28) * hoverMask * uIntensity * n1;
+    // Voile holographique chaud qui suit la souris
+    color += vec3(0.32, 0.16, 0.04) * hoverMask * uIntensity * n1;
 
     gl_FragColor = vec4(color, 1.0);
   }

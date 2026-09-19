@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSeason } from '../../hooks/useSeason'
+import { useTheme } from '../../hooks/useTheme'
 
 /**
  * SeasonOverlay — pluie de particules plein écran selon la saison, avec
@@ -11,10 +12,13 @@ import { useSeason } from '../../hooks/useSeason'
  * met en pause hors onglet.
  */
 
+// Deux jeux de couleurs par saison : les pastels clairs (dark) se fondraient
+// dans une page blanche, donc le thème clair reçoit des teintes plus saturées.
 const CONFIGS = {
   winter: {
-    count: 90,
-    colors: ['#ffffff', '#e8f6ff', '#cfeaff'],
+    count: 60,
+    colorsDark: ['#ffffff', '#e8f6ff', '#cfeaff'],
+    colorsLight: ['#38bdf8', '#0ea5e9', '#7dd3fc'],
     size: [1, 4.2],
     speedY: [14, 40],
     swayAmp: [6, 22],
@@ -25,8 +29,9 @@ const CONFIGS = {
     ambient: 'radial-gradient(1200px circle at 12% -12%, rgba(147,197,253,0.16), transparent 60%)',
   },
   spring: {
-    count: 52,
-    colors: ['#ffd7e6', '#ffe8f0', '#fff1c9', '#ffffff'],
+    count: 38,
+    colorsDark: ['#ffd7e6', '#ffe8f0', '#fff1c9', '#ffffff'],
+    colorsLight: ['#f472b6', '#fb7185', '#fbbf24'],
     size: [4, 9],
     speedY: [14, 30],
     swayAmp: [22, 44],
@@ -37,8 +42,9 @@ const CONFIGS = {
     ambient: 'radial-gradient(1100px circle at 88% -10%, rgba(255,214,235,0.14), transparent 60%)',
   },
   summer: {
-    count: 50,
-    colors: ['#ffe9a8', '#fff3cf', '#ffd580'],
+    count: 34,
+    colorsDark: ['#ffe9a8', '#fff3cf', '#ffd580'],
+    colorsLight: ['#f59e0b', '#fb923c', '#eab308'],
     size: [1.6, 4.4],
     speedY: [6, 15],
     swayAmp: [14, 30],
@@ -49,8 +55,9 @@ const CONFIGS = {
     ambient: 'radial-gradient(1300px circle at 92% -6%, rgba(255,205,110,0.2), transparent 55%)',
   },
   autumn: {
-    count: 58,
-    colors: ['#e07a3f', '#c4602c', '#f2a65a', '#8a4a2a', '#d9862f'],
+    count: 40,
+    colorsDark: ['#e07a3f', '#c4602c', '#f2a65a', '#8a4a2a', '#d9862f'],
+    colorsLight: ['#c2410c', '#9a3412', '#ea580c', '#7c2d12'],
     size: [6, 12],
     speedY: [20, 42],
     swayAmp: [30, 56],
@@ -102,42 +109,65 @@ function makeParticle(cfg, w, h, seedY) {
   }
 }
 
-function drawParticle(ctx, p, cfg) {
-  const blur = (1 - p.depth) * 2.6
-  ctx.save()
-  ctx.translate(p.x, p.y)
-  if (cfg.shape === 'leaf' || cfg.shape === 'petal') {
-    ctx.rotate(p.rotation)
-    ctx.scale(Math.cos(p.flipPhase), 1) // "tourne" en tombant, effet de retournement 3D pauvre-mais-crédible
-  }
-  ctx.globalAlpha = p.opacity
-  if (blur > 0.15) ctx.filter = `blur(${blur.toFixed(2)}px)`
+const SPRITE_SIZE = 96
 
+/** Sprite pré-rendu une seule fois par couleur : un drawImage() coûte bien moins
+ * cher par frame qu'un createRadialGradient() + fill() recalculé pour chaque
+ * particule (c'était la principale source de lenteur du système précédent). */
+function buildGlowSprite(color) {
+  const c = document.createElement('canvas')
+  c.width = SPRITE_SIZE
+  c.height = SPRITE_SIZE
+  const cx = c.getContext('2d')
+  const r = SPRITE_SIZE / 2
+  const grad = cx.createRadialGradient(r, r, 0, r, r, r)
+  grad.addColorStop(0, color)
+  grad.addColorStop(0.45, color + 'aa')
+  grad.addColorStop(1, color + '00')
+  cx.fillStyle = grad
+  cx.beginPath()
+  cx.arc(r, r, r, 0, Math.PI * 2)
+  cx.fill()
+  return c
+}
+
+function buildSprites(cfg) {
+  const map = new Map()
+  if (cfg.shape === 'glow') {
+    for (const color of cfg.colors) map.set(color, buildGlowSprite(color))
+  }
+  return map
+}
+
+// Pas de ctx.filter (blur) dans la boucle chaude : c'est un rendu logiciel très
+// coûteux sur canvas 2D. La profondeur se lit déjà via taille/opacité/vitesse.
+function drawParticle(ctx, p, cfg, sprites) {
   if (cfg.shape === 'glow') {
     const twinkle = 0.75 + Math.sin(p.twinklePhase) * 0.25
     const r = p.size * 2.2
-    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, r)
-    grad.addColorStop(0, p.color)
-    grad.addColorStop(0.4, p.color + 'aa')
-    grad.addColorStop(1, p.color + '00')
+    const sprite = sprites.get(p.color)
     ctx.globalAlpha = p.opacity * twinkle
-    ctx.fillStyle = grad
-    ctx.beginPath()
-    ctx.arc(0, 0, r, 0, Math.PI * 2)
-    ctx.fill()
-  } else if (cfg.shape === 'petal') {
-    ctx.fillStyle = p.color
+    ctx.drawImage(sprite, p.x - r, p.y - r, r * 2, r * 2)
+    return
+  }
+
+  ctx.save()
+  ctx.translate(p.x, p.y)
+  ctx.rotate(p.rotation)
+  ctx.scale(Math.cos(p.flipPhase), 1) // "tourne" en tombant, effet de retournement 3D pauvre-mais-crédible
+  ctx.globalAlpha = p.opacity
+  ctx.fillStyle = p.color
+
+  if (cfg.shape === 'petal') {
     ctx.beginPath()
     ctx.ellipse(0, 0, p.size, p.size * 0.58, 0, 0, Math.PI * 2)
     ctx.fill()
   } else if (cfg.shape === 'leaf') {
-    ctx.fillStyle = p.color
     ctx.beginPath()
     ctx.moveTo(0, -p.size)
     ctx.quadraticCurveTo(p.size * 0.85, -p.size * 0.2, 0, p.size)
     ctx.quadraticCurveTo(-p.size * 0.85, -p.size * 0.2, 0, -p.size)
     ctx.fill()
-    ctx.filter = 'none'
     ctx.globalAlpha = p.opacity * 0.5
     ctx.strokeStyle = '#00000055'
     ctx.lineWidth = Math.max(0.4, p.size * 0.05)
@@ -152,6 +182,7 @@ function drawParticle(ctx, p, cfg) {
 export default function SeasonOverlay({ enabled }) {
   const canvasRef = useRef(null)
   const { season } = useSeason()
+  const { theme } = useTheme()
   const stateRef = useRef({ particles: [], w: 0, h: 0, cfg: null })
   const mouseRef = useRef({ x: -9999, y: -9999 })
   const [reduced] = useState(
@@ -180,9 +211,11 @@ export default function SeasonOverlay({ enabled }) {
     }
 
     const seedParticles = () => {
-      const cfg = CONFIGS[season] || CONFIGS.winter
+      const base = CONFIGS[season] || CONFIGS.winter
+      const cfg = { ...base, colors: theme === 'light' ? base.colorsLight : base.colorsDark }
       const { w, h } = stateRef.current
       stateRef.current.cfg = cfg
+      stateRef.current.sprites = buildSprites(cfg)
       stateRef.current.particles = Array.from({ length: cfg.count }, () => makeParticle(cfg, w, h, true))
     }
 
@@ -203,7 +236,7 @@ export default function SeasonOverlay({ enabled }) {
       if (!running) return
       const dt = Math.min((now - last) / 1000, 0.05)
       last = now
-      const { particles, w, h, cfg } = stateRef.current
+      const { particles, w, h, cfg, sprites } = stateRef.current
       ctx.clearRect(0, 0, w, h)
 
       const wind = windAt(now) * cfg.windStrength
@@ -240,9 +273,8 @@ export default function SeasonOverlay({ enabled }) {
         if (offscreenBottom || offscreenTop || offscreenX) {
           Object.assign(p, makeParticle(cfg, w, h, false))
         }
-        drawParticle(ctx, p, cfg)
+        drawParticle(ctx, p, cfg, sprites)
       }
-      ctx.filter = 'none'
 
       rafId = requestAnimationFrame(loop)
     }
@@ -272,7 +304,7 @@ export default function SeasonOverlay({ enabled }) {
       window.removeEventListener('pointerleave', onPointerLeave)
       document.removeEventListener('visibilitychange', onVisibility)
     }
-  }, [season, enabled, reduced])
+  }, [season, enabled, reduced, theme])
 
   if (reduced) return null
 
@@ -283,7 +315,7 @@ export default function SeasonOverlay({ enabled }) {
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-[84] transition-[background] duration-1000"
-        style={{ background: ambient, mixBlendMode: 'screen' }}
+        style={{ background: ambient, mixBlendMode: theme === 'light' ? 'multiply' : 'screen' }}
       />
       <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-[85]" />
     </>

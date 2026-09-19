@@ -25,7 +25,7 @@ export default function SeasonSwitcher({ visible }) {
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-[86] flex items-center gap-1 rounded-full border border-white/10 bg-abyss/70 p-1.5 backdrop-blur-md transition-opacity duration-700 ${
+      className={`fixed bottom-6 right-6 z-[86] flex items-center gap-1 rounded-full border border-titanium/10 bg-abyss/70 p-1.5 backdrop-blur-md transition-opacity duration-700 ${
         visible ? 'opacity-100' : 'pointer-events-none opacity-0'
       }`}
       role="group"
@@ -42,7 +42,7 @@ export default function SeasonSwitcher({ visible }) {
             aria-label={lang === 'fr' ? fr : en}
             aria-pressed={active}
             className={`flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-300 ${
-              active ? `bg-white/[0.06] ${ring}` : 'border-transparent text-titanium/40 hover:text-titanium/70'
+              active ? `bg-titanium/[0.06] ${ring}` : 'border-transparent text-titanium/40 hover:text-titanium/70'
             }`}
           >
             <Icon className="h-4 w-4" strokeWidth={1.75} />
@@ -50,7 +50,7 @@ export default function SeasonSwitcher({ visible }) {
         )
       })}
       <span
-        className={`ml-1 h-1.5 w-1.5 rounded-full transition-colors duration-500 ${isAuto ? 'bg-cyan-300 shadow-[0_0_6px_rgba(0,242,254,0.7)]' : 'bg-white/15'}`}
+        className={`ml-1 h-1.5 w-1.5 rounded-full transition-colors duration-500 ${isAuto ? 'bg-accent-300 shadow-[0_0_6px_rgba(251,146,60,0.7)]' : 'bg-titanium/15'}`}
         title={isAuto ? (lang === 'fr' ? 'Saison automatique' : 'Automatic season') : (lang === 'fr' ? 'Saison forcée' : 'Season forced')}
       />
     </div>

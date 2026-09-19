@@ -51,10 +51,11 @@ export default function Showcase() {
         const cardCenter = rect.left + rect.width / 2
         const dist = Math.abs(cardCenter - center)
         const focus = 1 - Math.min(dist / span, 1)
+        // opacity + scale seuls (compositor-friendly) : un filter blur/saturate sur un
+        // nœud contenant un <canvas> WebGL forcerait un rastérisation coûteuse à chaque tick de scroll
         gsap.set(card, {
           scale: 0.88 + focus * 0.14,
           opacity: 0.38 + focus * 0.62,
-          filter: `blur(${(1 - focus) * 2.2}px) saturate(${0.5 + focus * 0.5})`,
         })
         if (i < PROJECTS.length && dist < nearestDist) {
           nearestDist = dist
@@ -106,7 +107,7 @@ export default function Showcase() {
         {/* En-tête */}
         <div className="mb-14 flex items-end justify-between px-6 md:px-16">
           <div>
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.5em] text-cyan-200/70">
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.5em] text-accent-400/70">
               {lang === 'fr' ? 'Ce que j\'ai construit' : 'What I built'}
             </p>
             <h2 className="font-grotesk text-[clamp(36px,7vw,88px)] font-black leading-none tracking-tight text-titanium">
@@ -125,7 +126,7 @@ export default function Showcase() {
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -16, opacity: 0 }}
                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute right-0 top-0 text-xl font-bold text-cyan-200"
+                    className="absolute right-0 top-0 text-xl font-bold text-accent-400"
                   >
                     {String(activeIndex + 1).padStart(2, '0')}
                   </motion.span>
@@ -139,7 +140,7 @@ export default function Showcase() {
                 <span
                   key={p.variant}
                   className={`h-1.5 rounded-full transition-all duration-500 ${
-                    i === activeIndex ? 'w-6 bg-cyan-300 shadow-[0_0_8px_rgba(0,242,254,0.6)]' : i < activeIndex ? 'w-1.5 bg-cyan-300/50' : 'w-1.5 bg-white/15'
+                    i === activeIndex ? 'w-6 bg-accent-300 shadow-[0_0_8px_rgba(251,146,60,0.6)]' : i < activeIndex ? 'w-1.5 bg-accent-300/50' : 'w-1.5 bg-titanium/15'
                   }`}
                 />
               ))}
@@ -168,19 +169,19 @@ export default function Showcase() {
           >
             <p className="max-w-xs text-center font-serif text-2xl italic leading-relaxed text-titanium/50">
               {lang === 'fr' ? (
-                <>Votre projet pourrait être le <span className="text-cyan-200">prochain</span>.</>
+                <>Votre projet pourrait être le <span className="text-accent-400">prochain</span>.</>
               ) : (
-                <>Your project could be <span className="text-cyan-200">next</span>.</>
+                <>Your project could be <span className="text-accent-400">next</span>.</>
               )}
             </p>
           </div>
         </div>
 
         {/* Barre de progression */}
-        <div className="mx-6 mt-16 h-px bg-white/10 md:mx-16">
+        <div className="mx-6 mt-16 h-px bg-titanium/10 md:mx-16">
           <div
             ref={progressRef}
-            className="h-full origin-left scale-x-0 bg-gradient-to-r from-cyan-300 to-violet-500"
+            className="h-full origin-left scale-x-0 bg-gradient-to-r from-accent-300 to-cascade-2"
           />
         </div>
       </div>

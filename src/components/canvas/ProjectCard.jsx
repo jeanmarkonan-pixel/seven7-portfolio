@@ -143,7 +143,7 @@ function ProjectCard({ project, index, lang }, ref) {
       onClick={onClick}
       data-cursor-label={project.url ? (lang === 'fr' ? 'Voir' : 'View') : undefined}
     >
-      <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-abyss">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-titanium/10 bg-abyss">
         <Canvas
           dpr={[1, 1.75]}
           camera={{ position: [0, 0, 2.55], fov: 45 }}
@@ -153,9 +153,9 @@ function ProjectCard({ project, index, lang }, ref) {
         </Canvas>
 
         {/* Voile + reflet verre */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-abyss/80 via-transparent to-white/[0.04]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-abyss/80 via-transparent to-titanium/[0.04]" />
         <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: 'radial-gradient(600px circle at 50% 0%, rgba(103,232,249,0.08), transparent 60%)' }}
+          style={{ background: 'radial-gradient(600px circle at 50% 0%, rgba(251,146,60,0.08), transparent 60%)' }}
         />
 
         {/* Bordure lumineuse réactive au curseur */}
@@ -164,12 +164,12 @@ function ProjectCard({ project, index, lang }, ref) {
         {/* Badges statut / à la une */}
         <div className="absolute right-4 top-4 flex items-center gap-2">
           {project.featured && (
-            <span className="flex items-center gap-1.5 rounded-full border border-violet-300/25 bg-violet-400/[0.08] px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-violet-200/90 backdrop-blur-md">
+            <span className="flex items-center gap-1.5 rounded-full border border-rose-400/30 bg-rose-400/[0.08] px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-rose-500 backdrop-blur-md">
               <Sparkles className="h-3 w-3" strokeWidth={1.75} />
               {lang === 'fr' ? 'À la une' : 'Featured'}
             </span>
           )}
-          <span className="flex items-center gap-2 rounded-full border border-white/15 bg-abyss/60 px-3 py-1.5 backdrop-blur-md">
+          <span className="flex items-center gap-2 rounded-full border border-titanium/15 bg-abyss/60 px-3 py-1.5 backdrop-blur-md">
             <span className="relative flex h-1.5 w-1.5">
               {isLive && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />}
               <span className={`relative inline-flex h-1.5 w-1.5 rounded-full ${isLive ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]'}`} />
@@ -183,11 +183,11 @@ function ProjectCard({ project, index, lang }, ref) {
       <div className="mt-5 flex items-start justify-between gap-4 px-1">
         <div>
           <div className="mb-2 flex items-center gap-3">
-            <span className="font-mono text-[10px] text-cyan-200/60">
+            <span className="font-mono text-[10px] text-accent-400/60">
               {String(index + 1).padStart(2, '0')}
             </span>
             {project.tags.map((tag) => (
-              <span key={tag} className="rounded border border-white/10 bg-white/[0.04] px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-titanium/50 transition-colors duration-300 group-hover:border-cyan-200/25 group-hover:text-titanium/70">
+              <span key={tag} className="rounded border border-titanium/10 bg-titanium/[0.04] px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-titanium/50 transition-colors duration-300 group-hover:border-accent-400/25 group-hover:text-titanium/70">
                 {tag}
               </span>
             ))}
@@ -201,7 +201,7 @@ function ProjectCard({ project, index, lang }, ref) {
         </div>
         <motion.div
           style={{ x: arrowSx, y: arrowSy }}
-          className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${project.url ? 'border-white/15 text-titanium/60 group-hover:border-cyan-200/50 group-hover:text-cyan-200 group-hover:shadow-[0_0_20px_rgba(0,242,254,0.25)]' : 'border-white/5 text-titanium/20'}`}
+          className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${project.url ? 'border-titanium/15 text-titanium/60 group-hover:border-accent-400/50 group-hover:text-accent-400 group-hover:shadow-[0_0_20px_rgba(251,146,60,0.25)]' : 'border-titanium/5 text-titanium/20'}`}
         >
           <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
         </motion.div>

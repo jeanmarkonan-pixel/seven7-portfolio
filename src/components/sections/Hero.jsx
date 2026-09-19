@@ -10,11 +10,15 @@ export default function Hero({ visible }) {
   const { lang } = useLanguage()
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center px-6" id="hero">
+    <section
+      className="relative flex min-h-screen flex-col items-center justify-center px-6"
+      id="hero"
+      data-theme="dark"
+    >
       <div
         className={`transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}
       >
-        <p className="mb-6 text-center font-mono text-xs uppercase tracking-[0.5em] text-cyan-200/70">
+        <p className="mb-6 text-center font-mono text-xs uppercase tracking-[0.5em] text-accent-400/70">
           {lang === 'fr' ? 'Vibecoder & Développeur Web' : 'Vibecoder & Web Developer'}
         </p>
 

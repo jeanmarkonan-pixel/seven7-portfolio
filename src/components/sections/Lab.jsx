@@ -47,7 +47,7 @@ export default function Lab({ visible }) {
 
   return (
     <section className="relative flex min-h-screen flex-col justify-center px-6 py-32 md:px-16" id="lab">
-      <p className="mb-4 font-mono text-xs uppercase tracking-[0.5em] text-cyan-200/70">
+      <p className="mb-4 font-mono text-xs uppercase tracking-[0.5em] text-accent-400/70">
         {lang === 'fr' ? 'Lab créatif' : 'Creative lab'}
       </p>
       <h2 className="mb-16 font-grotesk text-[clamp(36px,7vw,88px)] font-black leading-none tracking-tight text-titanium">
@@ -72,7 +72,7 @@ export default function Lab({ visible }) {
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             {SKILLS.map((skill) => (
               <span key={skill} className="skill-line inline-block overflow-hidden">
-                <span className="inline-block font-grotesk text-xl font-bold tracking-tight text-titanium/80 transition-colors hover:text-cyan-200 md:text-2xl">
+                <span className="inline-block font-grotesk text-xl font-bold tracking-tight text-titanium/80 transition-colors hover:text-accent-400 md:text-2xl">
                   {skill}
                 </span>
               </span>
@@ -80,7 +80,7 @@ export default function Lab({ visible }) {
           </div>
 
           {/* Stats */}
-          <div className="mt-12 flex gap-12 border-t border-white/10 pt-8">
+          <div className="mt-12 flex gap-12 border-t border-titanium/10 pt-8">
             {[
               ['3+', lang === 'fr' ? 'Années d\'exp.' : 'Years exp.'],
               ['5+', lang === 'fr' ? 'Projets' : 'Projects'],

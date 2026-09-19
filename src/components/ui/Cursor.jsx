@@ -34,6 +34,11 @@ export default function Cursor() {
         mode = newMode
         ring.classList.toggle('cursor-lens', mode === 'lens')
         ring.classList.toggle('cursor-label', mode === 'label')
+        // Le blend-mode n'a de sens que pour l'anneau par défaut (contour
+        // fin) : il assure un contraste adaptatif sur fond sombre (Hero)
+        // comme clair (reste du site). Les états lentille/label ont leur
+        // propre fond opaque et ne doivent pas être inversés en couleur.
+        ring.classList.toggle('mix-blend-difference', mode === 'default')
         dot.classList.toggle('opacity-0', mode !== 'default')
         if (mode === 'label') {
           label.textContent = labelTarget.dataset.cursorLabel
@@ -61,12 +66,12 @@ export default function Cursor() {
     <>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[99] h-1.5 w-1.5 rounded-full bg-titanium mix-blend-difference transition-opacity duration-200"
+        className="pointer-events-none fixed left-0 top-0 z-[99] h-1.5 w-1.5 rounded-full bg-white mix-blend-difference transition-opacity duration-200"
         aria-hidden="true"
       />
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[98] flex h-9 w-9 items-center justify-center rounded-full border border-titanium/40 transition-[width,height,background-color,border-color,backdrop-filter] duration-300 ease-out"
+        className="pointer-events-none fixed left-0 top-0 z-[98] flex h-9 w-9 items-center justify-center rounded-full border border-white/40 mix-blend-difference transition-[width,height,background-color,border-color,backdrop-filter] duration-300 ease-out"
         aria-hidden="true"
       >
         <span

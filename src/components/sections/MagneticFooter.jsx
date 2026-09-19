@@ -72,7 +72,7 @@ export default function MagneticFooter() {
     }, 5000)
   }
 
-  const inputClass = 'w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-titanium placeholder:text-titanium/25 outline-none backdrop-blur-sm transition-colors focus:border-cyan-200/50'
+  const inputClass = 'w-full rounded-xl border border-titanium/10 bg-titanium/[0.03] px-4 py-3 text-sm text-titanium placeholder:text-titanium/25 outline-none backdrop-blur-sm transition-colors focus:border-accent-400/50'
 
   const subjects = lang === 'fr'
     ? ['Site Web / Portfolio', "Outil d'Audit Digital", 'Application Web', 'UI/UX & Prototypage', 'Vibecoding / IA', 'Maintenance & Support', 'Autre']
@@ -81,7 +81,7 @@ export default function MagneticFooter() {
   return (
     <footer className="relative flex min-h-screen flex-col justify-between px-6 pb-10 pt-32 md:px-16" id="contact">
       <div>
-        <p className="mb-4 font-mono text-xs uppercase tracking-[0.5em] text-cyan-200/70">
+        <p className="mb-4 font-mono text-xs uppercase tracking-[0.5em] text-accent-400/70">
           Contact
         </p>
         <h2 className="max-w-5xl font-grotesk text-[clamp(40px,9vw,120px)] font-black leading-[0.95] tracking-tight text-titanium">
@@ -100,11 +100,11 @@ export default function MagneticFooter() {
           <a
             ref={buttonRef}
             href={`mailto:${CONTACT.email}`}
-            className="group flex h-40 w-40 items-center justify-center rounded-full border border-white/15 bg-white/[0.03] backdrop-blur-md transition-colors duration-500 hover:border-cyan-200/60 hover:bg-cyan-200/10 md:h-48 md:w-48"
+            className="group flex h-40 w-40 items-center justify-center rounded-full border border-titanium/15 bg-titanium/[0.03] backdrop-blur-md transition-colors duration-500 hover:border-accent-400/60 hover:bg-accent-400/10 md:h-48 md:w-48"
             data-cursor-label="Go"
           >
             <span className="flex flex-col items-center gap-2 text-center">
-              <ArrowUpRight className="h-6 w-6 text-cyan-200 transition-transform duration-500 group-hover:rotate-45" strokeWidth={1.5} />
+              <ArrowUpRight className="h-6 w-6 text-accent-400 transition-transform duration-500 group-hover:rotate-45" strokeWidth={1.5} />
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-titanium/70">
                 {lang === 'fr' ? 'Démarrer' : 'Start'}
               </span>
@@ -138,7 +138,7 @@ export default function MagneticFooter() {
               ))}
             </select>
             <textarea required rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder={lang === 'fr' ? 'Décrivez votre projet...' : 'Describe your project...'} className={`${inputClass} resize-none`} />
-            <button type="submit" className="group flex items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-600 px-6 py-4 font-mono text-xs font-bold uppercase tracking-[0.25em] text-abyss transition-all duration-300 hover:shadow-[0_10px_40px_rgba(103,232,249,0.3)]" data-cursor-label={lang === 'fr' ? 'Envoyer' : 'Send'}>
+            <button type="submit" className="group flex items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-accent-400 to-cascade-2 px-6 py-4 font-mono text-xs font-bold uppercase tracking-[0.25em] text-abyss transition-all duration-300 hover:shadow-[0_10px_40px_rgba(251,146,60,0.3)]" data-cursor-label={lang === 'fr' ? 'Envoyer' : 'Send'}>
               <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" strokeWidth={2} />
               {lang === 'fr' ? 'Envoyer le message' : 'Send message'}
             </button>
@@ -147,13 +147,13 @@ export default function MagneticFooter() {
       </div>
 
       {/* Barre de contact */}
-      <div className="flex flex-col gap-6 border-t border-white/10 pt-8 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-6 border-t border-titanium/10 pt-8 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-wrap items-center gap-6">
-          <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 font-mono text-xs text-titanium/50 transition-colors hover:text-cyan-200">
+          <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 font-mono text-xs text-titanium/50 transition-colors hover:text-accent-400">
             <Mail className="h-3.5 w-3.5" strokeWidth={1.5} />
             {CONTACT.email}
           </a>
-          <a href={CONTACT.phoneHref} className="flex items-center gap-2 font-mono text-xs text-titanium/50 transition-colors hover:text-cyan-200">
+          <a href={CONTACT.phoneHref} className="flex items-center gap-2 font-mono text-xs text-titanium/50 transition-colors hover:text-accent-400">
             <Phone className="h-3.5 w-3.5" strokeWidth={1.5} />
             {CONTACT.phone}
           </a>

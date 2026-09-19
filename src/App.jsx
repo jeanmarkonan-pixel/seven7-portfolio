@@ -11,8 +11,10 @@ import { useLenis } from './hooks/useLenis'
 import { useMouse } from './hooks/useMouse'
 import { LanguageProvider, useLanguage } from './hooks/useLanguage'
 import { SeasonProvider } from './hooks/useSeason'
+import { ThemeProvider } from './hooks/useTheme'
 import SeasonOverlay from './components/ui/SeasonOverlay'
 import SeasonSwitcher from './components/ui/SeasonSwitcher'
+import ParadiseAurora from './components/ui/ParadiseAurora'
 
 // Code-splitting : la scène WebGL (Three.js) est chargée en chunk séparé
 const HeroScene = lazy(() => import('./components/canvas/HeroScene'))
@@ -45,10 +47,15 @@ function Shell() {
 
       <main className="relative">
         <Hero visible={loaded} />
-        <Services visible={loaded} />
-        <Showcase />
-        <Lab visible={loaded} />
-        <MagneticFooter />
+        {/* bg-abyss : opaque, masque la scène 3D fixe (-z-10) qui couvre toute la page
+            derrière le Hero ; sans ça le canvas sombre resterait visible en thème clair. */}
+        <div className="relative overflow-hidden bg-abyss">
+          <ParadiseAurora />
+          <Services visible={loaded} />
+          <Showcase />
+          <Lab visible={loaded} />
+          <MagneticFooter />
+        </div>
       </main>
     </>
   )
@@ -56,10 +63,12 @@ function Shell() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <SeasonProvider>
-        <Shell />
-      </SeasonProvider>
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <SeasonProvider>
+          <Shell />
+        </SeasonProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   )
 }
