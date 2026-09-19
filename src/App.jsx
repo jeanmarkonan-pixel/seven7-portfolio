@@ -5,6 +5,7 @@ import Nav from './components/ui/Nav'
 import Hero from './components/sections/Hero'
 import Services from './components/sections/Services'
 import Showcase from './components/sections/Showcase'
+import Method from './components/sections/Method'
 import Lab from './components/sections/Lab'
 import MagneticFooter from './components/sections/MagneticFooter'
 import { useLenis } from './hooks/useLenis'
@@ -53,6 +54,7 @@ function Shell() {
           <ParadiseAurora />
           <Services visible={loaded} />
           <Showcase lenisStop={stop} lenisStart={start} />
+          <Method />
           <Lab visible={loaded} />
           <MagneticFooter />
         </div>

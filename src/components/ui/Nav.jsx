@@ -6,6 +6,7 @@ import { useTheme } from '../../hooks/useTheme'
 const LINKS = [
   { fr: 'Services', en: 'Services', target: '#services' },
   { fr: 'Projets', en: 'Work', target: '#work' },
+  { fr: 'Méthode', en: 'Method', target: '#method' },
   { fr: 'À propos', en: 'About', target: '#lab' },
   { fr: 'Contact', en: 'Contact', target: '#contact' },
 ]
